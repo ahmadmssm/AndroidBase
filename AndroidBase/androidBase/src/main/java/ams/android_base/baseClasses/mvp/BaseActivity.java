@@ -1,0 +1,51 @@
+package ams.android_base.baseClasses.mvp;
+
+import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
+import android.support.v7.app.AppCompatActivity;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+
+public abstract class BaseActivity<Presenter extends BasePresenter> extends AppCompatActivity implements BaseViewDelegator {
+
+    private Presenter presenter;
+    private Unbinder butterKnifeUnBinder;
+
+    @CallSuper
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayout());
+        bindActivityViews();
+        presenter = initPresenter();
+    }
+
+    protected void bindActivityViews () { butterKnifeUnBinder = ButterKnife.bind(this); }
+
+    @CallSuper
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unBind();
+    }
+
+    protected final void unBind() { if (butterKnifeUnBinder != null) butterKnifeUnBinder.unbind(); }
+
+    protected abstract
+    @LayoutRes
+    int getLayout();
+
+    protected abstract Presenter initPresenter();
+
+    public final Presenter getPresenter() { return presenter; }
+
+    @Override
+    public void showLoading() { }
+
+    @Override
+    public void hideLoading() { }
+
+}
