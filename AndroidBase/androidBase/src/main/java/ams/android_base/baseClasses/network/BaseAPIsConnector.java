@@ -1,4 +1,4 @@
-package ams.android_base;
+package ams.android_base.baseClasses.network;
 
 
 import java.util.concurrent.TimeUnit;
