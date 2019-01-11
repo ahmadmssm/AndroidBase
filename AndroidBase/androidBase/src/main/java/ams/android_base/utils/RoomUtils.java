@@ -1,6 +1,7 @@
 package ams.android_base.utils;
 
-import android.arch.persistence.db.SimpleSQLiteQuery;
+
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 public class RoomUtils {
 

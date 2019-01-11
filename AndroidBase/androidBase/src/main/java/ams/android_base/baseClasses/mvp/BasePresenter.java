@@ -1,6 +1,6 @@
 package ams.android_base.baseClasses.mvp;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class BasePresenter <ViewDelegator extends BaseViewDelegator> {
 

@@ -7,10 +7,11 @@ import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.widget.RemoteViews;
 
 import java.util.Random;
+
+import androidx.annotation.LayoutRes;
 
 
 public abstract class BaseWidget<Presenter extends BasePresenter> extends AppWidgetProvider implements BaseViewDelegator {

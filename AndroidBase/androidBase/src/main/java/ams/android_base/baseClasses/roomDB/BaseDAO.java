@@ -1,14 +1,14 @@
 package ams.android_base.baseClasses.roomDB;
 
-import android.arch.persistence.db.SupportSQLiteQuery;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.RawQuery;
 
 import java.util.List;
 
-import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.RawQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
+
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface BaseDAO<T> {

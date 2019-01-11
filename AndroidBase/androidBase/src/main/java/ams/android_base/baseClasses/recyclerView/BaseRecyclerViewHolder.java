@@ -1,9 +1,9 @@
 package ams.android_base.baseClasses.recyclerView;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 
 public abstract class BaseRecyclerViewHolder<T, L> extends RecyclerView.ViewHolder {

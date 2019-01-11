@@ -1,10 +1,10 @@
 package ams.android_base.baseClasses.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

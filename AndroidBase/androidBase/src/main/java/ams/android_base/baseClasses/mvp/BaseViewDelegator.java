@@ -1,9 +1,9 @@
 package ams.android_base.baseClasses.mvp;
 
 public interface BaseViewDelegator {
-    public void showLoading();
-    public void hideLoading();
-    public void onGoOnline();
-    public void onGoOffline();
-    public void onLogOut();
+    default void showLoading() {}
+    default void hideLoading() {}
+    default void onGoOnline() {}
+    default void onGoOffline() {}
+    default void onLogOut() {}
 }

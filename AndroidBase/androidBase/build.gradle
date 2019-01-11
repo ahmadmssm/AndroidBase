@@ -3,10 +3,8 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 27
 
-
-
     defaultConfig {
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -25,6 +23,10 @@ android {
     }
 
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout'] } }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
