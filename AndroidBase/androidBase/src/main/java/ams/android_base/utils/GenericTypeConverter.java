@@ -13,9 +13,9 @@ import java.util.List;
  */
 
 @SuppressWarnings("unused")
-public class TypeConverter {
+public class GenericTypeConverter {
 
-    private TypeConverter() {}
+    private GenericTypeConverter() {}
 
     private final static Gson gson = new Gson();
 

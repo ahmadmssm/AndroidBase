@@ -7,7 +7,6 @@ package ams.android_base.baseClasses.globalKeys;
 // Ref : https://stackoverflow.com/questions/5369682/get-current-time-and-date-on-android
 
 public class BaseDateAndTimeFormats {
-
     // Day
     public static final String DAY = "dd";
     // Month
@@ -32,4 +31,6 @@ public class BaseDateAndTimeFormats {
     public static final String _24Hours_FORMAT = "HH:mm:ss";
     // Date & time
     public static final String DATE_AND_TIME = "hh:mm:ss a dd/MM/yyyy";
+    //
+    public static final String GREGORIAN_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 }
