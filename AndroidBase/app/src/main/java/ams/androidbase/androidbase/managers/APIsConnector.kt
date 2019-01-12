@@ -12,7 +12,7 @@ class APIsConnector: BaseAPIsConnector() {
     override fun getBaseURL(): String { return BuildConfig.APPLICATION_ID }
 
     override fun getConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create(bb().getCustomGsonConverter("", ""))
+        return GsonConverterFactory.create(getCustomGsonConverter("EEE MMM DD HH:mm:ss z:00 yyyy"))
     }
 
     // Static functions

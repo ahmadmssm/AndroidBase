@@ -15,14 +15,16 @@
         <activity android:name=".scenes.splashScreenScene.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".scenes.mainScreenScene.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".scenes.ZoomImageScene.ZoomImage"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

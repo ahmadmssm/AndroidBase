@@ -1,14 +1,13 @@
 package ams.android_base;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
+import ams.android_base.baseClasses.mvp.BaseActivity;
+import ams.android_base.baseClasses.mvp.BasePresenter;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
-public abstract class ZoomImageActivity extends AppCompatActivity {
+public abstract class BaseZoomImageActivity<Presenter extends BasePresenter> extends BaseActivity<Presenter> {
 
     protected ImageViewTouch imageView;
 
@@ -36,14 +35,5 @@ public abstract class ZoomImageActivity extends AppCompatActivity {
         super.onBackPressed();
         this.finish();
     }
-
-
-    // This is how to send image to view/zoom image page
-    // Bitmap will be cached for 10 seconds only
-//    public void sendImageToViewPage (Bitmap bitmap) {
-//        new CacheManger(this).cacheBitmapTemporary(GlobalKeys.TEMP_BITMAP, bitmap, 10);
-//        Intent intent = new Intent(this, ZoomImageActivity.class);
-//        startActivity(intent);
-//    }
 
 }
