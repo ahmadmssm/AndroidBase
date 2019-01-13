@@ -2,11 +2,9 @@ package ams.androidbase.androidbase.scenes.splashScreenScene
 
 import ams.android_base.baseClasses.mvp.BaseActivity
 import ams.androidbase.androidbase.*
-import ams.androidbase.androidbase.scenes.ZoomImageScene.ZoomImage
 import ams.androidbase.androidbase.scenes.mainScreenScene.MainActivity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import butterknife.BindView
 import butterknife.OnClick

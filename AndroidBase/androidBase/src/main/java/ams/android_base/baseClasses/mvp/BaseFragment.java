@@ -1,6 +1,5 @@
 package ams.android_base.baseClasses.mvp;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
