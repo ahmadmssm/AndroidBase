@@ -1,6 +1,7 @@
 package ams.androidbase.androidbase.scenes.mainScreenScene
 
 import ams.android_base.baseClasses.mvp.BaseActivity
+import ams.androidbase.androidbase.Navigator
 import ams.androidbase.androidbase.R
 import android.os.Bundle
 import android.view.Menu
@@ -65,9 +66,7 @@ class MainActivity: BaseActivity<MainScreenPresenter>(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
+            R.id.home -> { Navigator.opeHomeFragment(supportFragmentManager) }
             R.id.nav_gallery -> {
 
             }

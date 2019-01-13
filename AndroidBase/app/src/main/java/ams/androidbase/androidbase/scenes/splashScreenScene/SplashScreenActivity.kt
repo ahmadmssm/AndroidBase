@@ -24,9 +24,6 @@ class SplashScreenActivity: BaseActivity<SplashScreenPresenter>(), SplashScreenV
     override fun initPresenter(): SplashScreenPresenter { return SplashScreenPresenter(this); }
 
     @OnClick(R.id.goHomeButton)
-    fun goHome () {
-        val intent: Intent = Intent(this, MainActivity::class.java);
-        startActivity(intent);
-    }
+    fun goHome () { Navigator.openMainActivity(this) }
 
 }

@@ -19,7 +19,6 @@ public abstract class BaseZoomImageActivity<Presenter extends BasePresenter> ext
     }
 
     private void initView() {
-        setContentView(R.layout.activity_zoom_image);
         if(getSupportActionBar() != null) getSupportActionBar().hide();
         // Remove activity title
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -27,6 +26,9 @@ public abstract class BaseZoomImageActivity<Presenter extends BasePresenter> ext
         //noinspection deprecation,RedundantCast
         imageView = (ImageViewTouch) findViewById(R.id.imageView);
     }
+
+    @Override
+    protected int getLayout() { return R.layout.activity_zoom_image; }
 
     protected abstract void renderImageView ();
 

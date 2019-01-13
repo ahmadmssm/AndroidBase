@@ -1,13 +1,16 @@
 package ams.androidbase.androidbase.scenes.ZoomImageScene
 
-import ams.android_base.ZoomImageActivity
+import ams.android_base.BaseZoomImageActivity
+import ams.android_base.R.id.imageView
+import ams.android_base.baseClasses.mvp.BasePresenter
+import ams.android_base.baseClasses.mvp.BaseViewDelegator
 import ams.androidbase.androidbase.R
 
 
-class ZoomImage: ZoomImageActivity() {
+class ZoomImage: BaseZoomImageActivity<BasePresenter>() {
 
-    override fun renderImageView() {
-       imageView.setImageResource(R.mipmap.ic_launcher)
-    }
+    override fun initPresenter(): { return BasePresenter<BaseViewDelegator>(this) }
+
+    override fun renderImageView() { imageView.setImageResource(R.mipmap.ic_launcher) }
 
 }
