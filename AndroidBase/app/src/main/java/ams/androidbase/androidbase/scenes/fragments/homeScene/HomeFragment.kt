@@ -1,6 +1,6 @@
-package ams.androidbase.androidbase
+package ams.androidbase.androidbase.scenes.fragments.homeScene
 
-import android.content.Context
+import ams.androidbase.androidbase.R
 import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
@@ -48,14 +48,6 @@ class HomeFragment : androidx.fragment.app.Fragment() {
         listener?.onFragmentInteraction(uri)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
 
     override fun onDetach() {
         super.onDetach()

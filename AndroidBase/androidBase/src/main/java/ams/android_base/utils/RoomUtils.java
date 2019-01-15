@@ -3,6 +3,7 @@ package ams.android_base.utils;
 
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+@SuppressWarnings("unused")
 public class RoomUtils {
 
     @SuppressWarnings("WeakerAccess")

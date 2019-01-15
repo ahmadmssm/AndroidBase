@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ams.android_base.utils.RuntimePermissionsManger;
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -14,10 +15,12 @@ import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class BaseFragment<Presenter extends BasePresenter> extends Fragment implements BaseViewDelegator {
 
     private Presenter presenter;
     private Unbinder butterKnifeUnBinder;
+    private RuntimePermissionsManger runtimePermissionsManger;
 
     @Nullable
     @Override
@@ -30,6 +33,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
         super.onViewCreated(view, savedInstanceState);
         bindFragmentViews(this, view);
         presenter = initPresenter();
+        runtimePermissionsManger = new RuntimePermissionsManger(this);
     }
 
 
@@ -40,14 +44,11 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
         unBind();
     }
 
-    protected void bindFragmentViews (Fragment fragment, View view) {
-        butterKnifeUnBinder = ButterKnife.bind(fragment, view);
-    }
+    protected void bindFragmentViews (Fragment fragment, View view) { butterKnifeUnBinder = ButterKnife.bind(fragment, view); }
 
-    protected final void unBind() {
-        if (butterKnifeUnBinder != null)
-            butterKnifeUnBinder.unbind();
-    }
+    protected final void unBind() { if (butterKnifeUnBinder != null) butterKnifeUnBinder.unbind(); }
+
+    protected final RuntimePermissionsManger getRuntimePermissionsManger() { return runtimePermissionsManger; }
 
     protected abstract
     @LayoutRes

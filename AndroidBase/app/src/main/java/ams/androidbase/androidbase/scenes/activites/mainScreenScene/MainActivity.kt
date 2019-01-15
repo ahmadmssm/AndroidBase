@@ -1,7 +1,7 @@
-package ams.androidbase.androidbase.scenes.mainScreenScene
+package ams.androidbase.androidbase.scenes.activites.mainScreenScene
 
 import ams.android_base.baseClasses.mvp.BaseActivity
-import ams.androidbase.androidbase.Navigator
+import ams.androidbase.androidbase.managers.Navigator
 import ams.androidbase.androidbase.R
 import android.os.Bundle
 import android.view.Menu
@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity: BaseActivity<MainScreenPresenter>(),
-                    MainScreenViewDelegator,
+        MainScreenViewDelegator,
                     NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
@@ -40,7 +40,8 @@ class MainActivity: BaseActivity<MainScreenPresenter>(),
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    override fun initPresenter(): MainScreenPresenter { return MainScreenPresenter(this) }
+    override fun initPresenter(): MainScreenPresenter { return MainScreenPresenter(this)
+    }
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawer(GravityCompat.START)

@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ams.androidbase.androidbase">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
+        android:name=".common.Application"
         android:allowBackup="true"
         android:appComponentFactory="whateverString"
         android:icon="@mipmap/ic_launcher"
@@ -12,18 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".scenes.splashScreenScene.SplashScreenActivity">
+        <activity android:name=".scenes.activites.splashScreenScene.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".scenes.mainScreenScene.MainActivity"
+            android:name=".scenes.activites.mainScreenScene.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".scenes.ZoomImageScene.ZoomImage"
+            android:name="ams.androidbase.androidbase.scenes.activites.ZoomImageActivityScene.ZoomImage"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

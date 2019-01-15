@@ -1,4 +1,4 @@
-package ams.androidbase.androidbase.managers;
+package ams.androidbase.androidbase.managers.networking;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

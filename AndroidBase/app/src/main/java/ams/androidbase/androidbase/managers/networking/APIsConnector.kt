@@ -1,9 +1,7 @@
-package ams.androidbase.androidbase.managers
+package ams.androidbase.androidbase.managers.networking
 
 import ams.android_base.baseClasses.network.BaseAPIsConnector
 import ams.androidbase.androidbase.BuildConfig
-import ams.androidbase.androidbase.bb
-import com.google.gson.Gson
 import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 

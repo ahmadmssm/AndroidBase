@@ -2,6 +2,7 @@ package ams.android_base.baseClasses.mvp;
 
 import android.os.Bundle;
 
+import ams.android_base.utils.RuntimePermissionsManger;
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,10 +10,12 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
+@SuppressWarnings("unused")
 public abstract class BaseActivity<Presenter extends BasePresenter> extends AppCompatActivity implements BaseViewDelegator {
 
     private Presenter presenter;
     private Unbinder butterKnifeUnBinder;
+    private RuntimePermissionsManger runtimePermissionsManger;
 
     @CallSuper
     @Override
@@ -21,9 +24,12 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends AppC
         setContentView(getLayout());
         bindActivityViews();
         presenter = initPresenter();
+        runtimePermissionsManger = new RuntimePermissionsManger(this);
     }
 
     protected void bindActivityViews () { butterKnifeUnBinder = ButterKnife.bind(this); }
+
+    protected final RuntimePermissionsManger getRuntimePermissionsManger() { return runtimePermissionsManger; }
 
     @CallSuper
     @Override
