@@ -6,7 +6,7 @@ import ams.androidbase.androidbase.BuildConfig
 import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 
-class APIsConnector: BaseRetrofitClient() {
+class AppRestClient: BaseRetrofitClient() {
 
     override fun getConverterFactory(): Converter.Factory {
         return GsonConverterFactory.create(GsonUtils().customGsonConverter)
@@ -16,10 +16,9 @@ class APIsConnector: BaseRetrofitClient() {
         return BuildConfig.APPLICATION_ID
     }
 
-
     // Static functions
     companion object {
         @JvmStatic
-        fun getRestClient (): RestAPIs { return APIsConnector().getRetrofitClient(RestAPIs::class.java) }
+        fun getRestClient (): RestAPIs { return AppRestClient().getRetrofitClient(RestAPIs::class.java) }
     }
 }

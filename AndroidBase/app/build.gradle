@@ -61,7 +61,7 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
     annotationProcessor 'net.yslibrary.simplepreferences:simplepreferences-processor:2.0.2'
 
-    implementation 'com.github.ahmadmssm:AndroidBase:0.1.9'
+    implementation 'com.github.ahmadmssm:AndroidBase:0.2.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
