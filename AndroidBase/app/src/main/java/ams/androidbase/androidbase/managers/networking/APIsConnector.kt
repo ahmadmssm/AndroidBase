@@ -1,21 +1,25 @@
 package ams.androidbase.androidbase.managers.networking
 
-import ams.android_base.baseClasses.network.BaseAPIsConnector
+import ams.android_base.baseClasses.networking.BaseRetrofitClient
+import ams.android_base.baseClasses.networking.GsonUtils
 import ams.androidbase.androidbase.BuildConfig
 import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 
-class APIsConnector: BaseAPIsConnector() {
-
-    override fun getBaseURL(): String { return BuildConfig.APPLICATION_ID }
+class APIsConnector: BaseRetrofitClient() {
 
     override fun getConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create(getCustomGsonConverter("EEE MMM DD HH:mm:ss z:00 yyyy"))
+        return GsonConverterFactory.create(GsonUtils().customGsonConverter)
     }
+
+    override fun getBaseURL(): String {
+        return BuildConfig.APPLICATION_ID
+    }
+
 
     // Static functions
     companion object {
         @JvmStatic
-        fun getConnector (): RestAPIs { return APIsConnector().getRetrofitClient(RestAPIs::class.java) }
+        fun getRestClient (): RestAPIs { return APIsConnector().getRetrofitClient(RestAPIs::class.java) }
     }
 }

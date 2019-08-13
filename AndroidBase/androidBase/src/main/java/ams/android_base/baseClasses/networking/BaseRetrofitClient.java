@@ -24,7 +24,7 @@ public abstract class BaseRetrofitClient {
                 .readTimeout((long)timeOut, TimeUnit.SECONDS);
     }
 
-    protected abstract int getDefaultTimeOut();
+    protected int getDefaultTimeOut() { return 200; };
 
     protected retrofit2.Retrofit.Builder getRetrofitBuilder() {
         return new retrofit2.Retrofit.Builder()
