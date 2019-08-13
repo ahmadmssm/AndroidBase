@@ -18,5 +18,4 @@ class APIsConnector: BaseAPIsConnector() {
         @JvmStatic
         fun getConnector (): RestAPIs { return APIsConnector().getRetrofitClient(RestAPIs::class.java) }
     }
-
 }

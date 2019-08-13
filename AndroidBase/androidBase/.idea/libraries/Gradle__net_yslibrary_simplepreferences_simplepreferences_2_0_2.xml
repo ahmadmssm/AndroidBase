@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: net.yslibrary.simplepreferences:simplepreferences-2.0.2">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/simplepreferences-2.0.2.aar/1c1b6ba4b5916d82dee09df81a1f87e1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/simplepreferences-2.0.2.aar/1c1b6ba4b5916d82dee09df81a1f87e1/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.yslibrary.simplepreferences/simplepreferences/2.0.2/72af93ef6ae70e98cf0114f8125a4b8299f2da7d/simplepreferences-2.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

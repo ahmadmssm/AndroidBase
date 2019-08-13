@@ -13,9 +13,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class Navigator {
 
-    private static Context getActivityContext() { return Application.applicationInstance.getBaseContext(); }
+    private static Context getActivityContext() { return Application.getInstance().getBaseContext(); }
 
-    public static void opeHomeFragment (FragmentManager fragmentManager) {
+    public static void openHomeFragment (FragmentManager fragmentManager) {
         Fragment fragment = new HomeFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_view, fragment);
@@ -23,9 +23,18 @@ public class Navigator {
     }
 
     public static void openMainActivity () {
-        Intent intent = new Intent(Application.applicationInstance.getBaseContext(), MainActivity.class);
+        Intent intent = new Intent(getActivityContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivityContext().startActivity(intent);
+    }
+
+    public static void openFragmentWithFlag(FragmentManager fragmentManager, String flag) {
+        // APHomeFragment apHomeFragment = new APHomeFragment();
+        // bundle.putBoolean("flag", isLoggedIn);
+        // apHomeFragment.setArguments(bundle);
+        // transaction.replace(R.id.grouplayout, apHomeFragment, APStaticKeys.home);
+        // transaction.addToBackStack(null);
+        // transaction.commit();
     }
 
 }

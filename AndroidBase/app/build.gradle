@@ -11,6 +11,12 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     compileOptions {
@@ -50,6 +56,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.github.ahmadmssm:AndroidBase:0.1.8'
     kapt 'com.jakewharton:butterknife-compiler:10.0.0'
+    annotationProcessor 'net.yslibrary.simplepreferences:simplepreferences-processor:2.0.2'
+    implementation 'net.yslibrary.simplepreferences:simplepreferences:2.0.2'
 }
 
 kapt {

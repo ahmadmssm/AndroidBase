@@ -2,12 +2,14 @@ package ams.androidbase.androidbase.common;
 
 public class Application extends android.app.Application {
 
-    public static Application applicationInstance;
+    private static Application instance;
+
+    public static Application getInstance() { return instance; }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        applicationInstance = this;
+        instance = this;
     }
 
 }

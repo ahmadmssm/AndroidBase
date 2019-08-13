@@ -3,6 +3,7 @@ package ams.androidbase.androidbase.scenes.activites.splashScreenScene
 import ams.android_base.baseClasses.mvp.BaseActivity
 import ams.androidbase.androidbase.*
 import ams.android_base.utils.RuntimePermissionsManger
+import ams.androidbase.androidbase.managers.Navigator
 import android.Manifest
 import android.os.Bundle
 import android.widget.Button
@@ -24,19 +25,14 @@ class SplashScreenActivity: BaseActivity<SplashScreenPresenter>(), SplashScreenV
     override fun initPresenter(): SplashScreenPresenter { return SplashScreenPresenter(this) }
 
     @OnClick(R.id.goHomeButton)
-    fun goHome () {
-        // Navigator.openMainActivity()
-        //
-        permission.requestSinglePermission(Manifest.permission.CAMERA, object : ams.android_base.utils.RuntimePermissionsManger.RuntimePermissionsListener {
-            override fun onPermissionGranted() {
-                println("Hopa 1")
-            }
-            override fun onPermissionDenied(deniedPermission: String) {
-                println("Hopa 2")
+    fun goHome () { Navigator.openMainActivity() }
 
-            }
+    /*
+    runtimePermissionsManger
+        .requestSinglePermission(Manifest.permission.CAMERA, object : ams.android_base.utils.RuntimePermissionsManger.RuntimePermissionsListener {
+             override fun onPermissionGranted() {}
+            override fun onPermissionDenied(deniedPermission: String) {}
         })
-    }
-
+    */
 
 }

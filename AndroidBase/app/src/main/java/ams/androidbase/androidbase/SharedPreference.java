@@ -1,23 +1,32 @@
 package ams.androidbase.androidbase;
 
-import com.skydoves.preferenceroom.KeyName;
-import com.skydoves.preferenceroom.PreferenceEntity;
-import com.skydoves.preferenceroom.PreferenceFunction;
-import com.skydoves.preferenceroom.TypeConverter;
+
+import com.google.gson.annotations.Expose;
+
+import net.yslibrary.simplepreferences.annotation.Key;
+import net.yslibrary.simplepreferences.annotation.Preferences;
 
 // Default name is determined by class name
-@PreferenceEntity
-public class SharedPreference {
+//@PreferenceEntity
 
-    // Share preference keys
-    @interface Keys {
-        String USER = "user";
+@Preferences
+public class SharedPreference {
+//
+//    @KeyName(name = "user")
+//    @TypeConverter(converter = SharedPreferenceTypeConverter.class)
+//    protected User user;
+
+    @interface keys {
+        String userId = "userId";
     }
 
-    @KeyName(name = Keys.USER)
-    @TypeConverter(converter = SharedPreferenceTypeConverter.class)
-    protected User user;
+    @Key()
+    protected int userId = 0;
 
+    @Key
+    protected String userName = "";
 
+    @Key(name = keys.userId, omitGetterPrefix = true)
+    protected boolean isPremium = false;
 
 }

@@ -9,6 +9,6 @@ public interface RestAPIs {
 
     @GET("competitions/PL/matches")
     // @Headers("X-Auth-Token:" + BuildConfig.Auth_Token)
-    Observable<String> getTopRatedMovies(@Query("dateFrom") String dateFrom, @Query("dateTo") String dateTo);
+    Observable<String> getGitlabProjects(@Query("dateFrom") String dateFrom, @Query("dateTo") String dateTo);
 
 }
