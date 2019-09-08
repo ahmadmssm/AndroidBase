@@ -20,14 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
  * Extend the adapter for appropriate use case.
  *
  * @param <T>  type of objects, which will be used in the adapter's dataset
- * @param <L>  click listener {@link BaseRecyclerViewListener}
- * @param <VH> ViewHolder {@link BaseRecyclerViewHolder}
+ * @param <RVListener>  click listener {@link BaseRecyclerViewListener}
+ * @param <VH> ViewHolder {@link BaseViewHolder}
  */
 @SuppressWarnings("unused")
-public abstract class BaseRecyclerAdapter<T, L extends BaseRecyclerViewListener, VH extends BaseRecyclerViewHolder<T, L>> extends RecyclerView.Adapter<VH> {
+public abstract class BaseRecyclerViewAdapter<T, RVListener extends BaseRecyclerViewListener, VH extends BaseViewHolder<T, RVListener>> extends RecyclerView.Adapter<VH> {
 
     private List<T> items;
-    private L listener;
+    private RVListener listener;
     private LayoutInflater layoutInflater;
 
     /**
@@ -36,7 +36,7 @@ public abstract class BaseRecyclerAdapter<T, L extends BaseRecyclerViewListener,
      *
      * @param context Context needed to retrieve LayoutInflater
      */
-    public BaseRecyclerAdapter(Context context) {
+    public BaseRecyclerViewAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         items = new ArrayList<>();
     }
@@ -188,7 +188,7 @@ public abstract class BaseRecyclerAdapter<T, L extends BaseRecyclerViewListener,
      *
      * @param listener click listener
      */
-    public void setListener(L listener) {
+    public void setListener(RVListener listener) {
         this.listener = listener;
     }
 
@@ -226,5 +226,4 @@ public abstract class BaseRecyclerAdapter<T, L extends BaseRecyclerViewListener,
          */
         void onItemClicked(T item);
     }
-
 }

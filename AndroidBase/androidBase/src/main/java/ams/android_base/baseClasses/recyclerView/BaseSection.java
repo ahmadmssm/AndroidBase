@@ -10,7 +10,7 @@ package ams.android_base.baseClasses.recyclerView;
 //import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 //import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
-//public class BaseSection<Section extends DaySection, L extends SectionInteractionListener, HVH extends BaseRecyclerViewHolder, VH extends BaseRecyclerViewHolder> extends StatelessSection {
+//public class BaseSection<Section extends DaySection, L extends SectionInteractionListener, HVH extends BaseViewHolder, VH extends BaseViewHolder> extends StatelessSection {
 //
 //    private Section section;
 //    private L listener;
