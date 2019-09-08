@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import org.koin.core.KoinComponent
 
 @Suppress("unused")
-open class BaseAndroidViewModel<ViewState>: ViewModel(), IViewModel<ViewState> {
+open class BaseAndroidViewModel<ViewState>: ViewModel() {
 
     @Suppress("PrivatePropertyName")
     private val VIEW_MODEL_TAG = this.javaClass.simpleName.toString()
