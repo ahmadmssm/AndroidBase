@@ -15,7 +15,6 @@ public abstract class BaseRetrofitClient {
 
     public BaseRetrofitClient() {}
 
-
     protected Builder getOkHttpBuilder() {
         int timeOut = getDefaultTimeOut();
         return new Builder()
