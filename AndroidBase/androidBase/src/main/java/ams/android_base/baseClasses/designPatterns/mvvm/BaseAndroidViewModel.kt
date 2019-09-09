@@ -1,12 +1,11 @@
-package ams.android_base.baseClasses.mvvm
+package ams.android_base.baseClasses.designPatterns.mvvm
 
 import ams.android_base.utils.liveDataUtils.SingleLiveEvent
 import android.util.Log
 import androidx.lifecycle.*
-import org.koin.core.KoinComponent
 
 @Suppress("unused")
-open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinComponent {
+open class BaseAndroidViewModel<ViewState>: ViewModel() {
 
     @Suppress("PrivatePropertyName")
     private val VIEW_MODEL_TAG = this.javaClass.simpleName.toString()

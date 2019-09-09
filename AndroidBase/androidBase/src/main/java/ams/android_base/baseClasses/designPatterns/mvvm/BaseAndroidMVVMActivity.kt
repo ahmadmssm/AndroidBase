@@ -1,4 +1,4 @@
-package ams.android_base.baseClasses.mvvm
+package ams.android_base.baseClasses.designPatterns.mvvm
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -26,7 +26,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
         lifeCycleRegistry.addObserver(viewModel)
-        lifeCycleRegistry.markState(Lifecycle.State.INITIALIZED)
+        lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
         getViewModel().onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         getViewModel().getViewState().observe(this, Observer { onViewStateChanged(it) })
@@ -49,22 +49,22 @@ abstract class BaseAndroidMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(
 
     //
     protected open fun onActivityCreated(savedInstanceState: Bundle?) {
-        lifeCycleRegistry.markState(Lifecycle.State.CREATED)
+        lifeCycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
     override fun onStart() {
         super.onStart()
-        lifeCycleRegistry.markState(Lifecycle.State.STARTED)
+        lifeCycleRegistry.currentState = Lifecycle.State.STARTED
     }
 
     override fun onResume() {
         super.onResume()
-        lifeCycleRegistry.markState(Lifecycle.State.RESUMED)
+        lifeCycleRegistry.currentState = Lifecycle.State.RESUMED
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        lifeCycleRegistry.markState(Lifecycle.State.DESTROYED)
+        lifeCycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 }
 

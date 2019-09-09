@@ -29,4 +29,4 @@ fun <T> Completable.toLiveData(): LiveData<T> {
 
 @Suppress("SpellCheckingInspection")
 fun <T> LiveData<T>.toFlowable(lifecycleOwner: LifecycleOwner): Flowable<T> =
-        io.reactivex.Flowable.fromPublisher(LiveDataReactiveStreams.toPublisher(lifecycleOwner, this))
+        Flowable.fromPublisher(LiveDataReactiveStreams.toPublisher(lifecycleOwner, this))

@@ -10,8 +10,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 public interface RestAPIs {
-
-    @GET("/all")
+    @GET("all")
     // @Headers("X-Auth-Token:" + BuildConfig.Auth_Token)
     Single<List<Country>> getWorldCountries();
 }

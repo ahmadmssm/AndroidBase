@@ -1,4 +1,4 @@
-package ams.androidbase.androidbase;
+package ams.androidbase.androidbase.models;
 
 import java.util.Date;
 

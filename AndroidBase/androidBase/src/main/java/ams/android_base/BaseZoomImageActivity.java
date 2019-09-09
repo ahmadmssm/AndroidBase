@@ -3,8 +3,8 @@ package ams.android_base;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import ams.android_base.baseClasses.mvp.BaseActivity;
-import ams.android_base.baseClasses.mvp.BasePresenter;
+import ams.android_base.baseClasses.designPatterns.mvp.BaseActivity;
+import ams.android_base.baseClasses.designPatterns.mvp.BasePresenter;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 public abstract class BaseZoomImageActivity<Presenter extends BasePresenter> extends BaseActivity<Presenter> {

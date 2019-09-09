@@ -18,6 +18,7 @@ class MainActivity: BaseActivity<MainScreenPresenter>(), MainScreenViewDelegator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUI()
+        presenter.testAPI()
     }
 
     override fun getLayout(): Int { return R.layout.activity_main; }

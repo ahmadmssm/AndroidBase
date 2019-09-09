@@ -1,4 +1,4 @@
-package ams.android_base.baseClasses.mvp;
+package ams.android_base.baseClasses.designPatterns.mvp;
 
 public interface BaseViewDelegator {
     default void showLoading() {}

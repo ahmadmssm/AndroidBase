@@ -1,4 +1,4 @@
-package ams.android_base.baseClasses.mvvm
+package ams.android_base.baseClasses.designPatterns.mvvm
 
 import android.annotation.SuppressLint
 import android.os.Bundle

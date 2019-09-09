@@ -1,6 +1,5 @@
-package ams.android_base.baseClasses.mvp;
+package ams.android_base.baseClasses.designPatterns.mvp;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetProviderInfo;
