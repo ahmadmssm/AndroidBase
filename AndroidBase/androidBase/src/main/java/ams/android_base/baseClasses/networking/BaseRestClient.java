@@ -5,14 +5,12 @@ import java.lang.reflect.Type;
 
 public abstract class BaseRestClient<APIs> extends BaseRetrofitClient {
 
-    private Class<APIs> apIsClassType;
-
 
     public BaseRestClient() {}
 
     public APIs getAPIs() {
-        this.apIsClassType = (Class<APIs>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        return retrofit.create(apIsClassType);
+        Class<APIs> apIsClassType = (Class<APIs>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return getRetrofitClient(apIsClassType);
     }
 
 //    public APIs getAPIs() {
