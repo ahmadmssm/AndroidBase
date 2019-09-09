@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-@SuppressWarnings({"DefaultFileTemplate", "unused"})
+@SuppressWarnings("unused")
 public class RuntimePermissionsManger {
 
     @SuppressWarnings("FieldCanBeLocal")
