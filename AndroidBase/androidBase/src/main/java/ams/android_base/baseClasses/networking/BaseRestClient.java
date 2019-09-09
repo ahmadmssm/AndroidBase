@@ -5,12 +5,13 @@ import java.lang.reflect.Type;
 
 public abstract class BaseRestClient<APIs> extends BaseRetrofitClient {
 
-    private Class<APIs> apIsClassType = (Class<APIs>) getGenericClassType(0);
+    private Class<APIs> apIsClassType;
 
 
     public BaseRestClient() {}
 
     public APIs getAPIs() {
+        this.apIsClassType = (Class<APIs>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         return retrofit.create(apIsClassType);
     }
 
@@ -18,23 +19,4 @@ public abstract class BaseRestClient<APIs> extends BaseRetrofitClient {
 //        Class<APIs> clazz = new GenericClass<APIs>().getRawType();
 //        return retrofit.create(clazz);
 //    }
-
-    /**
-     * Returns a {@link Type} object to identify generic types
-     * @return type
-     */
-    private Type getGenericClassType(int index) {
-
-        Type type = getClass().getGenericSuperclass();
-
-        while (!(type instanceof ParameterizedType)) {
-            if (type instanceof ParameterizedType) {
-                type = ((Class<?>) ((ParameterizedType) type).getRawType()).getGenericSuperclass();
-            } else {
-                type = ((Class<?>) type).getGenericSuperclass();
-            }
-        }
-
-        return ((ParameterizedType) type).getActualTypeArguments()[index];
-    }
 }
