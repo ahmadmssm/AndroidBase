@@ -11,7 +11,6 @@ public class bb {
     public void b () {
 
     }
-
 }
 
 

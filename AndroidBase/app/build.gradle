@@ -47,10 +47,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Android x
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'com.google.android.material:material:1.0.0'
     //
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -58,10 +58,7 @@ dependencies {
     //
     testImplementation 'junit:junit:4.12'
     //
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
-    annotationProcessor 'net.yslibrary.simplepreferences:simplepreferences-processor:2.0.2'
-
-    implementation 'com.github.ahmadmssm:AndroidBase:0.2.1'
+    implementation 'com.github.ahmadmssm:AndroidBase:0.2.3'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'

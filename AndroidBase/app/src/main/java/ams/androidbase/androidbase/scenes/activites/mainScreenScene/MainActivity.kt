@@ -8,21 +8,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import butterknife.BindView
-import butterknife.OnClick
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity: BaseActivity<MainScreenPresenter>(),
-        MainScreenViewDelegator,
-                    NavigationView.OnNavigationItemSelectedListener {
-
-    @BindView(R.id.toolbar)
-    lateinit var toolbar: androidx.appcompat.widget.Toolbar
-    @BindView(R.id.drawer_layout)
-    lateinit var drawerLayout: DrawerLayout
+class MainActivity: BaseActivity<MainScreenPresenter>(), MainScreenViewDelegator, NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +23,25 @@ class MainActivity: BaseActivity<MainScreenPresenter>(),
     override fun getLayout(): Int { return R.layout.activity_main; }
 
     private fun initUI () {
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
         setSupportActionBar(toolbar)
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawerLayout.addDrawerListener(toggle)
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-        navigationView.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(this)
+        //
+        fab.setOnClickListener {
+            Snackbar
+                    .make(fab, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show()
+        }
     }
 
     override fun initPresenter(): MainScreenPresenter { return MainScreenPresenter(this)
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) drawer_layout.closeDrawer(GravityCompat.START)
         else super.onBackPressed()
     }
 
@@ -67,7 +64,9 @@ class MainActivity: BaseActivity<MainScreenPresenter>(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.home -> { Navigator.opeHomeFragment(supportFragmentManager) }
+            R.id.home -> {
+                Navigator.openHomeFragment(supportFragmentManager)
+            }
             R.id.nav_gallery -> {
 
             }
@@ -85,14 +84,7 @@ class MainActivity: BaseActivity<MainScreenPresenter>(),
             }
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
-
-    @OnClick(R.id.fab)
-    fun fabClicked () {
-        Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-    }
-
 }
