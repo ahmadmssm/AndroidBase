@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 @SuppressLint("Registered")
-abstract class BaseAndroidMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>: AppCompatActivity() {
+abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, ViewState>: AppCompatActivity() {
     // Lazy Inject ViewModel
     private lateinit var viewModel: VM
     //
