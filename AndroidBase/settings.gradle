@@ -1,1 +1,1 @@
-include ':app', ':AndroidBaseProject'
+include ':app', ':android_base'
