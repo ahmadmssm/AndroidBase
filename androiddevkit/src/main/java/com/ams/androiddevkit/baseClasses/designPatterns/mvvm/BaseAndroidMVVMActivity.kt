@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 @SuppressLint("Registered")
-abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, ViewState>: AppCompatActivity() {
+abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): AppCompatActivity() {
     // Lazy Inject ViewModel
     private lateinit var viewModel: VM
     //
@@ -24,7 +24,6 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
         @Suppress("UNCHECKED_CAST")
-        viewModelClassType = (Objects.requireNonNull(this.javaClass.genericSuperclass) as ParameterizedType).actualTypeArguments[0] as KClass<VM>
         viewModel = initViewModel()
         //
         lifeCycleRegistry = LifecycleRegistry(this)

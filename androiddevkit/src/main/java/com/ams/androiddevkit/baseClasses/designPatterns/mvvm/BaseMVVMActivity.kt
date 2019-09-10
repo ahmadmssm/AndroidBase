@@ -29,7 +29,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
         lifeCycleRegistry.addObserver(viewModel)
-        lifeCycleRegistry.markState(Lifecycle.State.INITIALIZED)
+        lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
         getViewModel().onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         getViewModel().getViewState().observe(this, Observer { onViewStateChanged(it) })
