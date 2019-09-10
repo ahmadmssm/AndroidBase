@@ -1,6 +1,6 @@
 package ams.androidbase.androidbase.scenes.activites.mainScreenScene
 
-import ams.android_base.baseClasses.mvp.BasePresenter
+import ams.android_base.baseClasses.designPatterns.mvp.BasePresenter
 import ams.androidbase.androidbase.managers.networking.AppRestClient
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers

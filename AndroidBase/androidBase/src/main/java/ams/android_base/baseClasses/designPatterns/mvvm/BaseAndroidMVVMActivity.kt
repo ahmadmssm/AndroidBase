@@ -7,18 +7,24 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import org.koin.android.viewmodel.ext.android.getViewModel
+import java.lang.reflect.ParameterizedType
+import java.util.*
 import kotlin.reflect.KClass
 
 @SuppressLint("Registered")
-abstract class BaseAndroidMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): AppCompatActivity() {
+abstract class BaseAndroidMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>: AppCompatActivity() {
     // Lazy Inject ViewModel
     private lateinit var viewModel: VM
     //
     private lateinit var lifeCycleRegistry : LifecycleRegistry
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected lateinit var viewModelClassType: KClass<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
+        @Suppress("UNCHECKED_CAST")
+        viewModelClassType = (Objects.requireNonNull(this.javaClass.genericSuperclass) as ParameterizedType).actualTypeArguments[0] as KClass<VM>
         viewModel = initViewModel()
         //
         lifeCycleRegistry = LifecycleRegistry(this)
@@ -34,7 +40,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(
 
     protected open fun initViewModel(): VM {
         // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
-        return getViewModel(clazz = clazz)
+        return getViewModel(clazz = viewModelClassType)
     }
 
     abstract fun getViewId(): Int

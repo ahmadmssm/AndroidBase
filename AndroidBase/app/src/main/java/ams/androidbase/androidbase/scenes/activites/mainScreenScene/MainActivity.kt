@@ -1,6 +1,6 @@
 package ams.androidbase.androidbase.scenes.activites.mainScreenScene
 
-import ams.android_base.baseClasses.mvp.BaseActivity
+import ams.android_base.baseClasses.designPatterns.mvp.BaseActivity
 import ams.androidbase.androidbase.managers.Navigator
 import ams.androidbase.androidbase.R
 import android.os.Bundle

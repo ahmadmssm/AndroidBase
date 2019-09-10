@@ -3,6 +3,8 @@ package ams.android_base.baseClasses.networking;
 import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
 
+import kotlin.reflect.KClass;
+
 public abstract class BaseRestClient<APIs> extends BaseRetrofitClient {
 
     public BaseRestClient() {
