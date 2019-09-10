@@ -7,14 +7,10 @@ import kotlin.reflect.KClass;
 
 public abstract class BaseRestClient<APIs> extends BaseRetrofitClient {
 
-    public BaseRestClient() {
-        buildRetrofit();
-    }
-
     public APIs getAPIs() {
         @SuppressWarnings("unchecked")
-        Class<APIs> apIsClassType = (Class<APIs>) ((ParameterizedType) Objects.requireNonNull(this.getClass().getGenericSuperclass())).getActualTypeArguments()[0];
-        return retrofit.create(apIsClassType);
+        Class<APIs> apIsClassType = (Class<APIs>) ((ParameterizedType) (this.getClass().getGenericSuperclass())).getActualTypeArguments()[0];
+        return buildRetrofit().getRetrofitClient(apIsClassType);
     }
 }
 
