@@ -23,7 +23,7 @@ public abstract class BaseViewHolder<T, RVListener> extends RecyclerView.ViewHol
     }
 
     @SuppressWarnings("WeakerAccess")
-    protected void bindViews(View view) { ButterKnife.bind(this, view); }
+    protected void bindViews(View view) { }
 
     /**
      * Bind data to the item and set listener if needed.
