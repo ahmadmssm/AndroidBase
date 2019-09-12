@@ -8,7 +8,7 @@ import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 
-abstract class BaseApp<App: Application>: Application() {
+abstract class BaseApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
