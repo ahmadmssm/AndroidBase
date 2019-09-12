@@ -9,7 +9,7 @@ import org.koin.core.module.Module
 abstract class BaseApp: Application() {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun injectKoin() {
+    protected open fun injectKoin() {
         // Start koin with the modules list
         startKoin {
             androidLogger()
