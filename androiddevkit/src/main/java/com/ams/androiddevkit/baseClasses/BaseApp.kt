@@ -34,15 +34,15 @@ abstract class BaseApp: Application() {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun injectKoin() {
+    protected open fun injectKoin() {
         startKoin {
             logger(getKoinLoggingLevel())
-            androidContext(this@BaseApp)
+            androidContext(getAppContext())
             modules(getKoinModules())
         }
     }
 
-    abstract fun getAppContext(): Context
+    abstract fun getAppContext(): Application
 
     abstract fun getCurrentActivity(): AppCompatActivity?
 
