@@ -1,6 +1,6 @@
 package com.ams.androiddevkit.baseClasses.networking
 
-abstract class BaseRestClient<APIs> : RetrofitClient() {
+abstract class BaseRestClient: RetrofitClient() {
 
     init {
         buildRetrofit()
