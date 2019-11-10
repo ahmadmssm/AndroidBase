@@ -14,14 +14,11 @@ import androidx.fragment.app.Fragment;
 
 import com.ams.androiddevkit.utils.RuntimePermissionsManger;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class BaseFragment<Presenter extends BasePresenter> extends Fragment implements BaseViewDelegator {
 
     private Presenter presenter;
-    private Unbinder butterKnifeUnBinder;
     private RuntimePermissionsManger runtimePermissionsManger;
 
     @Nullable
@@ -33,7 +30,6 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bindFragmentViews(this, view);
         presenter = initPresenter();
         runtimePermissionsManger = new RuntimePermissionsManger(this);
     }
@@ -43,12 +39,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unBind();
     }
-
-    protected void bindFragmentViews (Fragment fragment, View view) { butterKnifeUnBinder = ButterKnife.bind(fragment, view); }
-
-    protected final void unBind() { if (butterKnifeUnBinder != null) butterKnifeUnBinder.unbind(); }
 
     protected final RuntimePermissionsManger getRuntimePermissionsManger() { return runtimePermissionsManger; }
 

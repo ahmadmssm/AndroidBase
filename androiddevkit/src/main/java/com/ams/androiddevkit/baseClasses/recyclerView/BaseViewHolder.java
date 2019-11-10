@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.ButterKnife;
 
 public abstract class BaseViewHolder<T, RVListener> extends RecyclerView.ViewHolder {
 

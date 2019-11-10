@@ -5,20 +5,20 @@ import android.util.Log
 import androidx.lifecycle.*
 import org.koin.core.KoinComponent
 
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinComponent {
 
     @Suppress("PrivatePropertyName")
-    private val VIEW_MODEL_TAG = this.javaClass.simpleName.toString()
-    private val mViewState = SingleLiveEvent<ViewState>()
+    private val VIEW_MODEL_TAG = this.javaClass.simpleName
+    protected val viewState = SingleLiveEvent<ViewState>()
 
 
-    protected fun updateViewState(viewState: ViewState) {
-        mViewState.value = viewState
+    protected fun postViewState(state: ViewState) {
+        viewState.value = state
     }
 
     open fun getViewState(): LiveData<ViewState> {
-        return mViewState
+        return viewState
     }
 
     //

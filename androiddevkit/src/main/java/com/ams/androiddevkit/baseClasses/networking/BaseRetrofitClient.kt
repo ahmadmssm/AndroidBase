@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit
 
 import okhttp3.OkHttpClient.Builder
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockResponse
 import retrofit2.Retrofit
 import retrofit2.Converter.Factory
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

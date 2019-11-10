@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder
 import java.util.Date
 
 @Suppress("ProtectedInFinal", "unused")
-class GsonUtils {
+open class GsonUtils {
     fun getCustomGsonConverter(serverDateFormat: String, targetDateFormat: String): Gson {
         return this
             .getGsonBuilder()
