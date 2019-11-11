@@ -1,7 +1,10 @@
 package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
@@ -9,7 +12,6 @@ import androidx.lifecycle.Observer
 import kotlin.reflect.KClass
 
 import org.koin.android.viewmodel.ext.android.getViewModel
-
 
 @SuppressLint("Registered")
 abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): AppCompatActivity() {
@@ -32,6 +34,8 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
         getViewModel().onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
+        initUI()
+        bindViews()
         getViewModel().getViewState().observe(this, Observer { onViewStateChanged(it) })
     }
 
@@ -43,12 +47,23 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
     abstract fun getViewId(): Int
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun getViewModel(): VM {
-        return viewModel
-    }
+    protected fun getViewModel(): VM = viewModel
 
-    @Suppress("MemberVisibilityCanBePrivate", "UNUSED_PARAMETER")
-    protected open fun onViewStateChanged(state: ViewState?) {}
+    protected abstract fun initUI()
+
+    protected abstract fun bindViews()
+
+    protected abstract fun onViewStateChanged(state: ViewState)
+
+    // Hide keyboard when pressing outside (For Activites and Fragments)
+    // https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
+    override fun dispatchTouchEvent(motionEvent: MotionEvent): Boolean {
+        if (currentFocus != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(motionEvent)
+    }
 
     //
     protected open fun onActivityCreated(savedInstanceState: Bundle?) {

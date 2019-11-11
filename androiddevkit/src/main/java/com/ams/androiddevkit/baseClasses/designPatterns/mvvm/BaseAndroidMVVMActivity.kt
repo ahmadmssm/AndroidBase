@@ -50,9 +50,8 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     abstract fun getViewId(): Int
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun getViewModel(): VM {
-        return viewModel
-    }
+    protected fun getViewModel(): VM = viewModel
+
 
     protected abstract fun initUI()
 
