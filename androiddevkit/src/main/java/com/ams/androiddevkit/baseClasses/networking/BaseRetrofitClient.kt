@@ -7,7 +7,6 @@ import com.ihsanbal.logging.LoggingInterceptor
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import java.util.concurrent.TimeUnit
-
 import okhttp3.OkHttpClient.Builder
 import okhttp3.Request
 import okhttp3.Response
@@ -133,18 +132,18 @@ abstract class RetrofitClient: IRetrofitClient {
     protected abstract fun getRefreshTokenInterceptor(): TokenInterceptor?
 
     // If we need to add Header(s) to every request
-    protected open fun getAdditionalHeaders(): Map<String, String> { return emptyMap() }
+    protected open fun getAdditionalHeaders(): MutableMap<String, String> { return mutableMapOf() }
 
     // If we need to add Query param(s) to every request
-    protected open fun getAdditionalQueryParams(): Map<String, String> { return emptyMap() }
+    protected open fun getAdditionalQueryParams(): MutableMap<String, String> { return mutableMapOf() }
 
     // If we need to add RxErrorHandlingCallAdapterFactory for error handling
     protected open fun getRxErrorHandlingCallAdapterFactory(): CallAdapter.Factory? { return null }
 
     // If we need to add encoded Query param(s) to every request
-    protected open fun getAdditionalEncodedQueryParams(): Map<String, String> { return emptyMap() }
+    protected open fun getAdditionalEncodedQueryParams(): MutableMap<String, String> { return mutableMapOf() }
 
     protected open fun getAdditionalInterceptors(): MutableList<Interceptor> { return mutableListOf() }
 
-    protected open fun getResponseMocks(): Map<RequestFilter, MockResponse> { return mapOf() }
+    protected open fun getResponseMocks(): MutableMap<RequestFilter, MockResponse> { return mutableMapOf() }
 }
