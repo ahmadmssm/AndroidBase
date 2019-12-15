@@ -1,6 +1,6 @@
 package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
-import ams.android_base.utils.liveDataUtils.SingleLiveEvent
+import com.ams.androiddevkit.utils.liveDataUtils.SingleLiveEvent
 import android.util.Log
 import androidx.lifecycle.*
 import org.koin.core.KoinComponent

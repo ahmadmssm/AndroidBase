@@ -13,7 +13,7 @@ import java.util.Random;
 import androidx.annotation.LayoutRes;
 
 
-public abstract class BaseWidget<Presenter extends BasePresenter> extends AppWidgetProvider implements BaseViewDelegator {
+public abstract class BaseWidget<Presenter extends BasePresenter> extends AppWidgetProvider implements BaseView {
 
     private Presenter presenter;
 

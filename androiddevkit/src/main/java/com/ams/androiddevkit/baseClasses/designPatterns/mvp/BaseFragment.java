@@ -16,7 +16,7 @@ import com.ams.androiddevkit.utils.RuntimePermissionsManger;
 
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class BaseFragment<Presenter extends BasePresenter> extends Fragment implements BaseViewDelegator {
+public abstract class BaseFragment<Presenter extends BasePresenter> extends Fragment implements BaseView {
 
     private Presenter presenter;
     private RuntimePermissionsManger runtimePermissionsManger;

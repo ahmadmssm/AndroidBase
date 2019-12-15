@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package ams.android_base.utils.liveDataUtils
+package com.ams.androiddevkit.utils.liveDataUtils
 
 import android.util.Log
 import androidx.annotation.MainThread

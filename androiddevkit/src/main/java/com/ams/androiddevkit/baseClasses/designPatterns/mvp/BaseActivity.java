@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ams.androiddevkit.utils.RuntimePermissionsManger;
 
 @SuppressWarnings("unused")
-public abstract class BaseActivity<Presenter extends BasePresenter> extends AppCompatActivity implements BaseViewDelegator {
+public abstract class BaseActivity<Presenter extends BasePresenter> extends AppCompatActivity implements BaseView {
 
     private Presenter presenter;
     private RuntimePermissionsManger runtimePermissionsManger;

@@ -8,3 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun Gson.getConverterFactory(): GsonConverterFactory {
     return GsonConverterFactory.create(this)
 }
+
+fun Gson.getCustomConverterFactory(customGson: Gson): GsonConverterFactory {
+    return GsonConverterFactory.create(customGson)
+}

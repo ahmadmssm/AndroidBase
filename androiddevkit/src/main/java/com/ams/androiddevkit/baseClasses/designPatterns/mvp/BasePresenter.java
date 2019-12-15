@@ -2,7 +2,7 @@ package com.ams.androiddevkit.baseClasses.designPatterns.mvp;
 
 import androidx.annotation.NonNull;
 
-public class BasePresenter <ViewDelegator extends BaseViewDelegator> {
+public class BasePresenter <ViewDelegator extends BaseView> {
 
     private ViewDelegator viewDelegator;
 

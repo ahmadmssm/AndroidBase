@@ -1,8 +1,9 @@
 package com.ams.androiddevkit.baseClasses.networking
 
-import com.ams.androiddevkit.baseClasses.globalKeys.Constants
-import com.ams.androiddevkit.baseClasses.services.LoggingService
-import com.ams.androiddevkit.baseClasses.services.SharedPreferenceService
+import android.content.SharedPreferences
+import com.ams.androiddevkit.baseClasses.globalKeys.AndroidDevKitConstants
+import com.ams.androiddevkit.utils.services.logging.LoggingService
+import com.ams.androiddevkit.utils.services.sharedpreferences.SharedPrefService
 
 import java.io.IOException
 import java.util.concurrent.Semaphore
@@ -14,8 +15,9 @@ import okhttp3.Response
 // https://gist.github.com/alex-shpak/da1e65f52dc916716930
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class TokenInterceptor protected constructor(protected val sharedPrefService: SharedPreferenceService,
-                                                      protected val loggingService: LoggingService): Interceptor {
+abstract class TokenInterceptor protected constructor(protected val sharedPrefService: SharedPrefService,
+                                                      protected val loggingService: LoggingService
+): Interceptor {
     private val mSemaphore = Semaphore(1)
 
     @Throws(IOException::class)
@@ -25,7 +27,7 @@ abstract class TokenInterceptor protected constructor(protected val sharedPrefSe
 
         //Build new request
         val builder = buildRequest(request)
-        val token = sharedPrefService.getString(Constants.PREFERENCE_ACCESS_TOKEN) //save token of this request for future
+        val token = sharedPrefService.getString(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN) //save token of this request for future
 
         loggingService.v("Authorization", request.header("Authorization")!! + " VALUE")
         if (request.header("Authorization") == null) {
@@ -44,10 +46,10 @@ abstract class TokenInterceptor protected constructor(protected val sharedPrefSe
                 loggingService.d(TAG, "mSemaphore.acquire()")
 
                 //perform all 401 in sync blocks, to avoid multiply token updates
-                val currentToken = sharedPrefService.getString(Constants.PREFERENCE_ACCESS_TOKEN) //setup currently stored token
+                val currentToken = sharedPrefService.getString(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN) //setup currently stored token
                 if (currentToken == token) { //compare current token with token that was stored before, if it was not updated - do update
                     loggingService.d(TAG, "token did not change needs refreshing")
-                    sharedPrefService.removeKey(Constants.PREFERENCE_ACCESS_TOKEN)
+                    sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN)
                     loggingService.d(TAG, "clear token because im unauthorized")
 
                     val code = refreshToken() / 100 //refresh token
@@ -62,7 +64,7 @@ abstract class TokenInterceptor protected constructor(protected val sharedPrefSe
                     }
                 }
                 //retry requires new auth token,
-                setAuthHeader(builder, sharedPrefService.getString(Constants.PREFERENCE_ACCESS_TOKEN)) //set auth token to updated
+                setAuthHeader(builder, sharedPrefService.getString(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN)) //set auth token to updated
                 loggingService.d(TAG, "update token header")
                 request = builder.build()
                 return chain.proceed(request) //repeat request with new token
