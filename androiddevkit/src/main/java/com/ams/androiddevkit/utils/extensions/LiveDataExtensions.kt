@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.ams.androiddevkit.utils.extensions
 
 import android.os.Handler
@@ -5,7 +7,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.ams.androiddevkit.utils.RxJavaUtils
-import com.ams.androiddevkit.utils.extensions.liveDataUtils.toObservable
 
 /**
  * Emits the items after certain time, default is one second

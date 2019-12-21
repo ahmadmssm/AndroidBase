@@ -7,6 +7,7 @@ import org.koin.core.KoinComponent
 
 @Suppress("unused")
 open class BaseAndroidViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinComponent {
+
     @Suppress("PrivatePropertyName")
     private val VIEW_MODEL_TAG = this.javaClass.simpleName.toString()
     private val mViewState = SingleLiveEvent<ViewState>()

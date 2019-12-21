@@ -2,6 +2,7 @@
   <dictionary name="ams">
     <words>
       <w>androiddevkit</w>
+      <w>flowable</w>
       <w>gson</w>
       <w>koin</w>
     </words>

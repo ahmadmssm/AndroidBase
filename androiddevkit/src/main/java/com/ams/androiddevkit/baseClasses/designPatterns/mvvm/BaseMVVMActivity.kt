@@ -16,8 +16,7 @@ import org.koin.android.viewmodel.ext.android.getViewModel
 @SuppressLint("Registered")
 abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): AppCompatActivity() {
 
-    // Lazy Inject ViewModel
-    private lateinit var viewModel: VM
+    private var viewModel: VM? = null
     //
     private lateinit var lifeCycleRegistry : LifecycleRegistry
 
@@ -30,13 +29,13 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
-        lifeCycleRegistry.addObserver(viewModel)
+        lifeCycleRegistry.addObserver(viewModel!!)
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
-        getViewModel().onLifeCycleInitialized()
+        getViewModel()?.onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         initUI()
         bindViews()
-        getViewModel().getViewState().observe(this, Observer { onViewStateChanged(it) })
+        getViewModel()?.getViewState()?.observe(this, Observer { onViewStateChanged(it) })
     }
 
     protected open fun initViewModel(): VM {
@@ -47,7 +46,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
     abstract fun getViewId(): Int
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun getViewModel(): VM = viewModel
+    protected fun getViewModel(): VM? = viewModel
 
     protected abstract fun initUI()
 

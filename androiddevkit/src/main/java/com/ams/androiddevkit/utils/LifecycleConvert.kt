@@ -2,11 +2,11 @@
 
 package com.ams.androiddevkit.utils
 
-import androidx.lifecycle.GenericLifecycleObserver
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.ams.androiddevkit.utils.extensions.liveDataUtils.bindLifecycleWithError
-import com.ams.androiddevkit.utils.extensions.liveDataUtils.filterOrNever
+import com.ams.androiddevkit.utils.extensions.bindLifecycleWithError
+import com.ams.androiddevkit.utils.extensions.filterOrNever
 import io.reactivex.*
 import io.reactivex.android.MainThreadDisposable
 import io.reactivex.functions.Predicate
@@ -96,8 +96,7 @@ internal class LifecycleObservable(private val owner: LifecycleOwner)
         owner.lifecycle.addObserver(lifecycle)
     }
 
-    inner class LifecycleObserver(private val observer: Observer<in Lifecycle.Event>)
-        : MainThreadDisposable(), GenericLifecycleObserver {
+    inner class LifecycleObserver(private val observer: Observer<in Lifecycle.Event>): MainThreadDisposable(), LifecycleEventObserver {
 
         override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
             if (!isDisposed) {

@@ -16,8 +16,8 @@ import kotlin.reflect.KClass
 
 @SuppressLint("Registered")
 abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): AppCompatActivity() {
-    // Lazy Inject ViewModel
-    private lateinit var viewModel: VM
+
+    private var viewModel: VM? = null
     //
     private lateinit var lifeCycleRegistry : LifecycleRegistry
     @Suppress("MemberVisibilityCanBePrivate")
@@ -33,13 +33,13 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
-        lifeCycleRegistry.addObserver(viewModel)
+        lifeCycleRegistry.addObserver(viewModel!!)
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
-        getViewModel().onLifeCycleInitialized()
+        getViewModel()?.onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         initUI()
         bindViews()
-        getViewModel().getViewState().observe(this, Observer { onViewStateChanged(it) })
+        getViewModel()?.getViewState()?.observe(this, Observer { onViewStateChanged(it) })
     }
 
     protected open fun initViewModel(): VM {
@@ -50,7 +50,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     abstract fun getViewId(): Int
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun getViewModel(): VM = viewModel
+    protected fun getViewModel(): VM? = viewModel
 
 
     protected abstract fun initUI()
