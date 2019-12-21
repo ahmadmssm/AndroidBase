@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.ams.androiddevkit.utils.extensions.liveDataUtils
+package com.ams.androiddevkit.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -12,7 +12,7 @@ import io.reactivex.android.MainThreadDisposable
  * E-mail: zhangyu4@yy.com
  * YY: 909017428
  */
-object RxJavaConvert {
+object RxJavaUtils {
 
     @JvmStatic
     fun <T> toObservable(liveData: LiveData<T>): Observable<T> {
@@ -21,7 +21,10 @@ object RxJavaConvert {
 
     @JvmStatic
     fun <T> toObservableAllowNull(liveData: LiveData<T>, valueIfNull: T): Observable<T> {
-        return LiveDataObservable(liveData, valueIfNull)
+        return LiveDataObservable(
+            liveData,
+            valueIfNull
+        )
     }
 
     @JvmStatic
@@ -31,7 +34,10 @@ object RxJavaConvert {
 
     @JvmStatic
     fun <T> toFlowableAllowNull(liveData: LiveData<T>, valueIfNull: T): Flowable<T> {
-        return LiveDataObservable(liveData, valueIfNull).toFlowable(BackpressureStrategy.LATEST)
+        return LiveDataObservable(
+            liveData,
+            valueIfNull
+        ).toFlowable(BackpressureStrategy.LATEST)
     }
 
     @JvmStatic
@@ -41,7 +47,10 @@ object RxJavaConvert {
 
     @JvmStatic
     fun <T> toSingleAllowNull(liveData: LiveData<T>, valueIfNull: T): Single<T> {
-        return LiveDataObservable(liveData, valueIfNull).firstOrError()
+        return LiveDataObservable(
+            liveData,
+            valueIfNull
+        ).firstOrError()
     }
 
     @JvmStatic
@@ -51,7 +60,10 @@ object RxJavaConvert {
 
     @JvmStatic
     fun <T> toMaybeAllowNull(liveData: LiveData<T>, valueIfNull: T): Maybe<T> {
-        return LiveDataObservable(liveData, valueIfNull).firstElement()
+        return LiveDataObservable(
+            liveData,
+            valueIfNull
+        ).firstElement()
     }
 
     @JvmStatic
@@ -71,7 +83,10 @@ private class LiveDataObservable<T>(
 ) : Observable<T>() {
 
     override fun subscribeActual(observer: io.reactivex.Observer<in T>) {
-        if (!checkMainThread(observer)) {
+        if (!checkMainThread(
+                observer
+            )
+        ) {
             return
         }
         val relay = RemoveObserverInMainThread(observer)
@@ -90,7 +105,8 @@ private class LiveDataObservable<T>(
                     } else {
                         observer.onError(
                             ReactiveStreamNullElementException(
-                                "convert liveData value t to RxJava onNext(t), t cannot be null")
+                                "convert liveData value t to RxJava onNext(t), t cannot be null"
+                            )
                         )
                     }
                 } else {
@@ -129,7 +145,8 @@ private class LiveDataCompletable<T>(
                 } else {
                     s.onError(
                         ReactiveStreamNullElementException(
-                            "convert liveData value t to RxJava onNext(t), t cannot be null")
+                            "convert liveData value t to RxJava onNext(t), t cannot be null"
+                        )
                     )
                 }
                 dispose()

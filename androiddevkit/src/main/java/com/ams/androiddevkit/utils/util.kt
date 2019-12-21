@@ -1,4 +1,4 @@
-package com.ams.androiddevkit.utils.extensions.liveDataUtils
+package com.ams.androiddevkit.utils
 
 import android.os.Looper
 import io.reactivex.disposables.Disposables

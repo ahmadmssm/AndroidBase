@@ -1,10 +1,12 @@
 @file:Suppress("unused")
 
-package com.ams.androiddevkit.utils.extensions.liveDataUtils
+package com.ams.androiddevkit.utils
 
 import androidx.lifecycle.GenericLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.ams.androiddevkit.utils.extensions.liveDataUtils.bindLifecycleWithError
+import com.ams.androiddevkit.utils.extensions.liveDataUtils.filterOrNever
 import io.reactivex.*
 import io.reactivex.android.MainThreadDisposable
 import io.reactivex.functions.Predicate
@@ -20,15 +22,27 @@ object LifecycleConvert {
 
     @JvmStatic
     fun <T> bindLifecycle(observer: Observable<T>, owner: LifecycleOwner): Observable<T> =
-            observer.compose(bind(owner))
+            observer.compose(
+                bind(
+                    owner
+                )
+            )
 
     @JvmStatic
     fun <T> bindLifecycle(single: Single<T>, owner: LifecycleOwner): Maybe<T> =
-            single.toMaybe().compose(bind(owner))
+            single.toMaybe().compose(
+                bind(
+                    owner
+                )
+            )
 
     @JvmStatic
     fun <T> bindLifecycleWithError(single: Single<T>, owner: LifecycleOwner): Single<T> =
-            single.compose(bind(owner))
+            single.compose(
+                bind(
+                    owner
+                )
+            )
 
     @JvmStatic
     fun <T> bindLifecycle(maybe: Maybe<T>, owner: LifecycleOwner): Maybe<T> =
@@ -36,7 +50,11 @@ object LifecycleConvert {
 
     @JvmStatic
     fun <T> bindLifecycle(flowable: Flowable<T>, owner: LifecycleOwner): Flowable<T> =
-            flowable.compose(bind(owner))
+            flowable.compose(
+                bind(
+                    owner
+                )
+            )
 
     @JvmStatic
     fun bindLifecycle(completable: Completable, owner: LifecycleOwner): Completable =
@@ -44,22 +62,33 @@ object LifecycleConvert {
 
     @JvmStatic
     fun bindLifecycleWithError(completable: Completable, owner: LifecycleOwner): Completable =
-            completable.compose(bind<Nothing>(owner))
+            completable.compose(
+                bind<Nothing>(
+                    owner
+                )
+            )
 
     @JvmStatic
     fun <T> bind(owner: LifecycleOwner): LifecycleTransformer<T> =
-            LifecycleTransformer(LifecycleObservable(owner))
+        LifecycleTransformer(
+            LifecycleObservable(
+                owner
+            )
+        )
 
     @JvmStatic
     fun lifecycleObservable(owner: LifecycleOwner): Observable<Lifecycle.Event> =
-            LifecycleObservable(owner)
+        LifecycleObservable(owner)
 }
 
 internal class LifecycleObservable(private val owner: LifecycleOwner)
     : Observable<Lifecycle.Event>() {
 
     override fun subscribeActual(observer: Observer<in Lifecycle.Event>) {
-        if (!checkMainThread(observer)) {
+        if (!checkMainThread(
+                observer
+            )
+        ) {
             return
         }
         val lifecycle = LifecycleObserver(observer)
