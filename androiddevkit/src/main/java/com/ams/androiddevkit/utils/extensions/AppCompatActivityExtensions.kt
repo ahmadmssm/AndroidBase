@@ -16,6 +16,13 @@ inline fun <reified TargetActivity> AppCompatActivity.open(intent: Intent = getI
     this.startActivity(intent)
 }
 
+inline fun <reified TargetActivity>AppCompatActivity.openForResult(intent: Intent = getIntentBuilder<TargetActivity>(),
+                                                                   requestCode: Int,
+                                                                   finishThis: Boolean = true) {
+    if(finishThis) this.finish()
+    this.startActivityForResult(intent, requestCode)
+}
+
 inline fun <reified TargetActivity> AppCompatActivity.open(bundle: Bundle, finishThis: Boolean = true) {
     val activityIntent = getIntentBuilder<TargetActivity>()
     if(finishThis) this.finish()
@@ -29,15 +36,15 @@ inline fun <reified TargetActivity> AppCompatActivity.getIntentBuilder(): Intent
 
 fun AppCompatActivity.hideSoftKeyboardFrom(view: View) {
     val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0);
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun AppCompatActivity.getScreenWidthInDP(): Int {
-    val configuration: Configuration = this.resources.configuration;
+    val configuration: Configuration = this.resources.configuration
     return configuration.screenWidthDp
 }
 
 fun AppCompatActivity.getScreenHeightInDP(): Int {
-    val configuration: Configuration = this.resources.configuration;
+    val configuration: Configuration = this.resources.configuration
     return configuration.screenHeightDp
 }

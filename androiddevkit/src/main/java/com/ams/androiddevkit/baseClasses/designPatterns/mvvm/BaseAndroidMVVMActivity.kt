@@ -87,6 +87,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     override fun onDestroy() {
         super.onDestroy()
         lifeCycleRegistry.currentState = Lifecycle.State.DESTROYED
+        viewModel = null
     }
 }
 

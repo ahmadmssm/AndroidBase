@@ -82,5 +82,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
     override fun onDestroy() {
         super.onDestroy()
         lifeCycleRegistry.currentState = Lifecycle.State.DESTROYED
+        viewModel = null
     }
 }
