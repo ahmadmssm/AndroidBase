@@ -1,10 +1,11 @@
 @file:Suppress("unused")
 
-package com.ams.androiddevkit.utils
+package com.ams.androiddevkit.utils.liveDataUtils
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import com.ams.androiddevkit.utils.checkMainThread
 import com.ams.androiddevkit.utils.extensions.bindLifecycleWithError
 import com.ams.androiddevkit.utils.extensions.filterOrNever
 import io.reactivex.*
@@ -46,7 +47,11 @@ object LifecycleConvert {
 
     @JvmStatic
     fun <T> bindLifecycle(maybe: Maybe<T>, owner: LifecycleOwner): Maybe<T> =
-            maybe.compose(bind(owner))
+            maybe.compose(
+                bind(
+                    owner
+                )
+            )
 
     @JvmStatic
     fun <T> bindLifecycle(flowable: Flowable<T>, owner: LifecycleOwner): Flowable<T> =

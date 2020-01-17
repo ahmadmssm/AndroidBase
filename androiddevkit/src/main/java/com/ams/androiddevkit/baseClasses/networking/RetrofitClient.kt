@@ -12,9 +12,9 @@ abstract class RetrofitClient: OKHttpClient(), IRetrofitClient {
     protected open fun getRetrofitBuilder(): Retrofit.Builder {
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(this.getBaseURL())
-            .addConverterFactory(this.getConverterFactory())
             .client(getOkHttpBuilder().build())
-        val callAdapterFactory: CallAdapter.Factory =
+        if (getConverterFactory() != null) retrofitBuilder.addConverterFactory(this.getConverterFactory()!!)
+        val callAdapterFactory =
             if (getRxErrorHandlingCallAdapterFactory() != null) getRxErrorHandlingCallAdapterFactory()!!
             else RxJava2CallAdapterFactory.create()
         retrofitBuilder.addCallAdapterFactory(callAdapterFactory)
@@ -30,7 +30,7 @@ abstract class RetrofitClient: OKHttpClient(), IRetrofitClient {
         return retrofit!!.create(restAPIsInterface)
     }
 
-    protected abstract fun getConverterFactory(): Factory
+    protected open fun getConverterFactory(): Factory? = null
 
     protected abstract fun getBaseURL(): String
 

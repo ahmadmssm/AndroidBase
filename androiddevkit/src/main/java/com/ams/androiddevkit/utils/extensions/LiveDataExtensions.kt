@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.ams.androiddevkit.utils.RxJavaUtils
+import com.ams.androiddevkit.utils.rx.RxJavaUtils
 
 /**
  * Emits the items after certain time, default is one second

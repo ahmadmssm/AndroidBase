@@ -1,9 +1,11 @@
 @file:Suppress("unused")
 
-package com.ams.androiddevkit.utils
+package com.ams.androiddevkit.utils.rx
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.ams.androiddevkit.utils.ReactiveStreamNullElementException
+import com.ams.androiddevkit.utils.checkMainThread
 import io.reactivex.*
 import io.reactivex.android.MainThreadDisposable
 
