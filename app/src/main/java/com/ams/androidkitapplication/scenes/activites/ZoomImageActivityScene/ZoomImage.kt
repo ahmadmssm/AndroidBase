@@ -2,12 +2,11 @@ package com.ams.androidkitapplication.scenes.activites.ZoomImageActivityScene
 
 import com.ams.androiddevkit.BaseZoomImageActivity
 import com.ams.androiddevkit.baseClasses.designPatterns.mvp.BasePresenter
-import com.ams.androiddevkit.baseClasses.designPatterns.mvp.BaseViewDelegator
+import com.ams.androiddevkit.baseClasses.designPatterns.mvp.BaseView
 
+class ZoomImage: BaseZoomImageActivity<BasePresenter<BaseView>>() {
 
-class ZoomImage: BaseZoomImageActivity<BasePresenter<BaseViewDelegator>>() {
-
-    override fun initPresenter(): BasePresenter<BaseViewDelegator> {
+    override fun initPresenter(): BasePresenter<BaseView> {
         return BasePresenter(this)
     }
 

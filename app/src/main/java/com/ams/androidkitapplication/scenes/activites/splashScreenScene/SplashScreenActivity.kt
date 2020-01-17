@@ -6,7 +6,7 @@ import com.ams.androidkitapplication.R
 import com.ams.androidkitapplication.managers.Navigator
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 
-class SplashScreenActivity: BaseActivity<SplashScreenPresenter>(), SplashScreenViewDelegator {
+class SplashScreenActivity: BaseActivity<SplashScreenPresenter>(), SplashScreenViewDelegate {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

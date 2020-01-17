@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ams.androiddevkit.utils.RuntimePermissionsManger
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseActivity<Presenter: BasePresenter<*>?>: AppCompatActivity(), BaseView {
+abstract class BaseActivity<Presenter: BasePresenter<*>>: AppCompatActivity(), BaseView {
 
     protected var runtimePermissionsManger: RuntimePermissionsManger? = null
     protected var presenter: Presenter? = null

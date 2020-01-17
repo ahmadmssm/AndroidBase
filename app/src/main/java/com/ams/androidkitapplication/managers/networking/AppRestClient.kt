@@ -5,10 +5,10 @@ import com.ams.androiddevkit.baseClasses.networking.GsonUtils
 import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 
-class AppRestClient: BaseRestClient<RestAPIs>() {
+class AppRestClient: BaseRestClient() {
 
     override fun getConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create(GsonUtils().customGsonConverter)
+        return GsonConverterFactory.create(GsonUtils().getCustomGsonConverter())
     }
 
     override fun getBaseURL(): String {
