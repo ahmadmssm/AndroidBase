@@ -2,12 +2,14 @@ package com.ams.androiddevkit.baseClasses.designPatterns.mvp
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class BasePresenter<ViewDelegate: BaseView>(private var viewDelegate: ViewDelegate?) {
+@Suppress("unused")
+open class BasePresenter<ViewDelegate: BaseView>(private var viewDelegate: ViewDelegate?): LifecycleObserver {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val disposeBag: CompositeDisposable by lazy { CompositeDisposable() }
@@ -17,8 +19,8 @@ open class BasePresenter<ViewDelegate: BaseView>(private var viewDelegate: ViewD
     }
 
     protected open fun logout() {}
-    //
-    protected open fun onLifeCycleInitialized() {}
+
+    open fun onLifeCycleInitialized() {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     protected open fun onLifeCycleChangeListener(owner: LifecycleOwner, event: Lifecycle.Event) {}

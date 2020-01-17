@@ -70,8 +70,8 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:1.1.1"
     //
     // Pagination Components
-    implementation "androidx.paging:paging-runtime-ktx:2.1.0"
-    implementation "androidx.paging:paging-rxjava2:2.1.0"
+    implementation "androidx.paging:paging-runtime-ktx:2.1.1"
+    implementation "androidx.paging:paging-rxjava2:2.1.1"
     //
     // Koin
     def koin_version = '2.0.1'
@@ -87,4 +87,7 @@ dependencies {
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     //
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2"
+    //
+    // Lifecycle Annotations
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 }
