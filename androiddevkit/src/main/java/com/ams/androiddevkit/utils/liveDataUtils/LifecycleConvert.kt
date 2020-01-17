@@ -2,14 +2,15 @@
 
 package com.ams.androiddevkit.utils.liveDataUtils
 
+import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.ams.androiddevkit.utils.checkMainThread
 import com.ams.androiddevkit.utils.extensions.bindLifecycleWithError
 import com.ams.androiddevkit.utils.extensions.filterOrNever
 import io.reactivex.*
 import io.reactivex.android.MainThreadDisposable
+import io.reactivex.disposables.Disposables
 import io.reactivex.functions.Predicate
 import org.reactivestreams.Publisher
 import java.util.concurrent.CancellationException
@@ -183,4 +184,19 @@ class LifecycleTransformer<T> internal constructor(
                 "observable=" + observable +
                 '}'.toString()
     }
+}
+
+/**
+ * Created by 张宇 on 2018/3/13.
+ * E-mail: zhangyu4@yy.com
+ * YY: 909017428
+ */
+internal fun checkMainThread(observer: io.reactivex.Observer<*>): Boolean {
+    if (Looper.myLooper() != Looper.getMainLooper()) {
+        observer.onSubscribe(Disposables.empty())
+        observer.onError(IllegalStateException(
+            "Expected to be called on the main thread but was " + Thread.currentThread().name))
+        return false
+    }
+    return true
 }
