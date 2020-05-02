@@ -37,11 +37,10 @@ abstract class BaseApplication: Application(), LifecycleObserver {
         // https://stackoverflow.com/questions/52369540/what-is-lifecycle-observer-and-how-to-use-it-correctly
         // Observe app life cycle in application class
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-        injectKoin()
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected open fun injectKoin() {
+    protected open fun initKoin() {
         startKoin {
             logger(getKoinLoggingLevel())
             androidContext(getAppContext())
