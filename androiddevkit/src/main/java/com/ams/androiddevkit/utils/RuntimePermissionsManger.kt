@@ -2,10 +2,13 @@
 
 package com.ams.androiddevkit.utils
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.Rationale
@@ -63,8 +66,14 @@ class RuntimePermissionsManger {
     }
 
     private fun customRationale(): Rationale<MutableList<String>>? {
-        return if (okButtonTitle != null && cancelButtonTitle != null && permissionDescription != null && enableRationalMessage) {
-            Rationale { context: Context, _: Any, executor: RequestExecutor -> customDialog(context, executor).show() }
+        return if (
+            okButtonTitle != null &&
+            cancelButtonTitle != null &&
+            permissionDescription != null &&
+            enableRationalMessage) {
+            Rationale { context: Context, _: Any, executor: RequestExecutor ->
+                customDialog(context, executor).show()
+            }
         } else null
     }
 
@@ -93,6 +102,10 @@ class RuntimePermissionsManger {
             }
             .onDenied { deniedPermissions: List<String> -> listener.onPermissionsDenied(deniedPermissions) }
             .start()
+    }
+
+    fun isPermissionGranted(context: Context, permission: String): Boolean {
+        return ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     // Listeners
