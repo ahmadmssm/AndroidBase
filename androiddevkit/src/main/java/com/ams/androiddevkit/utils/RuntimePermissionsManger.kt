@@ -53,8 +53,8 @@ class RuntimePermissionsManger {
         return this
     }
 
-    private fun customDialog(context: Context, executor: RequestExecutor): AlertDialog.Builder {
-        val dialog = AlertDialog.Builder(context)
+    private fun customDialog(context: Context, executor: RequestExecutor): android.app.AlertDialog.Builder {
+        val dialog = android.app.AlertDialog.Builder(context)
         dialog.setCancelable(true)
         if (permissionDialogTitle != null) dialog.setTitle(permissionDialogTitle)
         // List<String> permissionNames = Permission.transformText(context, permissions);
