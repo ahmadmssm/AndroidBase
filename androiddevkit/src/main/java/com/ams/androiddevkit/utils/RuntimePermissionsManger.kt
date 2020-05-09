@@ -60,7 +60,7 @@ open class RuntimePermissionsManger {
         return this
     }
 
-    private fun getCustomRationale(): BaseRationale<List<String>>? {
+    open fun getCustomRationale(): BaseRationale<List<String>>? {
         return if (enableRationalMessage) {
             BaseRationale<List<String>>()
                 .setOkButtonTitle(okButtonTitle)
