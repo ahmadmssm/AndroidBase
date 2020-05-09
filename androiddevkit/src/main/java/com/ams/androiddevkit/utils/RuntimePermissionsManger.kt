@@ -3,25 +3,28 @@
 package com.ams.androiddevkit.utils
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.ams.androiddevkit.utils.RuntimePermissions.BaseRationale
 import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.Rationale
-import com.yanzhenjie.permission.RequestExecutor
+import com.yanzhenjie.permission.Options
+import com.yanzhenjie.permission.runtime.PermissionRequest
 
-class RuntimePermissionsManger {
+@Suppress("MemberVisibilityCanBePrivate")
+open class RuntimePermissionsManger {
 
-    private var appCompatActivity: AppCompatActivity? = null
-    private var fragment: Fragment? = null
-    private var okButtonTitle: String? = null
-    private var cancelButtonTitle: String? = null
-    private var permissionDialogTitle: String? = null
-    private var permissionDescription: String? = null
-    private var enableRationalMessage = false
+    protected var appCompatActivity: AppCompatActivity? = null
+    protected var fragment: Fragment? = null
+    protected var okButtonTitle: String? = null
+    protected var cancelButtonTitle: String? = null
+    protected var permissionDialogTitle: String? = null
+    protected var permissionDescription: String? = null
+    protected var enableRationalMessage = false
+    protected val permissionsRequestOptions: Options by lazy {
+        if (appCompatActivity != null) AndPermission.with(appCompatActivity) else AndPermission.with(fragment)
+    }
 
     constructor(appCompatActivity: AppCompatActivity) { this.appCompatActivity = appCompatActivity }
 
@@ -52,49 +55,37 @@ class RuntimePermissionsManger {
         return this
     }
 
-    private fun customDialog(context: Context, executor: RequestExecutor): AlertDialog.Builder {
-        val dialog = AlertDialog.Builder(context)
-        dialog.setCancelable(true)
-        if (permissionDialogTitle != null) dialog.setTitle(permissionDialogTitle)
-        // List<String> permissionNames = Permission.transformText(context, permissions);
-        // String message = permissionDescription + "\n" + TextUtils.join("\n", permissionNames);
-        dialog.setMessage(permissionDescription)
-        dialog.setPositiveButton(okButtonTitle) { _: DialogInterface?, _: Int -> executor.execute() }
-        dialog.setNegativeButton(cancelButtonTitle) { _: DialogInterface?, _: Int -> executor.cancel() }
-        return dialog
+    fun setCustomRational(enableRationalMessage: Boolean): RuntimePermissionsManger {
+        this.enableRationalMessage = enableRationalMessage
+        return this
     }
 
-    private fun customRationale(): Rationale<MutableList<String>>? {
-        return if (
-            okButtonTitle != null &&
-            cancelButtonTitle != null &&
-            permissionDescription != null &&
-            enableRationalMessage) {
-            Rationale { context: Context, _: Any, executor: RequestExecutor ->
-                customDialog(context, executor).show()
-            }
+    private fun getCustomRationale(): BaseRationale<List<String>>? {
+        return if (enableRationalMessage) {
+            BaseRationale<List<String>>()
+                .setOkButtonTitle(okButtonTitle)
+                .setCancelButtonTitle(cancelButtonTitle)
+                .setPermissionDialogTitle(permissionDialogTitle)
+                .setPermissionDescription(permissionDescription)
         } else null
     }
 
-    private val permissionsRequestOptions by lazy {
-        if (appCompatActivity != null) AndPermission.with(appCompatActivity) else AndPermission.with(fragment)
+    open fun getRunTimePermissionsBuilder(vararg permissions: String): PermissionRequest {
+        return permissionsRequestOptions
+            .runtime()
+            .permission(*permissions)
+            .rationale(getCustomRationale())
     }
 
-    fun requestSinglePermission(permission: String, listener: RuntimePermissionsListener) {
-        permissionsRequestOptions
-            .runtime()
-            .permission(permission)
-            .rationale(customRationale())
+    open fun requestSinglePermission(permission: String, listener: RuntimePermissionsListener) {
+        getRunTimePermissionsBuilder(permission)
             .onGranted { listener.onPermissionGranted() }
             .onDenied { listener.onPermissionDenied(permission) }
             .start()
     }
 
-    fun requestPermissions(permissions: Array<String>, listener: RuntimePermissionsListener) {
-        permissionsRequestOptions
-            .runtime()
-            .permission(*permissions)
-            .rationale(customRationale())
+    open fun requestPermissions(vararg permissions: String, listener: RuntimePermissionsListener) {
+        getRunTimePermissionsBuilder(*permissions)
             .onGranted { grantedPermissions: List<String> ->
                 listener.onPermissionsGranted()
                 listener.onPermissionsGranted(grantedPermissions)
@@ -103,7 +94,7 @@ class RuntimePermissionsManger {
             .start()
     }
 
-    fun isPermissionGranted(context: Context, permission: String): Boolean {
+    open fun isPermissionGranted(context: Context, permission: String): Boolean {
         return ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
 
