@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.ams.androiddevkit.utils.RuntimePermissions.BaseRationale
 import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.Options
+import com.yanzhenjie.permission.option.Option
 import com.yanzhenjie.permission.runtime.PermissionRequest
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -22,7 +22,7 @@ open class RuntimePermissionsManger {
     protected var permissionDialogTitle: String? = null
     protected var permissionDescription: String? = null
     protected var enableRationalMessage = false
-    protected val permissionsRequestOptions: Options by lazy {
+    protected val permissionsRequestOption: Option by lazy {
         if (appCompatActivity != null) AndPermission.with(appCompatActivity) else AndPermission.with(fragment)
     }
 
@@ -60,21 +60,20 @@ open class RuntimePermissionsManger {
         return this
     }
 
-    open fun getCustomRationale(): BaseRationale<List<String>>? {
-        return if (enableRationalMessage) {
-            BaseRationale<List<String>>()
-                .setOkButtonTitle(okButtonTitle)
+    open fun getCustomRationale(): BaseRationale<List<String>> {
+          return BaseRationale<List<String>>()
+              .setOkButtonTitle(okButtonTitle)
                 .setCancelButtonTitle(cancelButtonTitle)
                 .setPermissionDialogTitle(permissionDialogTitle)
                 .setPermissionDescription(permissionDescription)
-        } else null
     }
 
     open fun getRunTimePermissionsBuilder(vararg permissions: String): PermissionRequest {
-        return permissionsRequestOptions
-            .runtime()
-            .permission(*permissions)
-            .rationale(getCustomRationale())
+        val builder = permissionsRequestOption.runtime().permission(permissions)
+        if (enableRationalMessage) {
+           builder.rationale(getCustomRationale())
+        }
+        return builder
     }
 
     open fun requestSinglePermission(permission: String, listener: RuntimePermissionsListener) {
