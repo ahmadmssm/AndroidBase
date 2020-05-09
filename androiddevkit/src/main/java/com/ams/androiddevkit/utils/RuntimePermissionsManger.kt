@@ -8,11 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.Options
 import com.yanzhenjie.permission.Rationale
 import com.yanzhenjie.permission.RequestExecutor
 
 class RuntimePermissionsManger {
+
     private var appCompatActivity: AppCompatActivity? = null
     private var fragment: Fragment? = null
     private var okButtonTitle: String? = null
@@ -25,15 +25,30 @@ class RuntimePermissionsManger {
 
     constructor(fragment: Fragment) { this.fragment = fragment }
 
-    fun setOkButtonTitle(okButtonTitle: String) { this.okButtonTitle = okButtonTitle }
+    fun setOkButtonTitle(okButtonTitle: String): RuntimePermissionsManger {
+        this.okButtonTitle = okButtonTitle
+        return this
+    }
 
-    fun setCancelButtonTitle(cancelButtonTitle: String) { this.cancelButtonTitle = cancelButtonTitle }
+    fun setCancelButtonTitle(cancelButtonTitle: String): RuntimePermissionsManger {
+        this.cancelButtonTitle = cancelButtonTitle
+        return this
+    }
 
-    fun setPermissionDescription(permissionDescription: String) { this.permissionDescription = permissionDescription }
+    fun setPermissionDialogTitle(permissionDialogTitle: String): RuntimePermissionsManger {
+        this.permissionDialogTitle = permissionDialogTitle
+        return this
+    }
 
-    fun setPermissionDialogTitle(permissionDialogTitle: String) { this.permissionDialogTitle = permissionDialogTitle }
+    fun setPermissionDescription(permissionDescription: String): RuntimePermissionsManger {
+        this.permissionDescription = permissionDescription
+        return this
+    }
 
-    fun setEnableRationalMessage(enableRationalMessage: Boolean) { this.enableRationalMessage = enableRationalMessage }
+    fun setEnableRationalMessage(enableRationalMessage: Boolean): RuntimePermissionsManger {
+        this.enableRationalMessage = enableRationalMessage
+        return this
+    }
 
     private fun customDialog(context: Context, executor: RequestExecutor): AlertDialog.Builder {
         val dialog = AlertDialog.Builder(context)
@@ -53,8 +68,8 @@ class RuntimePermissionsManger {
         } else null
     }
 
-    private val permissionsRequestOptions: Options get() {
-        return if (appCompatActivity != null) AndPermission.with(appCompatActivity) else AndPermission.with(fragment)
+    private val permissionsRequestOptions by lazy {
+        if (appCompatActivity != null) AndPermission.with(appCompatActivity) else AndPermission.with(fragment)
     }
 
     fun requestSinglePermission(permission: String, listener: RuntimePermissionsListener) {
