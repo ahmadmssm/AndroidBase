@@ -50,11 +50,6 @@ open class RuntimePermissionsManger {
         return this
     }
 
-    fun setEnableRationalMessage(enableRationalMessage: Boolean): RuntimePermissionsManger {
-        this.enableRationalMessage = enableRationalMessage
-        return this
-    }
-
     fun withRational(enableRationalMessage: Boolean): RuntimePermissionsManger {
         this.enableRationalMessage = enableRationalMessage
         return this
