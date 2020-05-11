@@ -1,4 +1,4 @@
-package com.ams.androiddevkit.utils.RuntimePermissions
+package com.ams.androiddevkit.utils.runtimePermissions
 
 import android.content.Context
 import android.content.DialogInterface
@@ -8,10 +8,10 @@ import com.yanzhenjie.permission.RequestExecutor
 
 open class BaseRationale<T>: Rationale<T> {
 
-    private var okButtonTitle: String? = null
-    private var cancelButtonTitle: String? = null
-    private var permissionDialogTitle: String? = null
-    private var permissionDescription: String? = null
+    protected var okButtonTitle: String? = null
+    protected var cancelButtonTitle: String? = null
+    protected var permissionDialogTitle: String? = null
+    protected var permissionDescription: String? = null
 
     override fun showRationale(context: Context, data: T, executor: RequestExecutor) {
         getCustomDialog(context, executor).show()

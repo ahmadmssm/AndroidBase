@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.ams.androiddevkit.utils.RuntimePermissions.BaseRationale
+import com.ams.androiddevkit.utils.runtimePermissions.BaseRationale
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.option.Option
 import com.yanzhenjie.permission.runtime.PermissionRequest
@@ -55,23 +55,25 @@ open class RuntimePermissionsManger {
         return this
     }
 
-    fun setCustomRational(enableRationalMessage: Boolean): RuntimePermissionsManger {
+    fun withRational(enableRationalMessage: Boolean): RuntimePermissionsManger {
         this.enableRationalMessage = enableRationalMessage
         return this
     }
 
     open fun getCustomRationale(): BaseRationale<List<String>> {
-          return BaseRationale<List<String>>()
-              .setOkButtonTitle(okButtonTitle)
-                .setCancelButtonTitle(cancelButtonTitle)
-                .setPermissionDialogTitle(permissionDialogTitle)
-                .setPermissionDescription(permissionDescription)
+        return BaseRationale<List<String>>()
+            .setOkButtonTitle(okButtonTitle)
+            .setCancelButtonTitle(cancelButtonTitle)
+            .setPermissionDialogTitle(permissionDialogTitle)
+            .setPermissionDescription(permissionDescription)
     }
 
     open fun getRunTimePermissionsBuilder(vararg permissions: String): PermissionRequest {
-        val builder = permissionsRequestOption.runtime().permission(permissions)
+        val builder = permissionsRequestOption
+            .runtime()
+            .permission(permissions)
         if (enableRationalMessage) {
-           builder.rationale(getCustomRationale())
+            builder.rationale(getCustomRationale())
         }
         return builder
     }

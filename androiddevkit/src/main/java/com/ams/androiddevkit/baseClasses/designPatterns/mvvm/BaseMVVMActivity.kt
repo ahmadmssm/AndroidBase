@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
 import android.annotation.SuppressLint
@@ -51,6 +53,11 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
     protected abstract fun initUI()
 
     protected abstract fun bindViews()
+
+    protected open fun restartActivity() {
+        finish()
+        startActivity(intent)
+    }
 
     protected abstract fun onViewStateChanged(state: ViewState)
 

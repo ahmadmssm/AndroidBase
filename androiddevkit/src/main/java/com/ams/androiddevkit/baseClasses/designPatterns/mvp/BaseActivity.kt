@@ -80,5 +80,10 @@ abstract class BaseActivity<Presenter: BasePresenter<*>>: AppCompatActivity(), B
 
     protected open fun getContext(): Context? { return this }
 
+    protected open fun restartActivity() {
+        finish()
+        startActivity(intent)
+    }
+
     protected abstract fun initPresenter(): Presenter
 }

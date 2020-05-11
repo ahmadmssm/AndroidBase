@@ -10,10 +10,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import org.koin.android.viewmodel.ext.android.getViewModel
-import java.lang.reflect.ParameterizedType
-import java.util.*
 import kotlin.reflect.KClass
 
+@Suppress("unused")
 @SuppressLint("Registered")
 abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): AppCompatActivity() {
 
@@ -56,6 +55,11 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     protected abstract fun initUI()
 
     protected abstract fun bindViews()
+
+    protected open fun restartActivity() {
+        finish()
+        startActivity(intent)
+    }
     
     protected abstract fun onViewStateChanged(state: ViewState)
 
