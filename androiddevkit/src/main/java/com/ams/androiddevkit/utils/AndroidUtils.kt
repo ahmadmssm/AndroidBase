@@ -1,8 +1,11 @@
 package com.ams.androiddevkit.utils
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Build
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.widget.Toast
 import kotlin.math.roundToInt
@@ -10,14 +13,18 @@ import kotlin.math.roundToInt
 /**
  * Created by Ahmad Mahmoud on 22-Feb-18.
  */
+
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 open class AndroidUtils {
 
-    protected val metrics = Resources.getSystem().displayMetrics
+    protected val metrics: DisplayMetrics = Resources.getSystem().displayMetrics
     protected var toast: Toast? = null
 
     protected val isLollipopOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
     protected val isNougatOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+    protected val isTenOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
     open fun convertPixelsToDp(px: Float): Float {
         val dp = px / (metrics.densityDpi / 160f)
@@ -46,5 +53,14 @@ open class AndroidUtils {
         toast = Toast(context)
         toast?.setGravity(Gravity.CENTER, 0, 0)
         toast?.duration = duration
+    }
+
+    open fun restartApp(context: Context) {
+        val packageManager: PackageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+        val componentName = intent!!.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
 }

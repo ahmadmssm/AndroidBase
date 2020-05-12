@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import com.yanzhenjie.permission.Rationale
 import com.yanzhenjie.permission.RequestExecutor
 
+@Suppress("MemberVisibilityCanBePrivate")
 open class BaseRationale<T>: Rationale<T> {
 
     protected var okButtonTitle: String? = null
