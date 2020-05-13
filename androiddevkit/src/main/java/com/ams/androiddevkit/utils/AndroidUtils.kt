@@ -1,5 +1,6 @@
 package com.ams.androiddevkit.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -7,7 +8,9 @@ import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Gravity
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import kotlin.math.roundToInt
 
 /**
@@ -34,6 +37,16 @@ open class AndroidUtils {
     open fun convertDpToPixel(dp: Float): Float {
         val px = dp * (metrics.densityDpi / 160f)
         return px.roundToInt().toFloat()
+    }
+
+    open fun hideSoftKeyboard(activity: Activity) {
+        val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+    }
+
+    open fun hideSoftKeyboard(fragment: Fragment) {
+        val inputMethodManager = fragment.activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(fragment.activity?.currentFocus!!.windowToken, 0)
     }
 
     open fun showToast(context: Context, text: String?, duration: Int) {
