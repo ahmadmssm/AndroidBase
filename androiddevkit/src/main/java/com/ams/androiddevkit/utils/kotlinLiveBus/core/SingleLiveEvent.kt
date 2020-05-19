@@ -19,7 +19,7 @@ package com.ams.androiddevkit.utils.kotlinLiveBus.core
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.ams.khdmaApp.common.utils.kotlinLiveBus.utils.logWarningOnlyInDebug
+import com.ams.androiddevkit.utils.kotlinLiveBus.utils.logWarningOnlyInDebug
 
 import java.util.concurrent.atomic.AtomicBoolean
 

@@ -1,4 +1,4 @@
-package com.ams.khdmaApp.common.utils.kotlinLiveBus.utils
+package com.ams.androiddevkit.utils.kotlinLiveBus.utils
 
 import android.os.Looper
 

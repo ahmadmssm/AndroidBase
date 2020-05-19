@@ -1,7 +1,9 @@
-package com.ams.khdmaApp.common.utils.kotlinLiveBus.utils
+@file:Suppress("unused")
+
+package com.ams.androiddevkit.utils.kotlinLiveBus.utils
 
 import android.util.Log
-import com.ams.khdmaApp.BuildConfig
+import com.ams.androiddevkit.BuildConfig
 
 private const val LIVE_BUS_TAG = "liveBusDebug"
 private const val LIVE_BUS_EXCEPTION_TAG = "liveBusException"

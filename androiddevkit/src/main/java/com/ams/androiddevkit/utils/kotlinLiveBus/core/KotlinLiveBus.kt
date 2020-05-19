@@ -1,7 +1,7 @@
 package com.ams.androiddevkit.utils.kotlinLiveBus.core
 
-import com.ams.khdmaApp.common.utils.kotlinLiveBus.utils.assertMainThread
-import com.ams.khdmaApp.common.utils.kotlinLiveBus.utils.exceptionWrapper
+import com.ams.androiddevkit.utils.kotlinLiveBus.utils.assertMainThread
+import com.ams.androiddevkit.utils.kotlinLiveBus.utils.exceptionWrapper
 
 @Suppress("unused", "UNCHECKED_CAST", "UNUSED_PARAMETER", "MemberVisibilityCanBePrivate")
 object KotlinLiveBus {

@@ -4,7 +4,7 @@ import androidx.annotation.MainThread
 import androidx.annotation.Nullable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.ams.khdmaApp.common.utils.kotlinLiveBus.utils.logWarningOnlyInDebug
+import com.ams.androiddevkit.utils.kotlinLiveBus.utils.logWarningOnlyInDebug
 import java.util.concurrent.atomic.AtomicBoolean
 
 internal class StickySingleLiveEvent<T> : BaseLiveEvent<T>() {
