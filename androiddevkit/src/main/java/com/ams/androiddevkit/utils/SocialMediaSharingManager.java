@@ -8,7 +8,7 @@ import android.util.Log;
 
 import java.util.List;
 
-// Ref: https://github.com/robertsimoes/Shareable
+/* Ref: https://github.com/robertsimoes/Shareable */
 
 @SuppressWarnings("unused")
 public class SocialMediaSharingManager {

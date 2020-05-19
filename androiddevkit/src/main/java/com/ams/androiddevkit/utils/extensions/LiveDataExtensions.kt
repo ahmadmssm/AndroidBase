@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import com.ams.androiddevkit.utils.rx.RxJavaUtils
 
 /**
@@ -28,16 +29,23 @@ fun <T> LiveData<T>.debounce(duration: Long = 1000L) = MediatorLiveData<T>().als
 /**
  * Emits the items that are different from the last item
  */
-fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    val mutableLiveData: MediatorLiveData<T> = MediatorLiveData()
-    var latestValue : T? = null
-    mutableLiveData.addSource(this) {
-        if(latestValue!=it) {
-            mutableLiveData.value = it
-            latestValue = it
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = MediatorLiveData<T>().also { mediatorLiveData ->
+    mediatorLiveData.addSource(this, object : Observer<T> {
+
+        private var isInitialized = false
+        private var previousValue: T? = null
+
+        override fun onChanged(newValue: T?) {
+            val wasInitialized = isInitialized
+            if (!isInitialized) {
+                isInitialized = true
+            }
+            if(!wasInitialized || newValue != previousValue) {
+                previousValue = newValue
+                mediatorLiveData.postValue(newValue)
+            }
         }
-    }
-    return mutableLiveData
+    })
 }
 
 /**

@@ -23,11 +23,13 @@ open class AndroidUtils {
     protected val metrics: DisplayMetrics = Resources.getSystem().displayMetrics
     protected var toast: Toast? = null
 
-    protected val isLollipopOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+    open val isLollipopOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
-    protected val isNougatOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+    open val isNougatOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
-    protected val isTenOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+    open val isOreoOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+    open val isTenOrHigher: Boolean get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
     open fun convertPixelsToDp(px: Float): Float {
         val dp = px / (metrics.densityDpi / 160f)
