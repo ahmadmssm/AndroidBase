@@ -31,20 +31,18 @@ object ConnectivityObserver {
     // Call in base activity onCreate method
     fun startNetworkChangeListener(lifecycleOwner: LifecycleOwner,
                                    shouldEnableConnectivityMonitoring: Boolean = true,
-                                   onNetworkConnectedAction: (connectionType: ConnectionType) -> Unit,
+                                   onNetworkConnectedAction: (internetConnectionType: InternetConnectionType) -> Unit,
                                    onNetworkDisconnectedAction: () -> Unit) {
         if (shouldEnableConnectivityMonitoring) {
             KotlinLiveBus
                 .getStickyLiveEvent(OBSERVATION_KEY, NetworkConnection::class.java)
                 .distinctUntilChanged()
                 .observe(lifecycleOwner, Observer { networkConnection ->
-                    val connectionType = networkConnection.connectionType
-                    if (connectionType == ConnectionType.WIFI || connectionType == ConnectionType.MOBILE) {
-                        onNetworkConnectedAction(connectionType)
-                    }
-                    else {
-                        onNetworkDisconnectedAction()
-                    }
+                    val connectionType = networkConnection.internetConnectionType
+                    if (connectionType == InternetConnectionType.WIFI ||
+                        connectionType == InternetConnectionType.MOBILE ||
+                        connectionType == InternetConnectionType.ETHERNET) onNetworkConnectedAction(connectionType)
+                    else onNetworkDisconnectedAction()
                 })
         }
     }

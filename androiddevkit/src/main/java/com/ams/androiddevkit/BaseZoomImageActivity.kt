@@ -30,6 +30,7 @@ abstract class BaseZoomImageActivity<Presenter: BasePresenter<*>> : BaseActivity
     override val layout = R.layout.activity_zoom_image
 
     protected abstract fun renderImageView()
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()

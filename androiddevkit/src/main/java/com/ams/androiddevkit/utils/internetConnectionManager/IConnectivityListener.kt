@@ -9,7 +9,7 @@ interface IConnectivityListener {
     fun posConnectedToWifi() {
         ConnectivityObserver.postConnectionStatus(
             NetworkConnection(
-                ConnectionType.WIFI
+                InternetConnectionType.WIFI
             )
         )
     }
@@ -17,7 +17,7 @@ interface IConnectivityListener {
     fun posConnectedToMobile() {
         ConnectivityObserver.postConnectionStatus(
             NetworkConnection(
-                ConnectionType.MOBILE
+                InternetConnectionType.MOBILE
             )
         )
     }
@@ -25,13 +25,13 @@ interface IConnectivityListener {
     fun posConnectedToEthernet() {
         ConnectivityObserver.postConnectionStatus(
             NetworkConnection(
-                ConnectionType.ETHERNET
+                InternetConnectionType.ETHERNET
             )
         )
     }
 
     fun postNotConnected() { ConnectivityObserver.postConnectionStatus(
         NetworkConnection(
-        ConnectionType.NOT_CONNECTED)
+        InternetConnectionType.NOT_CONNECTED)
     ) }
 }

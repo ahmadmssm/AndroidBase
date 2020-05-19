@@ -30,17 +30,11 @@ open class NewConnectivityListener : IConnectivityListener {
         connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.let {
             @Suppress("MemberVisibilityCanBePrivate")
             when {
-                it.hasTransport(wifi) ->
-                    posConnectedToWifi()
-                it.hasTransport(mobile) ->
-                    posConnectedToMobile()
-                it.hasTransport(etherNet) ->
-                    posConnectedToEthernet()
-                else ->
-                    postNotConnected()
+                it.hasTransport(wifi) -> posConnectedToWifi()
+                it.hasTransport(mobile) -> posConnectedToMobile()
+                it.hasTransport(etherNet) -> posConnectedToEthernet()
+                else -> postNotConnected()
             }
-        } ?: run {
-            postNotConnected()
-        }
+        } ?: run { postNotConnected() }
     }
 }
