@@ -12,7 +12,6 @@ open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinCompone
     private val VIEW_MODEL_TAG = this.javaClass.simpleName
     protected val viewState = SingleLiveEvent<ViewState>()
 
-
     protected fun postViewState(state: ViewState) {
         viewState.value = state
     }
@@ -21,12 +20,10 @@ open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinCompone
         return viewState
     }
 
-    //
     open fun onLifeCycleInitialized() {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    protected open fun onLifeCycleChangeListener(owner: LifecycleOwner, event: Lifecycle.Event) {
-    }
+    protected open fun onLifeCycleChangeListener(owner: LifecycleOwner, event: Lifecycle.Event) {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     protected open fun onViewCreated(owner: LifecycleOwner) {

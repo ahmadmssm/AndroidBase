@@ -9,6 +9,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.ams.androiddevkit.BuildConfig
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 
@@ -43,6 +44,7 @@ abstract class BaseApplication: Application(), LifecycleObserver {
     protected open fun initKoin() {
         startKoin {
             logger(getKoinLoggingLevel())
+            fragmentFactory()
             androidContext(getAppContext())
             modules(getKoinModules())
         }

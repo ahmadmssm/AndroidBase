@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import com.ams.androiddevkit.utils.RuntimePermissionsManger
+import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseActivity<Presenter: BasePresenter<*>>: AppCompatActivity(), BaseView {
@@ -22,6 +23,7 @@ abstract class BaseActivity<Presenter: BasePresenter<*>>: AppCompatActivity(), B
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupKoinFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(layout)
         runtimePermissionsManger = RuntimePermissionsManger(this)

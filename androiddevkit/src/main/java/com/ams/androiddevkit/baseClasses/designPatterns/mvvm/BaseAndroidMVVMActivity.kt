@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
@@ -23,6 +24,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     protected lateinit var viewModelClassType: KClass<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupKoinFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
         @Suppress("UNCHECKED_CAST")

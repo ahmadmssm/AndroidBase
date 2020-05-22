@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import kotlin.reflect.KClass
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -23,6 +24,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
     private lateinit var lifeCycleRegistry : LifecycleRegistry
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupKoinFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
         viewModel = initViewModel()
