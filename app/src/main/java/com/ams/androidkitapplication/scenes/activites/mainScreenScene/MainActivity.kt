@@ -18,10 +18,10 @@ class MainActivity: BaseActivity<MainScreenPresenter>(), MainScreenViewDelegate,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUI()
-        presenter.testAPI()
+        presenter?.testAPI()
     }
 
-    override fun getLayout(): Int { return R.layout.activity_main; }
+    override val layout = R.layout.activity_main
 
     private fun initUI () {
         setSupportActionBar(toolbar)

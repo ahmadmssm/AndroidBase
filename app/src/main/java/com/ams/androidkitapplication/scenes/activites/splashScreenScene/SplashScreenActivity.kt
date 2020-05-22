@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 class SplashScreenActivity: BaseActivity<SplashScreenPresenter>(), SplashScreenViewDelegate {
 
+    override val layout = R.layout.activity_splash_screen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,8 +18,6 @@ class SplashScreenActivity: BaseActivity<SplashScreenPresenter>(), SplashScreenV
         }
         // Preference_SharedPreference userProfile
     }
-
-    override fun getLayout(): Int { return R.layout.activity_splash_screen; }
 
     override fun initPresenter(): SplashScreenPresenter { return SplashScreenPresenter(this) }
 
