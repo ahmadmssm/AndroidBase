@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
 abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): Fragment() {
@@ -40,7 +40,7 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val cla
         onFragmentCreated(savedInstanceState)
         initUI()
         bindViews()
-        getViewModel()?.getViewState()?.observe(this, Observer { onViewStateChanged(it) })
+        getViewModel()?.getViewState()?.observe(viewLifecycleOwner, Observer { onViewStateChanged(it) })
     }
 
     protected open fun initViewModel(): VM {
