@@ -136,3 +136,7 @@ fun Completable.execute(compositeDisposable: CompositeDisposable, success: () ->
         .subscribe({ success() },{ error(it) })
         .addTo(compositeDisposable)
 }
+
+fun Disposable.disposeIfNot() {
+    if (!isDisposed) dispose()
+}

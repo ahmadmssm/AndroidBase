@@ -35,11 +35,11 @@ class SessionServiceImp(private val sharedPrefService: SharedPrefService,
      * that are actually deleted.
      */
     override fun removeSession() { //Save token
-        sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_CURRENT_USER)
-        sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN)
-        sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_CURRENT_USER_ID)
-        sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_REFRESH_TOKEN)
-        sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_LANGUAGE)
+        sharedPrefService.removeValueWithKey(AndroidDevKitConstants.PREFERENCE_CURRENT_USER)
+        sharedPrefService.removeValueWithKey(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN)
+        sharedPrefService.removeValueWithKey(AndroidDevKitConstants.PREFERENCE_CURRENT_USER_ID)
+        sharedPrefService.removeValueWithKey(AndroidDevKitConstants.PREFERENCE_REFRESH_TOKEN)
+        sharedPrefService.removeValueWithKey(AndroidDevKitConstants.PREFERENCE_LANGUAGE)
     }
 
     override fun saveSession(accessToken: String, refreshToken: String, user_id: String) {

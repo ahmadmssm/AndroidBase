@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.ams.androiddevkit.utils.sharedPreference.AndroidSharedPreferences
 
-class SharedPrefServiceImp(context: Context): SharedPrefService {
+open class SharedPrefServiceImp(context: Context, preferenceFileName: String = "SHARED_PREF_CONNECTION"): SharedPrefService {
 
-    companion object { private const val SHARED_PREFS_CONNECTION = "SHARED_PREF_CONNECTION" }
-
-    private var androidPreferences = AndroidSharedPreferences.with(context, SHARED_PREFS_CONNECTION)
+    private var androidPreferences = AndroidSharedPreferences.with(context, preferenceFileName)
 
     override var sharedPreferences: SharedPreferences = androidPreferences.preferences
 
@@ -70,7 +68,7 @@ class SharedPrefServiceImp(context: Context): SharedPrefService {
         return sharedPreferences.contains(key)
     }
 
-    override fun removeKey(key: String): Boolean {
+    override fun removeValueWithKey(key: String): Boolean {
         androidPreferences.remove(key)
         return true
     }

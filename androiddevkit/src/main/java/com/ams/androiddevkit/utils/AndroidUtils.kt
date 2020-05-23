@@ -10,6 +10,9 @@ import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlin.math.roundToInt
 
@@ -48,7 +51,11 @@ open class AndroidUtils {
 
     open fun hideSoftKeyboard(fragment: Fragment) {
         val inputMethodManager = fragment.activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(fragment.activity?.currentFocus!!.windowToken, 0)
+        inputMethodManager.hideSoftInputFromWindow(fragment.requireActivity().currentFocus!!.windowToken, 0)
+    }
+
+    open fun setStatusBarColor(activity: Activity, @ColorRes color: Int) {
+        activity.window.statusBarColor = ContextCompat.getColor(activity, color)
     }
 
     open fun showToast(context: Context, text: String?, duration: Int) {

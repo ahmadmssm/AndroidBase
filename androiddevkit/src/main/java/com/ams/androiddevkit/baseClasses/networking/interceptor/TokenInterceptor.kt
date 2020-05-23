@@ -50,7 +50,7 @@ abstract class TokenInterceptor protected constructor(private val sharedPrefServ
                 //setup currently stored token
                 if (currentToken == token) { //compare current token with token that was stored before, if it was not updated - do update
                     loggingService.d(TAG, "token did not change needs refreshing")
-                    sharedPrefService.removeKey(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN)
+                    sharedPrefService.removeValueWithKey(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN)
                     loggingService.d(TAG, "clear token because im unauthorized")
                     val code = refreshToken() / 100 //refresh token
                     if (code != 2) { //if refresh token failed for some reason

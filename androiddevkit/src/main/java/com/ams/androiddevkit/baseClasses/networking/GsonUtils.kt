@@ -8,9 +8,10 @@ import com.google.gson.GsonBuilder
 
 import java.util.Date
 
-@Suppress("ProtectedInFinal", "unused")
+@Suppress("ProtectedInFinal", "unused", "MemberVisibilityCanBePrivate")
 open class GsonUtils {
-    fun getCustomGsonConverter(serverDateFormat: String, targetDateFormat: String): Gson {
+
+    open fun getCustomGsonConverter(serverDateFormat: String, targetDateFormat: String): Gson {
         return this
             .getGsonBuilder()
             .registerTypeAdapter(Date::class.java, Json2DateAdapter(targetDateFormat))
@@ -18,7 +19,7 @@ open class GsonUtils {
             .create()
     }
 
-    fun getCustomGsonConverter(serverDateFormat: String): Gson {
+    open fun getCustomGsonConverter(serverDateFormat: String): Gson {
         return this
             .getGsonBuilder()
             .registerTypeAdapter(Date::class.java, Json2DateAdapter())
@@ -26,7 +27,7 @@ open class GsonUtils {
             .create()
     }
 
-    fun getCustomGsonConverter(): Gson {
+    open fun getCustomGsonConverter(): Gson {
         return this
             .getGsonBuilder()
             .registerTypeAdapter(Date::class.java, Json2DateAdapter())
@@ -38,8 +39,7 @@ open class GsonUtils {
         return FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun getGsonBuilder(): GsonBuilder {
+    open fun getGsonBuilder(): GsonBuilder {
         return GsonBuilder()
             .setFieldNamingPolicy(getFieldNamingPolicy())
             .enableComplexMapKeySerialization()

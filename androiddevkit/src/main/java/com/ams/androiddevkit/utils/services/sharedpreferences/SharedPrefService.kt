@@ -15,7 +15,7 @@ interface SharedPrefService {
     fun getLong(key: String): Long?
     fun getLong(key: String, defaultValue: Long): Long?
     fun containsKey(key: String): Boolean
-    fun removeKey(key: String): Boolean
+    fun removeValueWithKey(key: String): Boolean
     fun clearAll()
     fun saveStringSet(key: String, value: Set<String?>?): Boolean
     fun getStringSet(key: String): Set<String?>?

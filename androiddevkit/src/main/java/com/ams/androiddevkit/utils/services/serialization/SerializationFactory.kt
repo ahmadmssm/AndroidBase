@@ -6,7 +6,5 @@ package com.ams.androiddevkit.utils.services.serialization
  */
 object SerializationFactory {
     @JvmStatic
-    val serializationService: SerializationService by lazy {
-        SerializationServiceImpl()
-    }
+    val serializationService: SerializationService by lazy { GsonSerializationService() }
 }
