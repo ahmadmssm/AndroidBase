@@ -1,7 +1,8 @@
 @file:Suppress("unused")
 
-package com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler
+package com.ams.androiddevkit.utils.extensions
 
+import com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler.RetrofitException
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import java.io.IOException
@@ -24,12 +25,20 @@ fun Throwable.asRetrofitException(retrofit: Retrofit): RetrofitException {
     // We had non 200-399 range http status code
     if (this is HttpException) {
         val response = this.response()
-        return RetrofitException.httpError(response?.raw()?.request?.url.toString(), response!!, retrofit)
+        return RetrofitException.httpError(
+            response?.raw()?.request?.url.toString(),
+            response!!,
+            retrofit
+        )
     }
     // A network error happened
     if (this is IOException) {
-        return RetrofitException.networkError(this)
+        return RetrofitException.networkError(
+            this
+        )
     }
     // We don't know what happened. We need to simply convert to an unknown error
-    return RetrofitException.unexpectedError(this)
+    return RetrofitException.unexpectedError(
+        this
+    )
 }

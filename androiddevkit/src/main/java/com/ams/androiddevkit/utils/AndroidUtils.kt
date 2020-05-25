@@ -1,5 +1,6 @@
 package com.ams.androiddevkit.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,7 +11,6 @@ import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -58,23 +58,18 @@ open class AndroidUtils {
         activity.window.statusBarColor = ContextCompat.getColor(activity, color)
     }
 
+    @SuppressLint("ShowToast")
     open fun showToast(context: Context, text: String?, duration: Int) {
-        createToast(context, duration)
-        toast?.setText(text)
-        toast?.show()
-    }
-
-    open fun showToast(context: Context, textResourceId: Int, duration: Int) {
-        createToast(context, duration)
-        toast?.setText(textResourceId)
-        toast?.show()
-    }
-
-    protected open fun createToast(context: Context, duration: Int) {
         toast?.cancel()
-        toast = Toast(context)
+        toast = Toast.makeText(context, text, duration)
         toast?.setGravity(Gravity.CENTER, 0, 0)
-        toast?.duration = duration
+    }
+
+    @SuppressLint("ShowToast")
+    open fun showToast(context: Context, textResourceId: Int, duration: Int) {
+        toast?.cancel()
+        toast = Toast.makeText(context, textResourceId, duration)
+        toast?.setGravity(Gravity.CENTER, 0, 0)
     }
 
     open fun restartApp(context: Context) {

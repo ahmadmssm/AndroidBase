@@ -56,6 +56,5 @@ internal class CallExecuteObservable<T>(private val originalCall: Call<T>): Obse
         override fun isDisposed(): Boolean {
             return disposed
         }
-
     }
 }
