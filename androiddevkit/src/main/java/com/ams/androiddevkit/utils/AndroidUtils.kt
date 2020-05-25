@@ -58,18 +58,18 @@ open class AndroidUtils {
         activity.window.statusBarColor = ContextCompat.getColor(activity, color)
     }
 
-    @SuppressLint("ShowToast")
     open fun showToast(context: Context, text: String?, duration: Int) {
         toast?.cancel()
         toast = Toast.makeText(context, text, duration)
         toast?.setGravity(Gravity.CENTER, 0, 0)
+        toast?.show()
     }
 
-    @SuppressLint("ShowToast")
     open fun showToast(context: Context, textResourceId: Int, duration: Int) {
         toast?.cancel()
         toast = Toast.makeText(context, textResourceId, duration)
         toast?.setGravity(Gravity.CENTER, 0, 0)
+        toast?.show()
     }
 
     open fun restartApp(context: Context) {
