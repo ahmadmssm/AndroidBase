@@ -48,11 +48,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
 
     protected fun observeStates() {
         getViewModel()?.getViewState()?.observe(this, Observer {
-             onViewStateChanged(it)
-//            it.getContentIfNotHandled()?.let { viewState ->
-//                // Only proceed if the event has never been handled
-//                onViewStateChanged(viewState)
-//            }
+            onViewStateChanged(it)
         })
     }
 
