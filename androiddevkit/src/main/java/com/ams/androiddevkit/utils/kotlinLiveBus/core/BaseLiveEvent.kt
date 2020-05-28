@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
  * Base class for all `LiveEvent` classes. Removes the observer
  * before adding it to prevent duplicate observers.
  */
-open class BaseLiveEvent<T> : MutableLiveData<T>() {
+open class BaseLiveEvent<T>: MutableLiveData<T>() {
 
     protected var mPendingObserve: Boolean = false
 

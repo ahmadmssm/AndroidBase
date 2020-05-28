@@ -1,17 +1,18 @@
 package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
+import android.app.Application
 import com.ams.androiddevkit.utils.liveDataUtils.SingleLiveEvent
 import android.util.Log
 import androidx.lifecycle.*
 import org.koin.core.KoinComponent
 
 @Suppress("unused")
-open class BaseAndroidViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinComponent {
+open class BaseAndroidViewModel<ViewState>(application: Application): AndroidViewModel(application), LifecycleObserver, KoinComponent {
 
     @Suppress("PrivatePropertyName")
-    private val VIEW_MODEL_TAG = this.javaClass.simpleName.toString()
-    private val mViewState = SingleLiveEvent<ViewState>()
-
+    private val VIEW_MODEL_TAG = this.javaClass.simpleName
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val mViewState = SingleLiveEvent<ViewState>()
 
     protected fun updateViewState(viewState: ViewState) {
         mViewState.value = viewState
@@ -21,7 +22,6 @@ open class BaseAndroidViewModel<ViewState>: ViewModel(), LifecycleObserver, Koin
         return mViewState
     }
 
-    //
     open fun onLifeCycleInitialized() {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
