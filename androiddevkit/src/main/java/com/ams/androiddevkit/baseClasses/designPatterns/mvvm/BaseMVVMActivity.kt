@@ -39,7 +39,13 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         onActivityCreated(savedInstanceState)
         initUI()
         bindViews()
-        getViewModel()?.getViewState()?.observe(this, Observer { onViewStateChanged(it) })
+        getViewModel()?.getViewState()?.observe(this, Observer {
+            // onViewStateChanged(it)
+            it.getContentIfNotHandled()?.let { viewState ->
+                // Only proceed if the event has never been handled
+                onViewStateChanged(viewState)
+            }
+        })
     }
 
     protected open fun initViewModel(): VM {

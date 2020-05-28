@@ -4,6 +4,7 @@ import android.app.Application
 import com.ams.androiddevkit.utils.liveDataUtils.SingleLiveEvent
 import android.util.Log
 import androidx.lifecycle.*
+import com.ams.androiddevkit.utils.liveDataUtils.LiveDataEvent
 import org.koin.core.KoinComponent
 
 @Suppress("unused")
@@ -12,14 +13,14 @@ open class BaseAndroidViewModel<ViewState>(application: Application): AndroidVie
     @Suppress("PrivatePropertyName")
     private val VIEW_MODEL_TAG = this.javaClass.simpleName
     @Suppress("MemberVisibilityCanBePrivate")
-    protected val mViewState = SingleLiveEvent<ViewState>()
+    protected val viewState = MutableLiveData<LiveDataEvent<ViewState>>()
 
-    protected fun updateViewState(viewState: ViewState) {
-        mViewState.value = viewState
+    protected fun postViewState(state: ViewState) {
+        viewState.value = LiveDataEvent(state)
     }
 
-    open fun getViewState(): LiveData<ViewState> {
-        return mViewState
+    open fun getViewState(): LiveData<LiveDataEvent<ViewState>> {
+        return viewState
     }
 
     open fun onLifeCycleInitialized() {}

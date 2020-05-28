@@ -11,9 +11,9 @@ object KotlinLiveBus {
 
     fun <T> postStickyEvent(tag: String, eventValue: T) { setLiveEventValue(tag, eventValue, StickyLiveEvent::class.java) }
 
-    fun <T> postSingleEvent(tag: String, eventValue: T) { setLiveEventValue(tag, eventValue, SingleLiveEvent::class.java) }
+    fun <T> postSingleEvent(tag: String, eventValue: T) { setLiveEventValue(tag, eventValue, LiveBusSingleLiveEvent::class.java) }
 
-    fun <T> postEvent(tag: String, eventValue: T) { setLiveEventValue(tag, eventValue, LiveEvent::class.java) }
+    fun <T> postEvent(tag: String, eventValue: T) { setLiveEventValue(tag, eventValue, BusLiveEvent::class.java) }
 
     fun removeEvent(tag: String) { if (!eventsMap.contains(tag)) eventsMap.remove(tag) }
 
@@ -67,7 +67,7 @@ object KotlinLiveBus {
      * @param eventValue the value to be set to the event
      */
     fun <T> setLiveEventValue(tag: String, eventValue: T) {
-        setLiveEventValue(tag, eventValue, LiveEvent::class.java)
+        setLiveEventValue(tag, eventValue, BusLiveEvent::class.java)
     }
 
     /**
@@ -78,7 +78,7 @@ object KotlinLiveBus {
      * @param eventValue the value to be set to the event
      */
     fun <T> postLiveEventValue(tag: String, eventValue: T) {
-        postLiveEventValue(tag, eventValue, LiveEvent::class.java)
+        postLiveEventValue(tag, eventValue, BusLiveEvent::class.java)
     }
 
     /**
@@ -89,7 +89,7 @@ object KotlinLiveBus {
      * @param eventValue the value to be set to the event
      */
     fun <T> setSingleLiveEventValue(tag: String, eventValue: T) {
-        setLiveEventValue(tag, eventValue, SingleLiveEvent::class.java)
+        setLiveEventValue(tag, eventValue, LiveBusSingleLiveEvent::class.java)
     }
 
     /**
@@ -100,7 +100,7 @@ object KotlinLiveBus {
      * @param eventValue the value to be set to the event
      */
     fun <T> postSingleLiveEventValue(tag: String, eventValue: T) {
-        postLiveEventValue(tag, eventValue, SingleLiveEvent::class.java)
+        postLiveEventValue(tag, eventValue, LiveBusSingleLiveEvent::class.java)
     }
 
     /**
@@ -160,10 +160,10 @@ object KotlinLiveBus {
      */
     fun <T> getLiveEvent(tag: String, type: Class<T>): BaseLiveEvent<T> = if (eventsMap.containsKey(tag)) {
         exceptionWrapper(CAST_EXCEPTION_MESSAGE, fun(): BaseLiveEvent<T> {
-            return eventsMap[tag] as LiveEvent<T>
+            return eventsMap[tag] as BusLiveEvent<T>
         })
     } else {
-            val liveEvent = LiveEvent<T>()
+            val liveEvent = BusLiveEvent<T>()
             eventsMap[tag] = liveEvent
             liveEvent
     }
@@ -175,10 +175,10 @@ object KotlinLiveBus {
     fun <T> getSingleLiveEvent(tag: String, type: Class<T>): BaseLiveEvent<T> {
         return if (eventsMap.containsKey(tag)) {
             exceptionWrapper(CAST_EXCEPTION_MESSAGE, fun(): BaseLiveEvent<T> {
-                return eventsMap[tag] as SingleLiveEvent<T>
+                return eventsMap[tag] as LiveBusSingleLiveEvent<T>
             })
         } else {
-            val liveEvent = SingleLiveEvent<T>()
+            val liveEvent = LiveBusSingleLiveEvent<T>()
             eventsMap[tag] = liveEvent
             liveEvent
         }

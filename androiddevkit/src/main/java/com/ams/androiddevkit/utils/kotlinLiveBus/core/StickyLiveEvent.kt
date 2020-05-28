@@ -4,10 +4,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 
 /**
- * `StickyLiveEvent` class which is a special `LiveEventBase` that gets
+ * `StickyLiveEvent` class which is a special `BaseLiveEvent` that gets
  * removed only if `removeEvent(..)` gets explicitly called.
  */
 class StickyLiveEvent<T> : BaseLiveEvent<T>() {
+
     private var mConsumeCount = 0
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
