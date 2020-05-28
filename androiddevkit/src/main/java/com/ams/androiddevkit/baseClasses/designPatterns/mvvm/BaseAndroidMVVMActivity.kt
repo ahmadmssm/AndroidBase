@@ -13,14 +13,13 @@ import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 @SuppressLint("Registered")
 abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): AppCompatActivity() {
 
     private var viewModel: VM? = null
     //
     private lateinit var lifeCycleRegistry : LifecycleRegistry
-    @Suppress("MemberVisibilityCanBePrivate")
     protected lateinit var viewModelClassType: KClass<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,17 +28,24 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         setContentView(getViewId())
         @Suppress("UNCHECKED_CAST")
         viewModel = initViewModel()
-        //
+        initLifeCycleRegistry()
+        getViewModel()?.onLifeCycleInitialized()
+        onActivityCreated(savedInstanceState)
+        initUI()
+        bindViews()
+        observeStates()
+    }
+
+    protected fun initLifeCycleRegistry() {
         lifeCycleRegistry = LifecycleRegistry(this)
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
         lifeCycleRegistry.addObserver(viewModel!!)
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
-        getViewModel()?.onLifeCycleInitialized()
-        onActivityCreated(savedInstanceState)
-        initUI()
-        bindViews()
+    }
+
+    protected fun observeStates() {
         getViewModel()?.getViewState()?.observe(this, Observer {
             // onViewStateChanged(it)
             it.getContentIfNotHandled()?.let { viewState ->
@@ -56,9 +62,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
 
     abstract fun getViewId(): Int
 
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun getViewModel(): VM? = viewModel
-
 
     protected abstract fun initUI()
 

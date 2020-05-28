@@ -16,6 +16,7 @@ import kotlin.reflect.KClass
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
+@Suppress("MemberVisibilityCanBePrivate")
 @SuppressLint("Registered")
 abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): AppCompatActivity() {
 
@@ -28,23 +29,30 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
         viewModel = initViewModel()
-        //
+        initLifeCycleRegistry()
+        getViewModel()?.onLifeCycleInitialized()
+        onActivityCreated(savedInstanceState)
+        initUI()
+        bindViews()
+        observeStates()
+    }
+
+    protected fun initLifeCycleRegistry() {
         lifeCycleRegistry = LifecycleRegistry(this)
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
         lifeCycleRegistry.addObserver(viewModel!!)
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
-        getViewModel()?.onLifeCycleInitialized()
-        onActivityCreated(savedInstanceState)
-        initUI()
-        bindViews()
+    }
+
+    protected fun observeStates() {
         getViewModel()?.getViewState()?.observe(this, Observer {
-            // onViewStateChanged(it)
-            it.getContentIfNotHandled()?.let { viewState ->
-                // Only proceed if the event has never been handled
-                onViewStateChanged(viewState)
-            }
+             onViewStateChanged(it)
+//            it.getContentIfNotHandled()?.let { viewState ->
+//                // Only proceed if the event has never been handled
+//                onViewStateChanged(viewState)
+//            }
         })
     }
 
@@ -55,7 +63,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
 
     abstract fun getViewId(): Int
 
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun getViewModel(): VM? = viewModel
 
     protected abstract fun initUI()

@@ -1,7 +1,6 @@
 package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
 import android.app.Application
-import com.ams.androiddevkit.utils.liveDataUtils.SingleLiveEvent
 import android.util.Log
 import androidx.lifecycle.*
 import com.ams.androiddevkit.utils.liveDataUtils.LiveDataEvent

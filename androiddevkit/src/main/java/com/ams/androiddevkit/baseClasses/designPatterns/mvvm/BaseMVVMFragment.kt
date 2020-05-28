@@ -12,40 +12,45 @@ import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): Fragment() {
 
     private var viewModel: VM? = null
-    //
     private lateinit var lifeCycleRegistry: LifecycleRegistry
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getViewId(), container, false)
-    }
+                              savedInstanceState: Bundle?): View? = inflater.inflate(getViewId(), container, false)
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = initViewModel()
-        //
+        initLifeCycleRegistry()
+        getViewModel()?.onLifeCycleInitialized()
+        onFragmentCreated(savedInstanceState)
+        initUI()
+        bindViews()
+        observeStates()
+    }
+
+    protected fun initLifeCycleRegistry() {
         lifeCycleRegistry = LifecycleRegistry(this)
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
         lifeCycleRegistry.addObserver(viewModel!!)
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
-        getViewModel()?.onLifeCycleInitialized()
-        onFragmentCreated(savedInstanceState)
-        initUI()
-        bindViews()
+    }
+
+    protected fun observeStates() {
         getViewModel()?.getViewState()?.observe(viewLifecycleOwner, Observer {
-            // onViewStateChanged(it)
-            it.getContentIfNotHandled()?.let { viewState ->
-                // Only proceed if the event has never been handled
-                onViewStateChanged(viewState)
-            }
+             onViewStateChanged(it)
+//            it.getContentIfNotHandled()?.let { viewState ->
+//                // Only proceed if the event has never been handled
+//                onViewStateChanged(viewState)
+//            }
         })
     }
 
@@ -56,7 +61,6 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val cla
 
     abstract fun getViewId(): Int
 
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun getViewModel(): VM? = viewModel
 
     protected abstract fun initUI()

@@ -10,13 +10,13 @@ open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinCompone
 
     @Suppress("PrivatePropertyName")
     private val VIEW_MODEL_TAG = this.javaClass.simpleName
-    protected val viewState = MutableLiveData<LiveDataEvent<ViewState>>()
+    protected val viewState = MutableLiveData<ViewState>()
 
     protected fun postViewState(state: ViewState) {
-        viewState.value = LiveDataEvent(state)
+        viewState.value = state
     }
 
-    open fun getViewState(): LiveData<LiveDataEvent<ViewState>> {
+    open fun getViewState(): LiveData<ViewState> {
         return viewState
     }
 
