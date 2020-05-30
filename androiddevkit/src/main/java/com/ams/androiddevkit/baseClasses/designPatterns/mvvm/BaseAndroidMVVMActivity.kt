@@ -36,11 +36,11 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         observeStates()
     }
 
-    protected fun initKoinFragmentFactory() {
+    protected open fun initKoinFragmentFactory() {
         setupKoinFragmentFactory()
     }
 
-    protected fun initLifeCycleRegistry() {
+    protected open fun initLifeCycleRegistry() {
         lifeCycleRegistry = LifecycleRegistry(this)
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
@@ -49,7 +49,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
     }
 
-    protected fun observeStates() {
+    protected open fun observeStates() {
         getViewModel()?.getViewState()?.observe(this, Observer {
             onViewStateChanged(it)
         })

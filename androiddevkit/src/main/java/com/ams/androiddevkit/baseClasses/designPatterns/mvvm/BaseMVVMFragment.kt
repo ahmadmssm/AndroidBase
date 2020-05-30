@@ -35,7 +35,7 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val cla
         observeStates()
     }
 
-    protected fun initLifeCycleRegistry() {
+    protected open fun initLifeCycleRegistry() {
         lifeCycleRegistry = LifecycleRegistry(this)
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
@@ -44,7 +44,7 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val cla
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
     }
 
-    protected fun observeStates() {
+    protected open fun observeStates() {
         getViewModel()?.getViewState()?.observe(viewLifecycleOwner, Observer {
             onViewStateChanged(it)
         })
