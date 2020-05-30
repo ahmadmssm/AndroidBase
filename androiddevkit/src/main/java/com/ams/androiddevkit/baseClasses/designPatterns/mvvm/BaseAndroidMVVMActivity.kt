@@ -23,7 +23,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     protected lateinit var viewModelClassType: KClass<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setupKoinFragmentFactory()
+        initKoinFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
         @Suppress("UNCHECKED_CAST")
@@ -34,6 +34,10 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         initUI()
         bindViews()
         observeStates()
+    }
+
+    protected fun initKoinFragmentFactory() {
+        setupKoinFragmentFactory()
     }
 
     protected fun initLifeCycleRegistry() {

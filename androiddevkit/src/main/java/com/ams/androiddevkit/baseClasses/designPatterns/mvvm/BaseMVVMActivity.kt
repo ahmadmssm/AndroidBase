@@ -25,7 +25,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
     private lateinit var lifeCycleRegistry : LifecycleRegistry
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setupKoinFragmentFactory()
+        initKoinFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(getViewId())
         viewModel = initViewModel()
@@ -35,6 +35,10 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         initUI()
         bindViews()
         observeStates()
+    }
+
+    protected fun initKoinFragmentFactory() {
+        setupKoinFragmentFactory()
     }
 
     protected fun initLifeCycleRegistry() {
