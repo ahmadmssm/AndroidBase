@@ -14,6 +14,10 @@ interface SessionService {
 
     fun saveSession(accessToken: String, userId: String)
 
+    fun saveAccessToken(accessToken: String)
+
+    fun saveRefreshTokenToken(refreshToken: String)
+
     fun saveSession(accessToken: String, refreshToken: String, userId: String)
 
     fun removeSession()

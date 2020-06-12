@@ -1,5 +1,6 @@
 package com.ams.androiddevkit.baseClasses.networking
 
+import com.ams.androiddevkit.baseClasses.networking.interceptor.BaseRefreshTokenInterceptor
 import com.ams.androiddevkit.baseClasses.networking.mock.RequestFilter
 import com.ams.androiddevkit.baseClasses.networking.mock.addResponseMocks
 import com.ihsanbal.logging.Level
@@ -27,15 +28,19 @@ abstract class OKHttpClient {
                     return chain.proceed(request)
                 }
             })
-        if (getRefreshTokenInterceptor() != null) okHttpBuilder.addInterceptor(getRefreshTokenInterceptor()!!)
-        if (isMockable() && getResponseMocks().isNotEmpty()) okHttpBuilder.addResponseMocks(getResponseMocks())
+        if (getRefreshTokenInterceptor() != null)
+            okHttpBuilder.addInterceptor(getRefreshTokenInterceptor()!!)
+        if (isMockable() && getResponseMocks().isNotEmpty())
+            okHttpBuilder.addResponseMocks(getResponseMocks())
         if (getAdditionalInterceptors().isNotEmpty()) {
             for (interceptor in getAdditionalInterceptors()) {
                 okHttpBuilder.addInterceptor(interceptor)
             }
         }
-        if (enablePrettyPrintLogging()) okHttpBuilder.addInterceptor(getHttpPrettyPrintLoggingInterceptor())
-        else if (isDebuggable()) okHttpBuilder.addInterceptor(getOkHttpLoggingInterceptor())
+        if (enablePrettyPrintLogging())
+            okHttpBuilder.addInterceptor(getHttpPrettyPrintLoggingInterceptor())
+        else if (isDebuggable())
+            okHttpBuilder.addInterceptor(getOkHttpLoggingInterceptor())
         return okHttpBuilder
     }
 
@@ -70,7 +75,7 @@ abstract class OKHttpClient {
 
     protected open fun getOkHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        // set desired log level -> Default is Full
+        // Set desired logging level -> Default is Full
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return  loggingInterceptor
     }
@@ -94,7 +99,7 @@ abstract class OKHttpClient {
 
     protected open fun enablePrettyPrintLogging(): Boolean { return false }
 
-    protected abstract fun getRefreshTokenInterceptor(): TokenInterceptor?
+    protected abstract fun getRefreshTokenInterceptor(): BaseRefreshTokenInterceptor<*>?
 
     // If we need to add Header(s) to every request
     protected open fun getAdditionalHeaders(): MutableMap<String, String> { return mutableMapOf() }

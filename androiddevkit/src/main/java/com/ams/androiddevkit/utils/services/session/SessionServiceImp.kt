@@ -53,6 +53,14 @@ open class SessionServiceImp(protected val sharedPrefService: SharedPrefService,
         sharedPrefService.saveString(AndroidDevKitConstants.PREFERENCE_CURRENT_USER, userString)
     }
 
+    override fun saveAccessToken(accessToken: String) {
+        sharedPrefService.saveString(AndroidDevKitConstants.PREFERENCE_ACCESS_TOKEN, accessToken)
+    }
+
+    override fun saveRefreshTokenToken(refreshToken: String) {
+        sharedPrefService.saveString(AndroidDevKitConstants.PREFERENCE_REFRESH_TOKEN, refreshToken)
+    }
+
     override fun <T: IUser> getSavedUser(clazz: Class<T>): T? {
         if (sharedPrefService.containsKey(AndroidDevKitConstants.PREFERENCE_CURRENT_USER)) {
             try {

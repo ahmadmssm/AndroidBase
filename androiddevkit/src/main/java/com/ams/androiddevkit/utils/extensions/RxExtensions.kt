@@ -137,6 +137,58 @@ fun Completable.execute(compositeDisposable: CompositeDisposable, success: () ->
         .addTo(compositeDisposable)
 }
 
+fun <T> Observable<T>.execute(compositeDisposable: CompositeDisposable,
+                              next: (T) -> Unit,
+                              complete: () -> Unit?,
+                              error: (Throwable) -> Unit?,
+                              doFinally: () -> Unit) {
+    this.applyThreadingConfig()
+        .doFinally { doFinally() }
+        .subscribe( { next(it) }, { error(it) }, { complete() })
+        .addTo(compositeDisposable)
+}
+
+fun <T> Flowable<T>.execute(compositeDisposable: CompositeDisposable,
+                            next: (T) -> Unit,
+                            complete: () -> Unit?,
+                            error: (Throwable) -> Unit?,
+                            doFinally: () -> Unit) {
+    this.applyThreadingConfig()
+        .doFinally { doFinally() }
+        .subscribe( { next(it) }, { error(it) }, { complete() })
+        .addTo(compositeDisposable)
+}
+
+fun <T> Maybe<T>.execute(compositeDisposable: CompositeDisposable,
+                         success: (T) -> Unit,
+                         error: (Throwable) -> Unit?,
+                         doFinally: () -> Unit) {
+    this.applyThreadingConfig()
+        .doFinally { doFinally() }
+        .subscribe({ success(it) },{ error(it) })
+        .addTo(compositeDisposable)
+}
+
+fun <T> Single<T>.execute(compositeDisposable: CompositeDisposable,
+                          success: (T) -> Unit,
+                          error: (Throwable) -> Unit?,
+                          doFinally: () -> Unit) {
+    this.applyThreadingConfig()
+        .doFinally { doFinally() }
+        .subscribe({ success(it) },{ error(it) })
+        .addTo(compositeDisposable)
+}
+
+fun Completable.execute(compositeDisposable: CompositeDisposable,
+                        success: () -> Unit,
+                        error: (Throwable) -> Unit?,
+                        doFinally: () -> Unit) {
+    this.applyThreadingConfig()
+        .doFinally { doFinally() }
+        .subscribe({ success() },{ error(it) })
+        .addTo(compositeDisposable)
+}
+
 fun Disposable.disposeIfNot() {
     if (!isDisposed) dispose()
 }
