@@ -12,7 +12,5 @@ abstract class BaseRestClient: RetrofitClient() {
     override fun isMockable() = false
 
     override fun isDebuggable() = true
-
-    override fun getRefreshTokenInterceptor(): TokenInterceptor? = null
 }
 
