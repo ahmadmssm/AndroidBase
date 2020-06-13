@@ -31,22 +31,22 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
         loggingService.v("$TAG Authorization", originalRequest.header("Authorization") + " VALUE")
         if (shouldAuthenticateRequest(originalRequest)) {
             setAuthenticationHeader(originalRequestBuilder, oldToken)
-        }
-        // Overwrite old request
-        originalRequest = originalRequestBuilder.build()
-        val responseOfFirstRequest = chain.proceed(originalRequest)
-        // perform all refresh token request in sync blocks, to avoid multiply token updates
-        semaphore.acquire()
-        loggingService.d(TAG, "Semaphore Acquire")
-        val firstRequestStatusCode = responseOfFirstRequest.code
-        if(JwtUtils.isTokenExpired(oldToken) || isUnAuthenticated(firstRequestStatusCode)) {
-            refreshTokenFor(originalRequest)
-        }
-        sessionService.getAccessToken()?.let {
-            if (oldToken != it) {
-                val modifiedRequestBuilder = chain.request().newBuilder()
-                setAuthenticationHeader(modifiedRequestBuilder, it)
-                return chain.proceed(modifiedRequestBuilder.build())
+            // Overwrite old request
+            originalRequest = originalRequestBuilder.build()
+            val responseOfFirstRequest = chain.proceed(originalRequest)
+            // perform all refresh token request in sync blocks, to avoid multiply token updates
+            semaphore.acquire()
+            loggingService.d(TAG, "Semaphore Acquire")
+            val firstRequestStatusCode = responseOfFirstRequest.code
+            if(JwtUtils.isTokenExpired(oldToken) || isUnAuthenticated(firstRequestStatusCode)) {
+                refreshTokenFor(originalRequest)
+            }
+            sessionService.getAccessToken()?.let {
+                if (oldToken != it) {
+                    val modifiedRequestBuilder = chain.request().newBuilder()
+                    setAuthenticationHeader(modifiedRequestBuilder, it)
+                    return chain.proceed(modifiedRequestBuilder.build())
+                }
             }
         }
         // Return original request's response.
@@ -101,7 +101,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
     }
 
     protected open fun shouldAuthenticateRequest(request: Request): Boolean {
-        return request.header("Authorization") != null
+        return sessionService.hasValidSession()
     }
 
     protected open fun getRefreshTokenRequestBuilder(originalRequest: Request): Request.Builder {

@@ -8,7 +8,7 @@ import okhttp3.Cache
 import java.io.File
 
 @Suppress("unused")
-open class RestUtils(private val context: Context) {
+open class RestUtils(protected val context: Context) {
 
     open fun getETagCache(cacheSize: Long): Cache {
         return Cache(File(context.cacheDir, "ok-http-cache"), cacheSize)
