@@ -130,11 +130,12 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             builder.header("Authorization", String.format("Bearer %s", token))
     }
 
+    // Seconds.
+    protected open fun getDefaultTimeOut(): Int = 10
+
     protected open fun getRefreshTokenRequestBody(): RequestBody? = "".toRequestBody()
 
     protected abstract fun isDebuggable(): Boolean
-
-    protected abstract fun getDefaultTimeOut(): Int
 
     protected abstract fun getRefreshTokenEndpoint():  String
 

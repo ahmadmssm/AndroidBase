@@ -3,7 +3,7 @@ package com.ams.androiddevkit.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-open class DateTimeUtils {
+open class BaseDateTimeUtils {
     open fun isDateBetweenTwoDates(minDate: Date, maxDate: Date, testDate: Date): Boolean {
         // https://stackoverflow.com/questions/883060/how-can-i-determine-if-a-date-is-between-two-dates-in-java
         return testDate.after(minDate) && testDate.before(maxDate)
