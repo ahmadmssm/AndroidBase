@@ -12,7 +12,7 @@ import okhttp3.mockwebserver.MockResponse
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-abstract class OKHttpClient {
+abstract class OKHttpNetworkClient {
 
     protected open fun getOkHttpBuilder(): OkHttpClient.Builder {
         val timeOut = getDefaultTimeOut()
@@ -37,6 +37,8 @@ abstract class OKHttpClient {
                 okHttpBuilder.addInterceptor(interceptor)
             }
         }
+        if (getOKHttpCache() != null)
+            okHttpBuilder.cache(getOKHttpCache())
         if (enablePrettyPrintLogging())
             okHttpBuilder.addInterceptor(getHttpPrettyPrintLoggingInterceptor())
         else if (isDebuggable())
@@ -91,7 +93,8 @@ abstract class OKHttpClient {
             .build()
     }
 
-    protected abstract fun getDefaultTimeOut(): Int
+    // Seconds.
+    protected open fun getDefaultTimeOut(): Int = 10
 
     protected abstract fun isMockable(): Boolean
 
@@ -99,7 +102,7 @@ abstract class OKHttpClient {
 
     protected open fun enablePrettyPrintLogging(): Boolean { return false }
 
-    protected abstract fun getRefreshTokenInterceptor(): BaseRefreshTokenInterceptor<*>?
+    protected open fun getRefreshTokenInterceptor(): BaseRefreshTokenInterceptor<*>? = null
 
     // If we need to add Header(s) to every request
     protected open fun getAdditionalHeaders(): MutableMap<String, String> { return mutableMapOf() }
@@ -111,6 +114,8 @@ abstract class OKHttpClient {
     protected open fun getAdditionalEncodedQueryParams(): MutableMap<String, String> { return mutableMapOf() }
 
     protected open fun getAdditionalInterceptors(): MutableList<Interceptor> { return mutableListOf() }
+
+    protected open fun getOKHttpCache(): Cache? = null
 
     protected open fun getResponseMocks(): MutableMap<RequestFilter, MockResponse> { return mutableMapOf() }
 }

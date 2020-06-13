@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.Converter.Factory
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
-abstract class RetrofitClient: OKHttpClient(), IRetrofitClient {
+abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
 
     protected open var retrofit: Retrofit? = null
 
@@ -22,7 +22,8 @@ abstract class RetrofitClient: OKHttpClient(), IRetrofitClient {
     }
 
     fun buildRetrofit(): RetrofitClient {
-        if (retrofit == null) retrofit = this.getRetrofitBuilder().build()
+        if (retrofit == null)
+            retrofit = this.getRetrofitBuilder().build()
         return this
     }
 

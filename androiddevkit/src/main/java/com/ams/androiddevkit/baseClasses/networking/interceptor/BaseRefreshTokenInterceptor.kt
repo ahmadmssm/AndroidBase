@@ -5,6 +5,7 @@ import com.ams.androiddevkit.utils.services.serialization.SerializationService
 import com.ams.androiddevkit.utils.services.session.SessionService
 import com.ams.jwt.JwtUtils
 import okhttp3.*
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.Semaphore
@@ -28,7 +29,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
         val originalRequestBuilder = originalRequest.newBuilder()
         val oldToken = sessionService.getAccessToken()
         // Log current token
-        loggingService.v("$TAG Authorization", originalRequest.header("Authorization") + " VALUE")
+        loggingService.d("$TAG Authorization", originalRequest.header("Authorization") + " VALUE")
         if (shouldAuthenticateRequest(originalRequest)) {
             setAuthenticationHeader(originalRequestBuilder, oldToken)
             // Overwrite old request
@@ -68,9 +69,8 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
                 }
             }
             else if (refreshTokenResponse.code in  400..599) {
-                // Means that the token was not updated
-                // logout() //go to login screen
-                loggingService.v(TAG, "return unauthorized response $refreshTokenResponse")
+                // Means that the token was not updated -> Logout
+                loggingService.d(TAG, "return unauthorized response $refreshTokenResponse")
                 sessionService.removeSession()
             }
         }
@@ -78,6 +78,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             loggingService.e("$TAG TOKEN_INTERCEPTOR ", e.message)
         }
         finally {
+            loggingService.d(TAG, "Semaphore Released")
             semaphore.release()
         }
     }
@@ -109,7 +110,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
         return Request
             .Builder()
             .url(baseURL + getRefreshTokenEndpoint())
-            .method("POST", getRequestTokenRefreshBody())
+            .method("POST", getRefreshTokenRequestBody())
     }
 
     protected open fun getBaseURL(originalRequest: Request): String {
@@ -129,7 +130,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             builder.header("Authorization", String.format("Bearer %s", token))
     }
 
-    protected open fun getRequestTokenRefreshBody(): RequestBody? = null
+    protected open fun getRefreshTokenRequestBody(): RequestBody? = "".toRequestBody()
 
     protected abstract fun isDebuggable(): Boolean
 
