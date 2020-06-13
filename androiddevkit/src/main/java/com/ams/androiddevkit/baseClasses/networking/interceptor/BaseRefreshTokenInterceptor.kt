@@ -105,11 +105,15 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
     }
 
     protected open fun getRefreshTokenRequestBuilder(originalRequest: Request): Request.Builder {
-        val baseURL = originalRequest.url.scheme + originalRequest.url.host
+        val baseURL = getBaseURL(originalRequest)
         return Request
             .Builder()
             .url(baseURL + getRefreshTokenEndpoint())
             .method("POST", getRequestTokenRefreshBody())
+    }
+
+    protected open fun getBaseURL(originalRequest: Request): String {
+        return originalRequest.url.scheme + "://" + originalRequest.url.host + "/"
     }
 
     protected open fun getOkHttpLoggingInterceptor(): HttpLoggingInterceptor {
