@@ -1,6 +1,7 @@
 package com.ams.androiddevkit.utils.services.serialization
 
 import com.ams.androiddevkit.utils.extensions.getConverterFactory
+import com.ams.androiddevkit.utils.services.gsonService.GsonService
 import com.ams.androiddevkit.utils.services.gsonService.GsonServiceImpl
 import com.google.gson.reflect.TypeToken
 import retrofit2.Converter
@@ -8,7 +9,7 @@ import java.io.IOException
 import java.util.ArrayList
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class GsonSerializationService(protected val gsonService: GsonServiceImpl = GsonServiceImpl()): SerializationService {
+open class GsonSerializationService(protected val gsonService: GsonService = GsonServiceImpl()): SerializationService {
 
     protected open val gsonConverter by lazy { gsonService.getGsonConverter() }
 
