@@ -1,15 +1,16 @@
 package com.ams.androiddevkit.utils.services.serialization
 
-import com.ams.androiddevkit.baseClasses.networking.GsonUtils
 import com.ams.androiddevkit.utils.extensions.getConverterFactory
+import com.ams.androiddevkit.utils.services.gsonService.GsonServiceImpl
 import com.google.gson.reflect.TypeToken
 import retrofit2.Converter
 import java.io.IOException
 import java.util.ArrayList
 
-class GsonSerializationService(private val gsonUtils: GsonUtils = GsonUtils()): SerializationService {
+@Suppress("MemberVisibilityCanBePrivate")
+open class GsonSerializationService(protected val gsonService: GsonServiceImpl = GsonServiceImpl()): SerializationService {
 
-    private val gsonConverter by lazy { gsonUtils.getCustomGsonConverter() }
+    protected open val gsonConverter by lazy { gsonService.getGsonConverter() }
 
     @Throws(IOException::class)
     override fun <T>fromJson(json: String, jsonObjectClass: Class<T>): T {
@@ -34,6 +35,6 @@ class GsonSerializationService(private val gsonUtils: GsonUtils = GsonUtils()): 
     }
 
     override fun getRetrofitJsonConverterFactory(): Converter.Factory {
-        return gsonUtils.getCustomGsonConverter().getConverterFactory()
+        return gsonService.getGsonConverter().getConverterFactory()
     }
 }

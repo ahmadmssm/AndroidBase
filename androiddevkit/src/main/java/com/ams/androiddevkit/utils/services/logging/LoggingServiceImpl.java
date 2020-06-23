@@ -10,7 +10,7 @@ import com.ams.androiddevkit.BuildConfig;
  * set to false before publishing to disable logging.
  */
 
-public class LoggingServiceImp implements LoggingService {
+public class LoggingServiceImpl implements LoggingService {
 
     private final static boolean ENABLED = BuildConfig.DEBUG;
 

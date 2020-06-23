@@ -4,9 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.ams.androiddevkit.utils.sharedPreference.AndroidSharedPreferences
 
-open class SharedPrefServiceImp(context: Context, preferenceFileName: String = "SHARED_PREF_CONNECTION"): SharedPrefService {
+open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = "SHARED_PREF_CONNECTION"): SharedPrefService {
 
-    private var androidPreferences = AndroidSharedPreferences.with(context, preferenceFileName)
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected var androidPreferences = AndroidSharedPreferences.with(context, preferenceFileName)
 
     override var sharedPreferences: SharedPreferences = androidPreferences.preferences
 

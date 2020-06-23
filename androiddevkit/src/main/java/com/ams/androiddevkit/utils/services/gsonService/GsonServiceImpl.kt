@@ -1,4 +1,4 @@
-package com.ams.androiddevkit.baseClasses.networking
+package com.ams.androiddevkit.utils.services.gsonService
 
 import com.ams.androiddevkit.utils.gson.Date2JsonAdapter
 import com.ams.androiddevkit.utils.gson.Json2DateAdapter
@@ -9,9 +9,9 @@ import com.google.gson.GsonBuilder
 import java.util.Date
 
 @Suppress("ProtectedInFinal", "unused", "MemberVisibilityCanBePrivate")
-open class GsonUtils {
+open class GsonServiceImpl: GsonService {
 
-    open fun getCustomGsonConverter(serverDateFormat: String, targetDateFormat: String): Gson {
+    override fun getGsonConverter(serverDateFormat: String, targetDateFormat: String): Gson {
         return this
             .getGsonBuilder()
             .registerTypeAdapter(Date::class.java, Json2DateAdapter(targetDateFormat))
@@ -19,7 +19,7 @@ open class GsonUtils {
             .create()
     }
 
-    open fun getCustomGsonConverter(serverDateFormat: String): Gson {
+    override fun getGsonConverter(serverDateFormat: String): Gson {
         return this
             .getGsonBuilder()
             .registerTypeAdapter(Date::class.java, Json2DateAdapter())
@@ -27,7 +27,7 @@ open class GsonUtils {
             .create()
     }
 
-    open fun getCustomGsonConverter(): Gson {
+    override fun getGsonConverter(): Gson {
         return this
             .getGsonBuilder()
             .registerTypeAdapter(Date::class.java, Json2DateAdapter())
@@ -35,16 +35,21 @@ open class GsonUtils {
             .create()
     }
 
-    protected fun getFieldNamingPolicy(): FieldNamingPolicy {
+    protected open fun getFieldNamingPolicy(): FieldNamingPolicy? {
         return FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
     }
 
-    open fun getGsonBuilder(): GsonBuilder {
-        return GsonBuilder()
-            .setFieldNamingPolicy(getFieldNamingPolicy())
+    protected open fun serializeNulls() = true
+
+    override fun getGsonBuilder(): GsonBuilder {
+        val gsonBuilder = GsonBuilder()
             .enableComplexMapKeySerialization()
-            .serializeNulls()
             .setPrettyPrinting()
             .setVersion(1.0)
+        if (serializeNulls())
+            gsonBuilder.serializeNulls()
+        if (getFieldNamingPolicy() != null)
+            gsonBuilder.setFieldNamingPolicy(getFieldNamingPolicy())
+        return gsonBuilder
     }
 }

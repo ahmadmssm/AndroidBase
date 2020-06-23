@@ -7,11 +7,12 @@ import com.ams.androiddevkit.utils.services.sharedpreferences.SharedPrefService
 import java.io.IOException
 
 @Suppress("MemberVisibilityCanBePrivate", "PrivatePropertyName")
-open class SessionServiceImp(protected val sharedPrefService: SharedPrefService,
-                             protected val loggingService: LoggingService,
-                             protected val serializationService: SerializationService): SessionService {
+open class SessionServiceImpl(protected val sharedPrefService: SharedPrefService,
+                              protected val loggingService: LoggingService,
+                              protected val serializationService: SerializationService): SessionService {
 
-    private val LOG_TAG = "SESSION_HANDLER"
+    @Suppress("PropertyName")
+    protected val LOG_TAG = "SESSION_HANDLER"
 
     override fun hasValidUser(): Boolean {
         return sharedPrefService.containsKey(AndroidDevKitConstants.PREFERENCE_CURRENT_USER)
