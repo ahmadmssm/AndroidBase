@@ -6,14 +6,12 @@ import com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler.Retrofi
 abstract class BaseErrorHandler<IErrors: BaseIErrors, NetworkErrorModel>(protected val networkErrorModel: Class<NetworkErrorModel>) {
 
     open fun processError(exception: Throwable, iErrors: IErrors) {
-        if (exception is RetrofitException) {
+        if (exception is RetrofitException)
             processRetrofitError(exception, iErrors)
-        }
-        else {
-            onNonNetworkError(exception)
-        }
+        else
+            onNonNetworkError(exception, iErrors)
     }
-
+    
     protected open fun processRetrofitError(retrofitException: RetrofitException, iErrors: IErrors) {
         val statusCode = retrofitException.response?.code()
         return when (retrofitException.type) {
@@ -37,7 +35,9 @@ abstract class BaseErrorHandler<IErrors: BaseIErrors, NetworkErrorModel>(protect
         }
     }
 
-    protected open fun onNonNetworkError(throwable: Throwable) {}
+    protected open fun onNonNetworkError(throwable: Throwable, iErrors: IErrors) {
+        iErrors.onShowNonNetworkError(throwable)
+    }
 
     protected open fun onNetworkError(exception: RetrofitException, iErrors: IErrors) {
         iErrors.onShowNetworkError(exception)
