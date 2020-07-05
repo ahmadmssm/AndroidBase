@@ -1,5 +1,6 @@
 package com.ams.androiddevkit.baseClasses.networking.error
 
+import androidx.annotation.CallSuper
 import com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler.RetrofitException
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
@@ -11,18 +12,11 @@ abstract class BaseErrorHandler<IErrors: BaseIErrors, NetworkErrorModel>(protect
         else
             onNonNetworkError(exception, iErrors)
     }
-    
+
     protected open fun processRetrofitError(retrofitException: RetrofitException, iErrors: IErrors) {
-        val statusCode = retrofitException.response?.code()
         return when (retrofitException.type) {
             RetrofitException.TYPE.HTTP -> {
-                val errorModel = retrofitException.getErrorBodyAs(networkErrorModel)
-                if (errorModel != null) {
-                    onHttpError(retrofitException, statusCode, errorModel, iErrors)
-                }
-                else {
-                    iErrors.onShowUnknownError(retrofitException)
-                }
+                onHttpError(retrofitException, iErrors)
             }
 
             RetrofitException.TYPE.NETWORK -> {
@@ -32,6 +26,23 @@ abstract class BaseErrorHandler<IErrors: BaseIErrors, NetworkErrorModel>(protect
             RetrofitException.TYPE.UNEXPECTED -> {
                 onUnexpectedNetworkError(retrofitException, iErrors)
             }
+        }
+    }
+
+    @CallSuper
+    protected open fun onHttpError(retrofitException: RetrofitException, iErrors: IErrors) {
+        val statusCode = retrofitException.getStatusCode()
+        try {
+            val errorModel = retrofitException.getErrorBodyAs(networkErrorModel)
+            if (errorModel != null) {
+                onHttpError(retrofitException, statusCode, errorModel, iErrors)
+            }
+            else {
+                iErrors.onShowUnknownError(retrofitException)
+            }
+        }
+        catch (e: Exception) {
+            iErrors.onShowUnknownError(retrofitException)
         }
     }
 

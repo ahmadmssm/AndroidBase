@@ -13,10 +13,10 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): Fragment() {
+abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): Fragment() {
 
     private var viewModel: VM? = null
-    private lateinit var lifeCycleRegistry: LifecycleRegistry
+    protected lateinit var lifeCycleRegistry: LifecycleRegistry
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
@@ -31,8 +31,10 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val cla
         getViewModel()?.onLifeCycleInitialized()
         onFragmentCreated(savedInstanceState)
         initUI()
+        initUI(savedInstanceState)
         bindViews()
         observeStates()
+        onViewReady()
     }
 
     protected open fun initLifeCycleRegistry() {
@@ -59,11 +61,15 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(val cla
 
     protected fun getViewModel(): VM? = viewModel
 
-    protected abstract fun initUI()
-
     protected abstract fun bindViews()
 
+    protected abstract fun initUI()
+
+    protected open fun initUI(bundle: Bundle?) {}
+
     protected abstract fun onViewStateChanged(state: ViewState)
+
+    protected open fun onViewReady() {}
 
     //
     protected open fun onFragmentCreated(savedInstanceState: Bundle?) {

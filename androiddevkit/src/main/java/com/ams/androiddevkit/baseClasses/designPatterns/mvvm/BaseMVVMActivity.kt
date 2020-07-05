@@ -18,11 +18,11 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 @Suppress("MemberVisibilityCanBePrivate")
 @SuppressLint("Registered")
-abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val clazz: KClass<VM>): AppCompatActivity() {
+abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): AppCompatActivity() {
 
     private var viewModel: VM? = null
     //
-    private lateinit var lifeCycleRegistry : LifecycleRegistry
+    protected lateinit var lifeCycleRegistry : LifecycleRegistry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initKoinFragmentFactory()
@@ -33,8 +33,10 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
         getViewModel()?.onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         initUI()
+        initUI(savedInstanceState)
         bindViews()
         observeStates()
+        onViewReady()
     }
 
     protected open fun initKoinFragmentFactory() {
@@ -65,9 +67,13 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(val cla
 
     protected fun getViewModel(): VM? = viewModel
 
+    protected abstract fun bindViews()
+
     protected abstract fun initUI()
 
-    protected abstract fun bindViews()
+    protected open fun initUI(bundle: Bundle?) {}
+
+    protected open fun onViewReady() {}
 
     protected open fun restartActivity() {
         finish()

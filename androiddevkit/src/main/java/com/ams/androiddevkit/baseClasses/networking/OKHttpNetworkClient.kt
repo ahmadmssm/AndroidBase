@@ -30,13 +30,18 @@ abstract class OKHttpNetworkClient {
             })
         if (getRefreshTokenInterceptor() != null)
             okHttpBuilder.addInterceptor(getRefreshTokenInterceptor()!!)
-        if (isMockable() && getResponseMocks().isNotEmpty())
-            okHttpBuilder.addResponseMocks(getResponseMocks())
         if (getAdditionalInterceptors().isNotEmpty()) {
             for (interceptor in getAdditionalInterceptors()) {
                 okHttpBuilder.addInterceptor(interceptor)
             }
         }
+        if (getAdditionalNetworkInterceptors().isNotEmpty()) {
+            for (interceptor in getAdditionalNetworkInterceptors()) {
+                okHttpBuilder.addNetworkInterceptor(interceptor)
+            }
+        }
+        if (isMockable() && getResponseMocks().isNotEmpty())
+            okHttpBuilder.addResponseMocks(getResponseMocks())
         if (getOKHttpCache() != null)
             okHttpBuilder.cache(getOKHttpCache())
         if (enablePrettyPrintLogging())
@@ -114,6 +119,8 @@ abstract class OKHttpNetworkClient {
     protected open fun getAdditionalEncodedQueryParams(): MutableMap<String, String> { return mutableMapOf() }
 
     protected open fun getAdditionalInterceptors(): MutableList<Interceptor> { return mutableListOf() }
+
+    protected open fun getAdditionalNetworkInterceptors(): MutableList<Interceptor> { return mutableListOf() }
 
     protected open fun getOKHttpCache(): Cache? = null
 

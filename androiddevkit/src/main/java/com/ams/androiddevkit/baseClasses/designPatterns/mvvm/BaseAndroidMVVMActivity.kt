@@ -19,8 +19,7 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
 
     private var viewModel: VM? = null
     //
-    private lateinit var lifeCycleRegistry : LifecycleRegistry
-    protected lateinit var viewModelClassType: KClass<VM>
+    protected lateinit var lifeCycleRegistry : LifecycleRegistry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initKoinFragmentFactory()
@@ -32,8 +31,10 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         getViewModel()?.onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         initUI()
+        initUI(savedInstanceState)
         bindViews()
         observeStates()
+        onViewReady()
     }
 
     protected open fun initKoinFragmentFactory() {
@@ -57,16 +58,20 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
 
     protected open fun initViewModel(): VM {
         // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
-        return getViewModel(clazz = viewModelClassType)
+        return getViewModel(clazz = clazz)
     }
 
     abstract fun getViewId(): Int
 
     protected fun getViewModel(): VM? = viewModel
 
+    protected abstract fun bindViews()
+
     protected abstract fun initUI()
 
-    protected abstract fun bindViews()
+    protected open fun initUI(bundle: Bundle?) {}
+
+    protected open fun onViewReady() {}
 
     protected open fun restartActivity() {
         finish()

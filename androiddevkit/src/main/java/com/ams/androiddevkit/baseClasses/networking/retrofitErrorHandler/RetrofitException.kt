@@ -14,6 +14,8 @@ open class RetrofitException(override val message: String?,
                              @Suppress("CanBeParameter") val exception: Throwable?,
                              val retrofit: Retrofit?): RuntimeException(message, exception) {
 
+    fun getStatusCode(): Int? = this.response?.code()
+
     companion object {
         fun httpError(url: String, response: Response<*>, retrofit: Retrofit): RetrofitException {
             val message = response.code().toString() + " " + response.message()
