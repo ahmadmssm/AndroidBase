@@ -20,7 +20,9 @@ open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinCompone
         return viewState
     }
 
-    open fun onLifeCycleInitialized() {}
+    open fun onLifeCycleInitialized() {
+        Log.d(VIEW_MODEL_TAG, "view model onLifeCycleInitialized called")
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     protected open fun onLifeCycleChangeListener(owner: LifecycleOwner, event: Lifecycle.Event) {}

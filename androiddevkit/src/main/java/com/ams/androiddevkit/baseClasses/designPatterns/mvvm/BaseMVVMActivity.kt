@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import kotlin.reflect.KClass
@@ -48,7 +49,9 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
-        lifeCycleRegistry.addObserver(viewModel!!)
+        viewModel?.let {
+            lifeCycleRegistry.addObserver(it)
+        }
         lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
     }
 
