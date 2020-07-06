@@ -12,20 +12,18 @@ open class BaseViewModel<ViewState>: ViewModel(), LifecycleObserver, KoinCompone
     private val VIEW_MODEL_TAG = this.javaClass.simpleName
     protected val viewState = SingleLiveEvent<ViewState>()
 
-    protected fun postViewState(state: ViewState) {
+    protected open fun postViewState(state: ViewState) {
         viewState.value = state
     }
 
-    open fun getViewState(): LiveData<ViewState> {
-        return viewState
-    }
-
-    open fun onLifeCycleInitialized() {
-        Log.d(VIEW_MODEL_TAG, "view model onLifeCycleInitialized called")
-    }
+    open fun getViewState(): LiveData<ViewState> = viewState
 
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     protected open fun onLifeCycleChangeListener(owner: LifecycleOwner, event: Lifecycle.Event) {}
+
+    protected open fun onLifeCycleInitialized() {
+        Log.d(VIEW_MODEL_TAG, "view model onLifeCycleInitialized called")
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     protected open fun onViewCreated(owner: LifecycleOwner) {

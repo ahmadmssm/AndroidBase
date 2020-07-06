@@ -28,7 +28,6 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
         super.onViewCreated(view, savedInstanceState)
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        getViewModel()?.onLifeCycleInitialized()
         onFragmentCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
@@ -42,15 +41,22 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
-        lifeCycleRegistry.addObserver(viewModel!!)
-        lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        viewModel?.let {
+            lifeCycleRegistry.addObserver(it)
+            lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        }
     }
 
     protected open fun observeStates() {
-        getViewModel()?.getViewState()?.observe(viewLifecycleOwner, Observer {
-            onViewStateChanged(it)
-        })
+        getViewModel()?.let {
+            if(!it.getViewState().hasActiveObservers()) {
+                it.getViewState().observe(viewLifecycleOwner, Observer { viewState ->
+                    onViewStateChanged(viewState)
+                })
+            }
+        }
     }
+
 
     protected open fun initViewModel(): VM {
         // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }

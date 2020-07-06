@@ -10,7 +10,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import kotlin.reflect.KClass
@@ -31,7 +30,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         setContentView(getViewId())
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        getViewModel()?.onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
@@ -51,8 +49,8 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         // Custom life cycle observer
         viewModel?.let {
             lifeCycleRegistry.addObserver(it)
+            lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
         }
-        lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
     }
 
     protected open fun observeStates() {

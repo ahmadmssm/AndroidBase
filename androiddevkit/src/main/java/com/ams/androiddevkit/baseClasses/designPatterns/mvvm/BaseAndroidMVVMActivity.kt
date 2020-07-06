@@ -28,7 +28,6 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         @Suppress("UNCHECKED_CAST")
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        getViewModel()?.onLifeCycleInitialized()
         onActivityCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
@@ -46,15 +45,22 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         // Set lifecycle aware view model
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
-        lifeCycleRegistry.addObserver(viewModel!!)
-        lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        viewModel?.let {
+            lifeCycleRegistry.addObserver(it)
+            lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        }
     }
 
     protected open fun observeStates() {
-        getViewModel()?.getViewState()?.observe(this, Observer {
-            onViewStateChanged(it)
-        })
+        getViewModel()?.let {
+            if(!it.getViewState().hasActiveObservers()) {
+                it.getViewState().observe(this, Observer { viewState ->
+                    onViewStateChanged(viewState)
+                })
+            }
+        }
     }
+
 
     protected open fun initViewModel(): VM {
         // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
