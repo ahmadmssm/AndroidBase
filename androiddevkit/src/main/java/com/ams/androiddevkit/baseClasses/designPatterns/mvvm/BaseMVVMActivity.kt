@@ -53,9 +53,13 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
     }
 
     protected open fun observeStates() {
-        getViewModel()?.getViewState()?.observe(this, Observer {
-            onViewStateChanged(it)
-        })
+        getViewModel()?.let {
+            if(!it.getViewState().hasActiveObservers()) {
+                it.getViewState().observe(this, Observer { viewState ->
+                    onViewStateChanged(viewState)
+                })
+            }
+        }
     }
 
     protected open fun initViewModel(): VM {
@@ -110,6 +114,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
     override fun onDestroy() {
         super.onDestroy()
         lifeCycleRegistry.currentState = Lifecycle.State.DESTROYED
+        lifeCycleRegistry.removeObserver(viewModel!!)
         viewModel = null
     }
 }
