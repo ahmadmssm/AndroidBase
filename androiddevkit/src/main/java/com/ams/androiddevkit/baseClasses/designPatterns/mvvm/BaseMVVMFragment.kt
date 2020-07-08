@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
 abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): Fragment() {
 
     private var viewModel: VM? = null
-    protected lateinit var lifeCycleRegistry: LifecycleRegistry
+    protected var lifeCycleRegistry: LifecycleRegistry? = null
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
@@ -42,8 +42,9 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
         // lifecycle.addObserver(viewModel)
         // Custom life cycle observer
         viewModel?.let {
-            lifeCycleRegistry.addObserver(it)
-            lifeCycleRegistry.currentState = Lifecycle.State.INITIALIZED
+            viewLifecycleOwnerLiveData.hasActiveObservers()
+            lifeCycleRegistry?.addObserver(it)
+            lifeCycleRegistry?.currentState = Lifecycle.State.INITIALIZED
         }
     }
 
@@ -79,22 +80,26 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
 
     //
     protected open fun onFragmentCreated(savedInstanceState: Bundle?) {
-        lifeCycleRegistry.currentState = Lifecycle.State.CREATED
+        lifeCycleRegistry?.currentState = Lifecycle.State.CREATED
     }
 
     override fun onStart() {
         super.onStart()
-        lifeCycleRegistry.currentState = Lifecycle.State.STARTED
+        lifeCycleRegistry?.currentState = Lifecycle.State.STARTED
     }
 
     override fun onResume() {
         super.onResume()
-        lifeCycleRegistry.currentState = Lifecycle.State.RESUMED
+        lifeCycleRegistry?.currentState = Lifecycle.State.RESUMED
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifeCycleRegistry?.currentState = Lifecycle.State.DESTROYED
+        viewModel = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        lifeCycleRegistry.currentState = Lifecycle.State.DESTROYED
-        viewModel = null
     }
 }
