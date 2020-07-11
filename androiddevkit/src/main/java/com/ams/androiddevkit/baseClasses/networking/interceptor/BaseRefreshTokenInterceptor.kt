@@ -3,7 +3,7 @@ package com.ams.androiddevkit.baseClasses.networking.interceptor
 import com.ams.androiddevkit.utils.services.logging.LoggingService
 import com.ams.androiddevkit.utils.services.serialization.SerializationService
 import com.ams.androiddevkit.utils.services.session.SessionService
-import com.ams.jwt.JwtUtils
+import com.ams.androiddevkit.baseClasses.networking.jwt.JwtUtils
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,10 +27,10 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
         loggingService.d(TAG, "intercept request")
         var originalRequest: Request = chain.request()
         val originalRequestBuilder = originalRequest.newBuilder()
-        val oldToken = sessionService.getAccessToken()
         // Log current token
         loggingService.d("$TAG Authorization", originalRequest.header("Authorization") + " VALUE")
         if (shouldAuthenticateRequest(originalRequest)) {
+            val oldToken = sessionService.getAccessToken()
             setAuthenticationHeader(originalRequestBuilder, oldToken)
             // Overwrite old request
             originalRequest = originalRequestBuilder.build()
