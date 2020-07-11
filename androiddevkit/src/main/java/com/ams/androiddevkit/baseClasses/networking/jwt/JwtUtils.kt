@@ -11,7 +11,7 @@ object JwtUtils {
     @Suppress("MemberVisibilityCanBePrivate")
     fun getExpirationDate(token: String?): Long? {
         token?.split("\\.")?.let {
-            if (it.size > 1) {
+            if (it.size >= 1) {
                 val header = getDecodedToken(it[0])
                 val body = getDecodedToken(it[1])
                 Log.d("DECODED JWT ", "Header: $header")
