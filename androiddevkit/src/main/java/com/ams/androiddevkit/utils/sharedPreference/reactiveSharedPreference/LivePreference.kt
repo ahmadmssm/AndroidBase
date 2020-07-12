@@ -2,11 +2,11 @@ package com.ams.androiddevkit.utils.sharedPreference.reactiveSharedPreference
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.observers.DisposableObserver
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 @Suppress("UNCHECKED_CAST")
 class LivePreference<T> constructor(private val updates: Observable<String>,

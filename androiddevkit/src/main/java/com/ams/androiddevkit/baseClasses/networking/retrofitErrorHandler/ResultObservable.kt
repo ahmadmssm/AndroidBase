@@ -1,13 +1,13 @@
 package com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler
 
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import io.reactivex.exceptions.CompositeException
-import io.reactivex.exceptions.Exceptions
-import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.exceptions.CompositeException
+import io.reactivex.rxjava3.exceptions.Exceptions
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import retrofit2.Response
-import retrofit2.adapter.rxjava2.Result
+import hu.akarnokd.rxjava3.retrofit.Result
 
 @Suppress("unused")
 internal class ResultObservable<T>(private val upstream: Observable<Response<T>>): Observable<Result<T>?>() {
@@ -21,17 +21,19 @@ internal class ResultObservable<T>(private val upstream: Observable<Response<T>>
             observer.onSubscribe(disposable)
         }
 
-        override fun onNext(t: Response<R>) {
+        override fun onNext(t: Response<R>?) {
             observer.onNext(Result.response(t))
         }
 
         override fun onError(throwable: Throwable) {
             try {
                 observer.onNext(Result.error(throwable))
-            } catch (t: Throwable) {
+            }
+            catch (t: Throwable) {
                 try {
                     observer.onError(t)
-                } catch (inner: Throwable) {
+                }
+                catch (inner: Throwable) {
                     Exceptions.throwIfFatal(inner)
                     RxJavaPlugins.onError(CompositeException(t, inner))
                 }

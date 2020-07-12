@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit
 
 abstract class OKHttpNetworkClient {
 
+    protected open val okHttpClient: OkHttpClient by lazy { getOkHttpBuilder().build() }
+
     protected open fun getOkHttpBuilder(): OkHttpClient.Builder {
         val timeOut = getDefaultTimeOut()
         val okHttpBuilder = OkHttpClient.Builder()

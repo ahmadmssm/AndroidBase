@@ -1,15 +1,16 @@
 package com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler
 
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import io.reactivex.exceptions.CompositeException
-import io.reactivex.exceptions.Exceptions
 import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.exceptions.CompositeException
+import io.reactivex.rxjava3.exceptions.Exceptions
 import retrofit2.HttpException
 import retrofit2.Response
 
 internal class BodyObservable<T>(private val upstream: Observable<Response<T>>): Observable<T>() {
+
     override fun subscribeActual(observer: Observer<in T>) {
         upstream.subscribe(BodyObserver(observer))
     }

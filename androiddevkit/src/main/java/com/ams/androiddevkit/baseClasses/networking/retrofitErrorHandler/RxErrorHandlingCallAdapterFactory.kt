@@ -1,8 +1,7 @@
 package com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler
 
-import io.reactivex.*
+import io.reactivex.rxjava3.core.*
 import retrofit2.*
-import retrofit2.adapter.rxjava2.Result
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

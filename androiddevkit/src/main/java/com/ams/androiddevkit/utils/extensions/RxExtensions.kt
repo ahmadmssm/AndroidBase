@@ -5,16 +5,11 @@ package com.ams.androiddevkit.utils.extensions
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
-import com.ams.androiddevkit.utils.liveDataUtils.LifecycleConvert
-import com.ams.androiddevkit.utils.rx.ObservableTakeBetween
-import com.ams.androiddevkit.utils.rx.SingleFilterSingle
-import io.reactivex.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Predicate
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 fun <T> Observable<T>.applyThreadingConfig(): Observable<T> {
     return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
@@ -34,15 +29,6 @@ fun <T> Flowable<T>.applyThreadingConfig(): Flowable<T> {
 
 fun Completable.applyThreadingConfig(): Completable {
     return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-}
-
-fun <T> Single<T>.filterOrNever(predicate: Predicate<in T>): Single<T> {
-    return RxJavaPlugins.onAssembly(
-        SingleFilterSingle<T>(
-            this,
-            predicate
-        )
-    )
 }
 
 fun <T> Flowable<T>.toLiveData(): LiveData<T> {
@@ -68,39 +54,6 @@ fun <T> Completable.toLiveData(): LiveData<T> {
 @Suppress("SpellCheckingInspection")
 fun <T> LiveData<T>.toFlowable(lifecycleOwner: LifecycleOwner): Flowable<T> =
     Flowable.fromPublisher(LiveDataReactiveStreams.toPublisher(lifecycleOwner, this))
-
-
-fun <T, U> Observable<T>.takeBetween(other: Observable<U>, start: U, end: U): Observable<T> {
-    return RxJavaPlugins.onAssembly<T>(
-        ObservableTakeBetween<T, U>(
-            this,
-            other,
-            start,
-            end
-        )
-    )
-}
-
-inline fun <reified T> Observable<T>.bindLifecycle(owner: LifecycleOwner): Observable<T> =
-    LifecycleConvert.bindLifecycle(this, owner)
-
-inline fun <reified T> Single<T>.bindLifecycle(owner: LifecycleOwner): Maybe<T> =
-    LifecycleConvert.bindLifecycle(this, owner)
-
-inline fun <reified T> Single<T>.bindLifecycleWithError(owner: LifecycleOwner): Single<T> =
-    LifecycleConvert.bindLifecycleWithError(this, owner)
-
-inline fun <reified T> Maybe<T>.bindLifecycle(owner: LifecycleOwner): Maybe<T> =
-    LifecycleConvert.bindLifecycle(this, owner)
-
-inline fun <reified T> Flowable<T>.bindLifecycle(owner: LifecycleOwner): Flowable<T> =
-    LifecycleConvert.bindLifecycle(this, owner)
-
-inline fun Completable.bindLifecycle(owner: LifecycleOwner): Completable =
-    LifecycleConvert.bindLifecycle(this, owner)
-
-inline fun Completable.bindLifecycleWithError(owner: LifecycleOwner): Completable =
-    LifecycleConvert.bindLifecycleWithError(this, owner)
 
 
 fun Disposable.addTo(compositeDisposable: CompositeDisposable) {

@@ -2,7 +2,7 @@ package com.ams.androiddevkit.utils.sharedPreference.reactiveSharedPreference
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 class LiveSharedPreferences constructor(private val preferences: SharedPreferences) {
 

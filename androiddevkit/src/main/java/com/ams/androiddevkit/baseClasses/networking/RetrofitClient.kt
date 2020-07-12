@@ -1,9 +1,9 @@
 package com.ams.androiddevkit.baseClasses.networking
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.Converter.Factory
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
 
@@ -12,11 +12,11 @@ abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
     protected open fun getRetrofitBuilder(): Retrofit.Builder {
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(this.getBaseURL())
-            .client(getOkHttpBuilder().build())
+            .client(okHttpClient)
         if (getConverterFactory() != null) retrofitBuilder.addConverterFactory(this.getConverterFactory()!!)
         val callAdapterFactory =
             if (getRxErrorHandlingCallAdapterFactory() != null) getRxErrorHandlingCallAdapterFactory()!!
-            else RxJava2CallAdapterFactory.create()
+            else RxJava3CallAdapterFactory.create()
         retrofitBuilder.addCallAdapterFactory(callAdapterFactory)
         return retrofitBuilder
     }

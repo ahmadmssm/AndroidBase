@@ -1,12 +1,9 @@
 package com.ams.androiddevkit.baseClasses.networking.retrofitErrorHandler
 
 import android.annotation.SuppressLint
-import io.reactivex.*
-import io.reactivex.plugins.RxJavaPlugins
-import retrofit2.Call
-import retrofit2.CallAdapter
-import retrofit2.HttpException
-import retrofit2.Retrofit
+import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import retrofit2.*
 import java.io.IOException
 import java.lang.reflect.Type
 
@@ -27,7 +24,7 @@ internal class RxErrorHandlingCallAdapter<R>(private val retrofit: Retrofit,
 
     @SuppressLint("CheckResult")
     override fun adapt(call: Call<R>): Any? {
-        val responseObservable = if (isAsync) CallEnqueueObservable(call) else CallExecuteObservable(call)
+        val responseObservable: Observable<Response<R>> = if (isAsync) CallEnqueueObservable(call) else CallExecuteObservable(call)
         var observable: Observable<*>
         observable = when {
             isResult -> {
