@@ -3,8 +3,8 @@ package com.ams.androiddevkit.baseClasses.roomDB
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Completable
+import io.reactivex.Single
 import java.lang.reflect.ParameterizedType
 
 @Dao
@@ -15,14 +15,14 @@ interface BaseDAO<Entity> {
     fun save(vararg item: Entity): Completable
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(vararg item: Entity): Completable
+    fun insert(vararg item: Entity): io.reactivex.Completable
 
     @Delete
     fun delete(item: Entity)
 
     fun deleteAll(): Completable {
         val query = SimpleSQLiteQuery("delete from " + getTableName())
-        return executeQueryWithResult(query).ignoreElement()
+        return executeQueryWithResult(query).toCompletable()
     }
 
     fun findItemWith(id: Long): Single<Entity> {
@@ -30,16 +30,20 @@ interface BaseDAO<Entity> {
         return executeQueryWithResult(query)
     }
 
-    fun findAll(): Single<List<Entity>> {
+    fun findAll(): io.reactivex.Single<List<Entity>> {
         val query = SimpleSQLiteQuery("select * from " + getTableName() + " where deleteFlag = 0 order by sortKey")
         return executeQueryWithListResult(query)
     }
 
     @RawQuery
-    fun executeQueryWithListResult(query: String): Single<List<Entity>> = executeQueryWithListResult(SimpleSQLiteQuery(query))
+    fun executeQueryWithListResult(query: String): Single<List<Entity>> = executeQueryWithListResult(
+        SimpleSQLiteQuery(query)
+    )
 
     @RawQuery
-    fun executeQueryWithResult(query: String): Single<Entity> = executeQueryWithResult(SimpleSQLiteQuery(query))
+    fun executeQueryWithResult(query: String): Single<Entity> = executeQueryWithResult(
+        SimpleSQLiteQuery(query)
+    )
 
     @RawQuery
     fun executeQueryWithListResult(query: SupportSQLiteQuery): Single<List<Entity>>

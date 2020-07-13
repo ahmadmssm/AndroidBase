@@ -7,7 +7,6 @@ import android.widget.EditText
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding.widget.RxCompoundButton
 import com.jakewharton.rxbinding.widget.RxTextView
-import rx.Subscription
 
 fun TextInputEditText.bindTo(setValue: (String) -> Unit) {
     RxTextView
@@ -23,8 +22,8 @@ fun EditText.bindTo(setValue: (String) -> Unit) {
         .subscribe{ charSequence -> setValue(charSequence.toString()) }
 }
 
-fun CheckBox.bindTo(setValue:(Boolean) -> Unit): Subscription {
-    return RxCompoundButton
+fun CheckBox.bindTo(setValue:(Boolean) -> Unit) {
+    RxCompoundButton
         .checkedChanges(this)
         .subscribe { isChecked -> setValue(isChecked) }
 }
