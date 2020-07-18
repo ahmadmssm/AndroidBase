@@ -12,23 +12,23 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 fun <T> Observable<T>.applyThreadingConfig(): Observable<T> {
-    return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+    return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 fun <T> Single<T>.applyThreadingConfig(): Single<T> {
-    return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+    return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 fun <T> Maybe<T>.applyThreadingConfig(): Maybe<T> {
-    return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+    return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 fun <T> Flowable<T>.applyThreadingConfig(): Flowable<T> {
-    return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+    return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 fun Completable.applyThreadingConfig(): Completable {
-    return this.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+    return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 fun <T> Flowable<T>.toLiveData(): LiveData<T> {
