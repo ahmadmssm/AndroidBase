@@ -35,11 +35,11 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             // Overwrite old request
             originalRequest = originalRequestBuilder.build()
             val responseOfFirstRequest = chain.proceed(originalRequest)
-            // perform all refresh token request in sync blocks, to avoid multiply token updates
-            semaphore.acquire()
-            loggingService.d(TAG, "Semaphore Acquire")
             val firstRequestStatusCode = responseOfFirstRequest.code
             if(JwtUtils.isTokenExpired(oldToken) || isUnAuthenticated(firstRequestStatusCode)) {
+                // perform all refresh token request in sync blocks, to avoid multiply token updates
+                semaphore.acquire()
+                loggingService.d(TAG, "Semaphore Acquire")
                 refreshTokenFor(originalRequest)
             }
             sessionService.getAccessToken()?.let {
@@ -55,7 +55,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
     }
 
     @Throws(IOException::class)
-    protected fun refreshTokenFor(originalRequest: Request) {
+    protected open fun refreshTokenFor(originalRequest: Request) {
         val okHttpClient = getOkHttpBuilder().build()
         val refreshTokenRequest = getRefreshTokenRequestBuilder(originalRequest).build()
         val refreshTokenRequestExecutor = okHttpClient.newCall(refreshTokenRequest)
