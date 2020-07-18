@@ -70,12 +70,12 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
     }
 
     override fun removeValueWithKey(key: String): Boolean {
-        androidPreferences.remove(key)
+        androidPreferences.remove(key).save()
         return true
     }
 
     override fun clearAll() {
-       androidPreferences.clearAll()
+       androidPreferences.clearAll().save()
     }
 
     override fun getStringSet(key: String): Set<String?>? {

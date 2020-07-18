@@ -44,8 +44,7 @@ abstract class OKHttpNetworkClient {
         }
         if (isMockable() && getResponseMocks().isNotEmpty())
             okHttpBuilder.addResponseMocks(getResponseMocks())
-        if (getOKHttpCache() != null)
-            okHttpBuilder.cache(getOKHttpCache())
+        okHttpBuilder.cache(getOKHttpCache())
         if (enablePrettyPrintLogging())
             okHttpBuilder.addInterceptor(getHttpPrettyPrintLoggingInterceptor())
         else if (isDebuggable())
