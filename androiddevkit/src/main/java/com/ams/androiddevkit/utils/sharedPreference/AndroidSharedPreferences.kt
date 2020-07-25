@@ -26,7 +26,6 @@ object AndroidSharedPreferences {
         val preferences: SharedPreferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
         private var editor: SharedPreferences.Editor = preferences.edit()
 
-
         fun addBoolean(key: String?, value: Boolean): Builder {
             editor.putBoolean(key, value)
             return this

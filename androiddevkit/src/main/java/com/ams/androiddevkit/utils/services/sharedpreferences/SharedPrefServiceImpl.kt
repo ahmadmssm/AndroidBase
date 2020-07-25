@@ -45,12 +45,17 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
         return androidPreferences.getString(key)
     }
 
-    override fun getBoolean(key: String): Boolean? {
-        return androidPreferences.getBoolean(key)
+
+    override fun getBoolean(key: String): Boolean {
+        return androidPreferences.getBoolean(key, false)
     }
 
-    override fun getInt(key: String, fallback: Int): Int? {
-        return androidPreferences.getInt(key, fallback)
+    override fun getBoolean(key: String, fallbackValue: Boolean): Boolean {
+        return androidPreferences.getBoolean(key, fallbackValue)
+    }
+
+    override fun getInt(key: String, fallbackValue: Int): Int? {
+        return androidPreferences.getInt(key, fallbackValue)
     }
 
     override fun getInt(key: String): Int? {
@@ -61,8 +66,8 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
         return androidPreferences.getLong(key)
     }
 
-    override fun getLong(key: String, defaultValue: Long): Long? {
-        return androidPreferences.getLong(key, defaultValue)
+    override fun getLong(key: String, fallbackValue: Long): Long? {
+        return androidPreferences.getLong(key, fallbackValue)
     }
 
     override fun containsKey(key: String): Boolean {

@@ -9,11 +9,12 @@ interface SharedPrefService {
     fun saveLong(key: String, value: Long): Boolean
     fun saveBoolean(key: String, value: Boolean): Boolean
     fun getString(key: String): String?
-    fun getBoolean(key: String): Boolean?
-    fun getInt(key: String, fallback: Int): Int?
+    fun getBoolean(key: String): Boolean
+    fun getBoolean(key: String, fallbackValue: Boolean = false): Boolean
+    fun getInt(key: String, fallbackValue: Int): Int?
     fun getInt(key: String): Int?
     fun getLong(key: String): Long?
-    fun getLong(key: String, defaultValue: Long): Long?
+    fun getLong(key: String, fallbackValue: Long): Long?
     fun containsKey(key: String): Boolean
     fun removeValueWithKey(key: String): Boolean
     fun clearAll()
