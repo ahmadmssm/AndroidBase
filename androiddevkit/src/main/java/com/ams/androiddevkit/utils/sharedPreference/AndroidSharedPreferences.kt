@@ -15,16 +15,13 @@ object AndroidSharedPreferences {
     }
 
     fun with(context: Context, prefName: String): Builder {
-        return Builder(
-            context,
-            prefName
-        )
+        return Builder(context, prefName)
     }
 
     class Builder(context: Context, prefName: String = "AndroidSharedPreferences") {
 
-        val preferences: SharedPreferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
-        private var editor: SharedPreferences.Editor = preferences.edit()
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        private var editor: SharedPreferences.Editor = sharedPreferences.edit()
 
         fun addBoolean(key: String?, value: Boolean): Builder {
             editor.putBoolean(key, value)
@@ -69,34 +66,34 @@ object AndroidSharedPreferences {
         }
 
         fun getBoolean(key: String?, defaultValue: Boolean = false): Boolean {
-            return preferences.getBoolean(key, defaultValue)
+            return sharedPreferences.getBoolean(key, defaultValue)
         }
 
         fun getString(key: String?, defaultValue: String? = null): String? {
-            return preferences.getString(key, defaultValue)
+            return sharedPreferences.getString(key, defaultValue)
         }
 
         fun getInt(key: String?, defaultValue: Int = 0): Int {
-            return preferences.getInt(key, defaultValue)
+            return sharedPreferences.getInt(key, defaultValue)
         }
 
         @Suppress("unused")
         fun getFloat(key: String?, defaultValue: Float = 0F): Float {
-            return preferences.getFloat(key, defaultValue)
+            return sharedPreferences.getFloat(key, defaultValue)
         }
 
         fun getLong(key: String?, defaultValue: Long = 0): Long {
-            return preferences.getLong(key, defaultValue)
+            return sharedPreferences.getLong(key, defaultValue)
         }
 
         fun getStringSet(key: String?, defaultValue: Set<String?>? = null): Set<String>? {
-            return preferences.getStringSet(key, defaultValue)
+            return sharedPreferences.getStringSet(key, defaultValue)
         }
 
         fun <GenericClass> getObject(key: String?, classType: Class<GenericClass>?): GenericClass? {
-            if (preferences.contains(key)) {
+            if (sharedPreferences.contains(key)) {
                 val gson = Gson()
-                return gson.fromJson(preferences.getString(key, ""), classType)
+                return gson.fromJson(sharedPreferences.getString(key, ""), classType)
             }
             return null
         }
@@ -112,7 +109,7 @@ object AndroidSharedPreferences {
         }
 
         fun contains(key: String): Boolean {
-            return preferences.contains(key)
+            return sharedPreferences.contains(key)
         }
     }
 }

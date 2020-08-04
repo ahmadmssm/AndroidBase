@@ -9,7 +9,7 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
     @Suppress("MemberVisibilityCanBePrivate")
     protected var androidPreferences = AndroidSharedPreferences.with(context, preferenceFileName)
 
-    override var sharedPreferences: SharedPreferences = androidPreferences.preferences
+    override var sharedPreferences: SharedPreferences = androidPreferences.sharedPreferences
 
     override fun saveString(key: String, value: String): Boolean {
         androidPreferences.addString(key, value).save()
