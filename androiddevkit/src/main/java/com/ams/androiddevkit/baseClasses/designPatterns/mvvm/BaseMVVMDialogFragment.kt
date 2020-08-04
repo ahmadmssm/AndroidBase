@@ -97,13 +97,13 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
 
     protected fun getViewModel(): VM? = viewModel
 
-    protected fun bindViews() {}
+    protected abstract fun bindViews()
 
-    protected fun initUI() {}
+    protected abstract fun initUI()
 
     protected open fun initUI(bundle: Bundle?) {}
 
-    protected fun onViewStateChanged(state: ViewState) {}
+    protected abstract fun onViewStateChanged(state: ViewState)
 
     protected open fun onViewReady() {}
 
