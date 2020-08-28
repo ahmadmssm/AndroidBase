@@ -27,11 +27,12 @@ open class GsonSerializationService(protected val gsonService: GsonService = Gso
         return listOf(*list)
     }
 
-    override fun <T>listFrom(string: String): ArrayList<T> {
-        val listType = object: TypeToken<ArrayList<T>?>() {}.type
-        return gsonConverter.fromJson(string, listType)    }
+    override fun <T>listFrom(string: String): List<T> {
+        val listType = object: TypeToken<List<T>?>() {}.type
+        return gsonConverter.fromJson(string, listType)
+    }
 
-    override fun <T> stringFrom(list: ArrayList<T>): String {
+    override fun <T> stringFrom(list: List<T>): String {
         return gsonConverter.toJson(list)
     }
 

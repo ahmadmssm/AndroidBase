@@ -1,4 +1,4 @@
-package com.ams.androiddevkit.baseClasses
+package com.ams.androiddevkit.baseClasses.application
 
 import android.app.Application
 import android.os.StrictMode

@@ -68,13 +68,15 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         return getViewModel(clazz = clazz)
     }
 
-    abstract fun getViewId(): Int
-
-    protected fun getViewModel(): VM? = viewModel
+    protected abstract fun getViewId(): Int
 
     protected abstract fun bindViews()
 
     protected abstract fun initUI()
+
+    protected abstract fun onViewStateChanged(state: ViewState)
+
+    protected fun getViewModel(): VM? = viewModel
 
     protected open fun initUI(bundle: Bundle?) {}
 
@@ -84,8 +86,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         finish()
         startActivity(intent)
     }
-
-    protected abstract fun onViewStateChanged(state: ViewState)
 
     // Hide keyboard when pressing outside (For Activites and Fragments)
     // https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext

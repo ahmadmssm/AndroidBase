@@ -64,17 +64,17 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
         return getViewModel(clazz = clazz)
     }
 
-    abstract fun getViewId(): Int
-
-    protected fun getViewModel(): VM? = viewModel
+    protected abstract fun getViewId(): Int
 
     protected abstract fun bindViews()
 
     protected abstract fun initUI()
 
-    protected open fun initUI(bundle: Bundle?) {}
-
     protected abstract fun onViewStateChanged(state: ViewState)
+
+    protected fun getViewModel(): VM? = viewModel
+
+    protected open fun initUI(bundle: Bundle?) {}
 
     protected open fun onViewReady() {}
 

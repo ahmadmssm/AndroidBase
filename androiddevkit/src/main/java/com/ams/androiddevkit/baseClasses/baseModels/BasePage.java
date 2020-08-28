@@ -13,7 +13,6 @@ public class BasePage<T> {
 
     public int getPageNumber() { return pageNumber; }
 
-
     // Helper methods
     public void resetPageCount () { this.pageNumber = 1; }
 

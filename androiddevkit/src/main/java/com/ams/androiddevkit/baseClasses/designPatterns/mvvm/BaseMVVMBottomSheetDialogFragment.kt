@@ -2,32 +2,29 @@ package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: DialogFragment {
+abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): BottomSheetDialogFragment() {
 
     private var viewModel: VM? = null
     protected var lifeCycleRegistry: LifecycleRegistry? = null
-    protected lateinit var clazz: KClass<VM>
 
-    constructor()
-
-    constructor(@LayoutRes contentLayoutId: Int): super(contentLayoutId)
-
-    constructor(clazz: KClass<VM>, @LayoutRes contentLayoutId: Int): super(contentLayoutId) {
-        this.clazz = clazz
-    }
+    @CallSuper
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? = inflater.inflate(getViewId(), container, false)
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,12 +85,11 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
     }
 
     protected open fun initViewModel(): VM? {
-        if(::clazz.isInitialized) {
-            // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
-            return getViewModel(clazz = clazz)
-        }
-        return null
+        // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
+        return getViewModel(clazz = clazz)
     }
+
+    protected abstract fun getViewId(): Int
 
     protected abstract fun bindViews()
 
