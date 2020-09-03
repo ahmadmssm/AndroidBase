@@ -15,3 +15,22 @@ inline fun <reified T> Any?.tryCast(block: T.() -> Unit, fallback: () -> Unit) {
         fallback()
     }
 }
+
+inline fun <reified T> Any?.tryCastListOf(block: List<T>.() -> Unit) {
+    this.tryCast<List<*>> {
+        if(this.any { it is T }) {
+            block(this as List<T>)
+        }
+    }
+}
+
+inline fun <reified T> Any?.tryCastListOf(block: List<T>.() -> Unit, fallback: () -> Unit) {
+    this.tryCast<List<*>> {
+        if(this.any { it is T }) {
+            block(this as List<T>)
+        }
+        else {
+            fallback()
+        }
+    }
+}

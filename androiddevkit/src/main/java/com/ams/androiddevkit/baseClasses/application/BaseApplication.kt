@@ -50,6 +50,10 @@ abstract class BaseApplication: Application(), LifecycleObserver {
         }
     }
 
+    protected open fun initAppLifeCycleObserver(observer: LifecycleObserver) {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(observer)
+    }
+    
     abstract fun getAppContext(): Application
 
     abstract fun getCurrentActivity(): AppCompatActivity?
@@ -57,12 +61,4 @@ abstract class BaseApplication: Application(), LifecycleObserver {
     protected abstract fun getKoinLoggingLevel(): org.koin.core.logger.Logger
 
     protected abstract fun getKoinModules(): List<Module>
-
-    @Suppress("unused")
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    protected open fun onAppInResume() {}
-
-    @Suppress("unused")
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    protected open fun onAppPause() {}
 }
