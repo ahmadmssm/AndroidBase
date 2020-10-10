@@ -28,12 +28,11 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
         super.onViewCreated(view, savedInstanceState)
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        onFragmentCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
         bindViews()
         observeStates()
-        onViewReady()
+        onFragmentCreated(savedInstanceState)
     }
 
     protected open fun initLifeCycleRegistry() {
@@ -75,8 +74,6 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
     protected fun getViewModel(): VM? = viewModel
 
     protected open fun initUI(bundle: Bundle?) {}
-
-    protected open fun onViewReady() {}
 
     //
     protected open fun onFragmentCreated(savedInstanceState: Bundle?) {

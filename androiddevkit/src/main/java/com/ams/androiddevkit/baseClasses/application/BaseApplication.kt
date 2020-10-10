@@ -3,9 +3,7 @@ package com.ams.androiddevkit.baseClasses.application
 import android.app.Application
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.ams.androiddevkit.BuildConfig
 import org.koin.android.ext.koin.androidContext
@@ -41,11 +39,11 @@ abstract class BaseApplication: Application(), LifecycleObserver {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected open fun initKoin() {
+    protected open fun initKoin(application: Application) {
         startKoin {
             logger(getKoinLoggingLevel())
             fragmentFactory()
-            androidContext(getAppContext())
+            androidContext(application)
             modules(getKoinModules())
         }
     }
@@ -53,8 +51,6 @@ abstract class BaseApplication: Application(), LifecycleObserver {
     protected open fun initAppLifeCycleObserver(observer: LifecycleObserver) {
         ProcessLifecycleOwner.get().lifecycle.addObserver(observer)
     }
-    
-    abstract fun getAppContext(): Application
 
     abstract fun getCurrentActivity(): AppCompatActivity?
 

@@ -26,6 +26,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
     override fun intercept(chain: Interceptor.Chain): Response { 
         loggingService.d(TAG, "intercept request")
         var originalRequest: Request = chain.request()
+        var responseOfFirstRequest: Response? = null
         val originalRequestBuilder = originalRequest.newBuilder()
         // Log current token
         loggingService.d("$TAG Authorization", originalRequest.header("Authorization") + " VALUE")
@@ -34,7 +35,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             setAuthenticationHeader(originalRequestBuilder, oldToken)
             // Overwrite old request
             originalRequest = originalRequestBuilder.build()
-            val responseOfFirstRequest = chain.proceed(originalRequest)
+            responseOfFirstRequest = chain.proceed(originalRequest)
             val firstRequestStatusCode = responseOfFirstRequest.code
             if(JwtUtils.isTokenExpired(oldToken) || isUnAuthenticated(firstRequestStatusCode)) {
                 // perform all refresh token request in sync blocks, to avoid multiply token updates
@@ -51,7 +52,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             }
         }
         // Return original request's response.
-        return chain.proceed(originalRequest.newBuilder().build())
+        return responseOfFirstRequest!!
     }
 
     @Throws(IOException::class)

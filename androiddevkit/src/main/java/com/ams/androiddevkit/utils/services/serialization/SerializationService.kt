@@ -2,7 +2,6 @@ package com.ams.androiddevkit.utils.services.serialization
 
 import retrofit2.Converter
 import java.io.IOException
-import java.util.ArrayList
 
 interface SerializationService {
     @Throws(IOException::class)

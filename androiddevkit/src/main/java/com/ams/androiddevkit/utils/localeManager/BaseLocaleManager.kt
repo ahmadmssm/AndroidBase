@@ -14,7 +14,7 @@ abstract class BaseLocaleManager {
     protected val legacyLocale by lazy { LegacyLocale() }
     protected val newLocale by lazy { NewLocale() }
 
-    // Call in BaseAppActivity class attachBaseContext Super
+    // Call in BaseAppActivity class attachBaseContext Super (Only if needed -> Not needed in most cases)
     open fun attach(context: Context): Context {
         val lang = getSavedLocale(context, Locale.getDefault().language)
         return setAppLanguage(context, lang!!)

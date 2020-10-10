@@ -34,12 +34,11 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
         super.onViewCreated(view, savedInstanceState)
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        onFragmentCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
         bindViews()
         observeStates()
-        onViewReady()
+        onFragmentCreated(savedInstanceState)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -104,9 +103,7 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
     protected fun getViewModel(): VM? = viewModel
 
     protected open fun initUI(bundle: Bundle?) {}
-
-    protected open fun onViewReady() {}
-
+    
     protected open fun onFragmentCreated(savedInstanceState: Bundle?) {
         lifeCycleRegistry?.currentState = Lifecycle.State.CREATED
     }

@@ -30,12 +30,11 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         setContentView(getViewId())
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        onActivityCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
         bindViews()
         observeStates()
-        onViewReady()
+        onActivityCreated(savedInstanceState)
     }
 
     protected open fun initKoinFragmentFactory() {
@@ -79,8 +78,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
     protected fun getViewModel(): VM? = viewModel
 
     protected open fun initUI(bundle: Bundle?) {}
-
-    protected open fun onViewReady() {}
 
     protected open fun restartActivity() {
         finish()

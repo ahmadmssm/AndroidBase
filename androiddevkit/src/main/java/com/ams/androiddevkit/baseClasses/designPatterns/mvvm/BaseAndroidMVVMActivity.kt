@@ -28,12 +28,11 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
         @Suppress("UNCHECKED_CAST")
         viewModel = initViewModel()
         initLifeCycleRegistry()
-        onActivityCreated(savedInstanceState)
         initUI()
         initUI(savedInstanceState)
         bindViews()
         observeStates()
-        onViewReady()
+        onActivityCreated(savedInstanceState)
     }
 
     protected open fun initKoinFragmentFactory() {
@@ -78,8 +77,6 @@ abstract class BaseAndroidMVVMActivity<VM: BaseAndroidViewModel<ViewState>, View
     protected open fun initUI(bundle: Bundle?) {}
 
     protected fun getViewModel(): VM? = viewModel
-
-    protected open fun onViewReady() {}
 
     protected open fun restartActivity() {
         finish()
