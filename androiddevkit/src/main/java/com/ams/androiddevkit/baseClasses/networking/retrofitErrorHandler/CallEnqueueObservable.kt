@@ -21,7 +21,7 @@ internal class CallEnqueueObservable<T>(private val originalCall: Call<T>): Obse
         if (!callback.isDisposed) call.enqueue(callback)
     }
 
-    private class CallCallback<T> internal constructor(private val call: Call<*>, private val observer: Observer<in Response<T>?>) : Disposable, Callback<T> {
+    private class CallCallback<T>(private val call: Call<*>, private val observer: Observer<in Response<T>?>) : Disposable, Callback<T> {
         @Volatile
         private var disposed = false
         var terminated = false

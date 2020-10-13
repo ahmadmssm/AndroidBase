@@ -15,7 +15,7 @@ abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
             .client(okHttpClient)
         if (getConverterFactory() != null) retrofitBuilder.addConverterFactory(this.getConverterFactory()!!)
         val callAdapterFactory =
-            if (getRxErrorHandlingCallAdapterFactory() != null) getRxErrorHandlingCallAdapterFactory()!!
+            if (getRxAdapterFactory() != null) getRxAdapterFactory()!!
             else RxJava3CallAdapterFactory.create()
         retrofitBuilder.addCallAdapterFactory(callAdapterFactory)
         return retrofitBuilder
@@ -36,5 +36,5 @@ abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
     protected abstract fun getBaseURL(): String
 
     // If we need to add RxErrorHandlingCallAdapterFactory for error handling
-    protected open fun getRxErrorHandlingCallAdapterFactory(): CallAdapter.Factory? { return null }
+    protected open fun getRxAdapterFactory(): CallAdapter.Factory? { return null }
 }

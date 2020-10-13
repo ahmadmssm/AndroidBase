@@ -52,7 +52,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
             }
         }
         // Return original request's response.
-        return responseOfFirstRequest!!
+        return responseOfFirstRequest ?: chain.proceed(originalRequestBuilder.build())
     }
 
     @Throws(IOException::class)
