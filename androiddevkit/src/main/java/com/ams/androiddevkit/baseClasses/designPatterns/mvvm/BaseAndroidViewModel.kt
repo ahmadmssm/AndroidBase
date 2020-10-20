@@ -4,6 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.ams.androiddevkit.utils.liveDataUtils.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 
 @Suppress("unused")
@@ -15,7 +18,10 @@ open class BaseAndroidViewModel<ViewState>(application: Application): AndroidVie
     protected val viewState = SingleLiveEvent<ViewState>()
 
     protected open fun postViewState(state: ViewState) {
-        viewState.value = state
+        // Ensures that the state will be posted on UI Thread
+        GlobalScope.launch(Dispatchers.Main) {
+            viewState.value = state
+        }
     }
 
     open fun getViewState(): LiveData<ViewState> = viewState
