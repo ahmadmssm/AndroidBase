@@ -1,14 +1,11 @@
 package com.ams.androiddevkit.baseClasses.networking
 
 import com.ams.androiddevkit.baseClasses.networking.interceptor.BaseRefreshTokenInterceptor
-import com.ams.androiddevkit.baseClasses.networking.mock.RequestFilter
-import com.ams.androiddevkit.baseClasses.networking.mock.addResponseMocks
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import okhttp3.*
 import okhttp3.internal.platform.Platform
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockResponse
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -42,8 +39,6 @@ abstract class OKHttpNetworkClient {
                 okHttpBuilder.addNetworkInterceptor(interceptor)
             }
         }
-        if (isMockable() && getResponseMocks().isNotEmpty())
-            okHttpBuilder.addResponseMocks(getResponseMocks())
         okHttpBuilder.cache(getOKHttpCache())
         if (enablePrettyPrintLogging())
             okHttpBuilder.addInterceptor(getHttpPrettyPrintLoggingInterceptor())
@@ -102,8 +97,6 @@ abstract class OKHttpNetworkClient {
     // Seconds.
     protected open fun getDefaultTimeOut(): Int = 10
 
-    protected abstract fun isMockable(): Boolean
-
     protected abstract fun isDebuggable(): Boolean
 
     protected open fun enablePrettyPrintLogging(): Boolean { return false }
@@ -124,6 +117,4 @@ abstract class OKHttpNetworkClient {
     protected open fun getAdditionalNetworkInterceptors(): MutableList<Interceptor> { return mutableListOf() }
 
     protected open fun getOKHttpCache(): Cache? = null
-
-    protected open fun getResponseMocks(): MutableMap<RequestFilter, MockResponse> { return mutableMapOf() }
 }

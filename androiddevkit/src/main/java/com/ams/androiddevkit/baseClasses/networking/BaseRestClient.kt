@@ -6,8 +6,6 @@ abstract class BaseRestClient: RetrofitClient() {
         buildRetrofit()
     }
 
-    override fun isMockable() = false
-
     override fun isDebuggable() = true
 }
 

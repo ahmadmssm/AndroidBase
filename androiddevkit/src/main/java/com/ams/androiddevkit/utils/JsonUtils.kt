@@ -1,11 +1,11 @@
-package com.ams.androiddevkit.baseClasses.networking.mock
+package com.ams.androiddevkit.utils
 
 import android.content.Context
 
-object JsonUtils {
+open class JsonUtils {
 
     // Use with Android only
-    fun loadJsonFileAsStringFromResourcesFolder(context: Context, fileName: String): String? {
+    open fun loadJsonFileAsStringFromResourcesFolder(context: Context, fileName: String): String? {
         val jsonString: String?
         try {
             val inputStream = context.assets.open("$fileName.json")
@@ -19,7 +19,7 @@ object JsonUtils {
     }
 
     // Use with unit testing only
-    fun loadJsonFileAsStringFromResourcesFolder(fileName: String): String? {
+    open fun loadJsonFileAsStringFromResourcesFolder(fileName: String): String? {
         val jsonString: String?
         try {
             val inputStream = this.javaClass.classLoader!!.getResourceAsStream("$fileName.json")
