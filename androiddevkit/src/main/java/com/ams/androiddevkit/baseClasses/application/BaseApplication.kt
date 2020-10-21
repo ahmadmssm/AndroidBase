@@ -7,8 +7,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.ams.androiddevkit.BuildConfig
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import org.koin.core.module.Module
 
 @Suppress("unused")
@@ -41,7 +43,7 @@ abstract class BaseApplication: Application(), LifecycleObserver {
     @Suppress("MemberVisibilityCanBePrivate")
     protected open fun initKoin(application: Application) {
         startKoin {
-            logger(getKoinLoggingLevel())
+            androidLogger(getKoinLoggingLevel())
             fragmentFactory()
             androidContext(application)
             modules(getKoinModules())
@@ -54,7 +56,7 @@ abstract class BaseApplication: Application(), LifecycleObserver {
 
     abstract fun getCurrentActivity(): AppCompatActivity?
 
-    protected abstract fun getKoinLoggingLevel(): org.koin.core.logger.Logger
+    protected abstract fun getKoinLoggingLevel(): Level
 
     protected abstract fun getKoinModules(): List<Module>
 }
