@@ -7,7 +7,9 @@ import retrofit2.Converter.Factory
 
 abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
 
-    protected open var retrofit: Retrofit? = null
+    protected open val retrofit: Retrofit by lazy {
+        this.getRetrofitBuilder().build()
+    }
 
     protected open fun getRetrofitBuilder(): Retrofit.Builder {
         val retrofitBuilder = Retrofit.Builder()
@@ -21,14 +23,8 @@ abstract class RetrofitClient: OKHttpNetworkClient(), IRetrofitClient {
         return retrofitBuilder
     }
 
-    fun buildRetrofit(): RetrofitClient {
-        if (retrofit == null)
-            retrofit = this.getRetrofitBuilder().build()
-        return this
-    }
-
     override fun <APIsInterface> getRetrofitClient(restAPIsInterface: Class<APIsInterface>): APIsInterface {
-        return retrofit!!.create(restAPIsInterface)
+        return retrofit.create(restAPIsInterface)
     }
 
     protected open fun getConverterFactory(): Factory? = null

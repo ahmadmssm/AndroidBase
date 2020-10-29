@@ -1,4 +1,4 @@
-package com.ams.androiddevkit.baseClasses.networking.interceptor
+package com.ams.androiddevkit.baseClasses.networking.interceptors
 
 import com.ams.androiddevkit.utils.services.logging.LoggingService
 import okhttp3.Interceptor

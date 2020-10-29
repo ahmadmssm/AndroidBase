@@ -1,8 +1,7 @@
-package com.robusta.bootstrap.pagination.localAndRemoteFetcher
+package com.ams.androiddevkit.baseClasses.paginationComponent.localAndRemoteFetcher
 
 import android.util.Log
 import androidx.paging.PagedList
-import com.ams.androiddevkit.baseClasses.pagination.localAndRemoteFetcher.PagingRequestHelper
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable

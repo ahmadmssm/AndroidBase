@@ -1,4 +1,4 @@
-package com.robusta.bootstrap.pagination
+package com.ams.androiddevkit.baseClasses.paginationComponent
 
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder

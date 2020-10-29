@@ -29,13 +29,12 @@ object JwtUtils {
                     return expiryDate?.toLongOrNull()
                 } ?: run { return null }
             }
-        } ?: kotlin.run {
+        } ?: run {
             getDecodedToken(token)?.let {
                 val expiryDate = JwtWrapper(it).exp
                 return expiryDate?.toLongOrNull()
             } ?: run { return null }
         }
-        return null
     }
 
     @Suppress("MemberVisibilityCanBePrivate")

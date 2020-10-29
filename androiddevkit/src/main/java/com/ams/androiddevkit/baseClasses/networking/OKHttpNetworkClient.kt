@@ -1,6 +1,6 @@
 package com.ams.androiddevkit.baseClasses.networking
 
-import com.ams.androiddevkit.baseClasses.networking.interceptor.BaseRefreshTokenInterceptor
+import com.ams.androiddevkit.baseClasses.networking.interceptors.BaseRefreshTokenInterceptor
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import okhttp3.*

@@ -1,11 +1,12 @@
 package com.ams.androiddevkit.utils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -39,7 +40,17 @@ open class AndroidUtils {
         return dp.roundToInt().toFloat()
     }
 
+    open fun convertPixelsToDp(px: Int): Float {
+        val dp = px / (metrics.densityDpi / 160f)
+        return dp.roundToInt().toFloat()
+    }
+
     open fun convertDpToPixel(dp: Float): Float {
+        val px = dp * (metrics.densityDpi / 160f)
+        return px.roundToInt().toFloat()
+    }
+
+    open fun convertDpToPixel(dp: Int): Float {
         val px = dp * (metrics.densityDpi / 160f)
         return px.roundToInt().toFloat()
     }
@@ -70,6 +81,35 @@ open class AndroidUtils {
         toast = Toast.makeText(context, textResourceId, duration)
         toast?.setGravity(Gravity.CENTER, 0, 0)
         toast?.show()
+    }
+
+    @Suppress("DEPRECATION")
+    open fun isNetworkConnectionAvailable(context: Context): Boolean {
+        var result = false
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val capabilities =
+                cm.getNetworkCapabilities(cm.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) {
+                    result = true
+                }
+            }
+        }
+        else {
+            val activeNetwork = cm.activeNetworkInfo
+            if (activeNetwork != null) {
+                // connected to the internet
+                if (activeNetwork.type == ConnectivityManager.TYPE_WIFI ||
+                    activeNetwork.type == ConnectivityManager.TYPE_MOBILE ||
+                    activeNetwork.type == ConnectivityManager.TYPE_VPN) {
+                    result = true
+                }
+            }
+        }
+        return result
     }
 
     open fun restartApp(context: Context) {

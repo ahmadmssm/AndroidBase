@@ -1,4 +1,4 @@
-package com.robusta.bootstrap.pagination
+package com.ams.androiddevkit.baseClasses.paginationComponent
 
 open class PaginationState {
     class Offline : PaginationState()

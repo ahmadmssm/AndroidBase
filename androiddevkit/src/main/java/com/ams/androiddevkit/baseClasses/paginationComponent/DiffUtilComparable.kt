@@ -1,4 +1,4 @@
-package com.robusta.bootstrap.pagination
+package com.ams.androiddevkit.baseClasses.paginationComponent
 
 interface DiffUtilComparable: DiffUtilEquatable {
     fun getItemId(): Long

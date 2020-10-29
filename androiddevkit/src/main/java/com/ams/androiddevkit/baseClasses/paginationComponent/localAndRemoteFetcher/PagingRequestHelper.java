@@ -1,4 +1,4 @@
-package com.ams.androiddevkit.baseClasses.pagination.localAndRemoteFetcher;
+package com.ams.androiddevkit.baseClasses.paginationComponent.localAndRemoteFetcher;
 
 /*
  * Copyright 2017 The Android Open Source Project

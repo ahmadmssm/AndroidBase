@@ -14,7 +14,32 @@ open class RetrofitException(override val message: String?,
                              @Suppress("CanBeParameter") val exception: Throwable?,
                              val retrofit: Retrofit?): RuntimeException(message, exception) {
 
+    enum class TYPE {
+        /** An [IOException] occurred while communicating with the server.  */
+        NETWORK,
+        /** A non 200-399 HTTP status code range was received from the server.  */
+        HTTP,
+        /**
+         * An internal error occurred while attempting to execute a request. It is best practice to
+         * re-throw this exception so your application crashes.
+         */
+        UNEXPECTED
+    }
+    
     fun getStatusCode(): Int? = this.response?.code()
+
+    /**
+     * HTTP response body converted to specified `type`. `null` if there is no
+     * response.
+     * @throws IOException if unable to convert the body to the specified `type`.
+     */
+    @Throws(IOException::class)
+    fun <T> getErrorBodyAs(type: Class<T>): T? {
+        if (response?.errorBody() == null || retrofit == null)
+            return null
+        val converter: Converter<ResponseBody, T> = retrofit.responseBodyConverter(type, arrayOfNulls<Annotation>(0))
+        return converter.convert(response.errorBody()!!)
+    }
 
     companion object {
         fun httpError(url: String, response: Response<*>, retrofit: Retrofit): RetrofitException {
@@ -29,29 +54,5 @@ open class RetrofitException(override val message: String?,
         fun unexpectedError(exception: Throwable): RetrofitException {
             return RetrofitException(exception.message, null, null, TYPE.UNEXPECTED, exception, null)
         }
-    }
-
-    /**
-     * HTTP response body converted to specified `type`. `null` if there is no
-     * response.
-     * @throws IOException if unable to convert the body to the specified `type`.
-     */
-    @Throws(IOException::class)
-    fun <T> getErrorBodyAs(type: Class<T>): T? {
-        if (response?.errorBody() == null || retrofit == null) return null
-        val converter: Converter<ResponseBody, T> = retrofit.responseBodyConverter(type, arrayOfNulls<Annotation>(0))
-        return converter.convert(response.errorBody()!!)
-    }
-
-    enum class TYPE {
-        /** An [IOException] occurred while communicating with the server.  */
-        NETWORK,
-        /** A non 200-399 HTTP status code range was received from the server.  */
-        HTTP,
-        /**
-         * An internal error occurred while attempting to execute a request. It is best practice to
-         * re-throw this exception so your application crashes.
-         */
-        UNEXPECTED
     }
 }
