@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.ReplaySubject
 
 fun <T> Observable<T>.applyThreadingConfig(): Observable<T> {
     return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -139,6 +140,17 @@ fun Completable.execute(compositeDisposable: CompositeDisposable,
     this.applyThreadingConfig()
         .doFinally { doFinally() }
         .subscribe({ success() },{ error(it) })
+        .addTo(compositeDisposable)
+}
+
+fun <T> ReplaySubject<T>.executeSubject(compositeDisposable: CompositeDisposable,
+                                        next: (T) -> Unit,
+                                        complete: () -> Unit?,
+                                        error: (Throwable) -> Unit?,
+                                        doFinally: () -> Unit) {
+    this.applyThreadingConfig()
+        .doFinally { doFinally() }
+        .subscribe( { next(it) }, { error(it) }, { complete() })
         .addTo(compositeDisposable)
 }
 
