@@ -15,11 +15,20 @@ open class GsonSerializationService(protected val gsonService: GsonService = Gso
 
     @Throws(IOException::class)
     override fun <T>fromJson(json: String, jsonObjectClass: Class<T>): T {
-        return gsonConverter.fromJson<T>(json, jsonObjectClass)
+        return gsonConverter.fromJson(json, jsonObjectClass)
+    }
+
+    override fun <T> fromJson(string: String): T {
+        val type = object: TypeToken<T?>() {}.type
+        return gsonConverter.fromJson(string, type)
     }
 
     override fun <T>toJson(t: T, jsonObjectClass: Class<T>): String {
         return gsonConverter.toJson(t, jsonObjectClass)
+    }
+
+    override fun <T> toJson(item: T): String {
+        return gsonConverter.toJson(item)
     }
 
     override fun <T>listOfObjectsFrom(string: String, clazz: Class<Array<T>>): List<T> {
