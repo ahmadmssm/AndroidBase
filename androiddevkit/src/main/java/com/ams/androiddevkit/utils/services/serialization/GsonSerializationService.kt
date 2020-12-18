@@ -6,7 +6,6 @@ import com.ams.androiddevkit.utils.services.gsonService.GsonServiceImpl
 import com.google.gson.reflect.TypeToken
 import retrofit2.Converter
 import java.io.IOException
-import java.util.ArrayList
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class GsonSerializationService(protected val gsonService: GsonService = GsonServiceImpl()): SerializationService {
@@ -16,11 +15,6 @@ open class GsonSerializationService(protected val gsonService: GsonService = Gso
     @Throws(IOException::class)
     override fun <T>fromJson(json: String, jsonObjectClass: Class<T>): T {
         return gsonConverter.fromJson(json, jsonObjectClass)
-    }
-
-    override fun <T> fromJson(string: String): T {
-        val type = object: TypeToken<T?>() {}.type
-        return gsonConverter.fromJson(string, type)
     }
 
     override fun <T>toJson(t: T, jsonObjectClass: Class<T>): String {

@@ -10,10 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import kotlin.reflect.KClass
-
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -21,20 +19,20 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): AppCompatActivity() {
 
     private var viewModel: VM? = null
-    //
     protected lateinit var lifeCycleRegistry : LifecycleRegistry
+    protected abstract val layoutId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initKoinFragmentFactory()
         super.onCreate(savedInstanceState)
-        setContentView(getViewId())
-        viewModel = initViewModel()
-        initLifeCycleRegistry()
-        initUI()
-        initUI(savedInstanceState)
-        bindViews()
-        observeStates()
-        onActivityCreated(savedInstanceState)
+        this.bindLayout()
+        this.viewModel = initViewModel()
+        this.initLifeCycleRegistry()
+        this.initUI()
+        this.initUI(savedInstanceState)
+        this.bindViews()
+        this.observeStates()
+        this.onActivityCreated(savedInstanceState)
     }
 
     protected open fun initKoinFragmentFactory() {
@@ -55,7 +53,7 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
     protected open fun observeStates() {
         getViewModel()?.let {
             if(!it.getViewState().hasActiveObservers()) {
-                it.getViewState().observe(this, Observer { viewState ->
+                it.getViewState().observe(this, { viewState ->
                     onViewStateChanged(viewState)
                 })
             }
@@ -66,8 +64,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
         return getViewModel(clazz = clazz)
     }
-
-    protected abstract fun getViewId(): Int
 
     protected abstract fun bindViews()
 
@@ -94,7 +90,6 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
         return super.dispatchTouchEvent(motionEvent)
     }
 
-    //
     protected open fun onActivityCreated(savedInstanceState: Bundle?) {
         lifeCycleRegistry.currentState = Lifecycle.State.CREATED
     }
@@ -112,7 +107,13 @@ abstract class BaseMVVMActivity<VM: BaseViewModel<ViewState>, ViewState>(protect
     override fun onDestroy() {
         super.onDestroy()
         lifeCycleRegistry.currentState = Lifecycle.State.DESTROYED
-        lifeCycleRegistry.removeObserver(viewModel!!)
+        viewModel?.let {
+            lifeCycleRegistry.removeObserver(it)
+        }
         viewModel = null
+    }
+
+    protected open fun bindLayout() {
+        setContentView(layoutId)
     }
 }

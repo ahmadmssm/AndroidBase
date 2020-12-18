@@ -2,7 +2,9 @@ package com.ams.androiddevkit.baseClasses.designPatterns.mvvm
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -10,7 +12,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
@@ -20,6 +21,7 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
     private var viewModel: VM? = null
     protected var lifeCycleRegistry: LifecycleRegistry? = null
     protected lateinit var clazz: KClass<VM>
+    protected abstract val layoutId: Int
 
     constructor()
 
@@ -79,7 +81,7 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
     protected open fun observeStates() {
         getViewModel()?.let {
             if (!it.getViewState().hasActiveObservers()) {
-                it.getViewState().observe(viewLifecycleOwner, Observer { viewState ->
+                it.getViewState().observe(viewLifecycleOwner, { viewState ->
                     onViewStateChanged(viewState)
                 })
             }
@@ -122,5 +124,9 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
         super.onDestroyView()
         lifeCycleRegistry?.currentState = Lifecycle.State.DESTROYED
         viewModel = null
+    }
+
+    protected open fun getInflatedView(inflater: LayoutInflater, container: ViewGroup?): View? {
+        return inflater.inflate(layoutId, container, false)
     }
 }

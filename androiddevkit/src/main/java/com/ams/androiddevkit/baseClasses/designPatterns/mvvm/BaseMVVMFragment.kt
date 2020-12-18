@@ -8,7 +8,6 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
@@ -17,11 +16,12 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
 
     private var viewModel: VM? = null
     protected var lifeCycleRegistry: LifecycleRegistry? = null
+    protected abstract val layoutId: Int
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? = inflater.inflate(getViewId(), container, false)
+                              savedInstanceState: Bundle?): View? = this.getInflatedView(inflater, container)
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
     protected open fun observeStates() {
         getViewModel()?.let {
             if(!it.getViewState().hasActiveObservers()) {
-                it.getViewState().observe(viewLifecycleOwner, Observer { viewState ->
+                it.getViewState().observe(viewLifecycleOwner, { viewState ->
                     onViewStateChanged(viewState)
                 })
             }
@@ -94,5 +94,9 @@ abstract class BaseMVVMFragment<VM: BaseViewModel<ViewState>, ViewState>(protect
         super.onDestroyView()
         lifeCycleRegistry?.currentState = Lifecycle.State.DESTROYED
         viewModel = null
+    }
+
+    protected open fun getInflatedView(inflater: LayoutInflater, container: ViewGroup?): View? {
+        return inflater.inflate(layoutId, container, false)
     }
 }

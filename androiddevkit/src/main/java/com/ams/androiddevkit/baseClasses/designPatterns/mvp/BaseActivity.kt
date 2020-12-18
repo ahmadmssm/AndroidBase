@@ -1,6 +1,5 @@
 package com.ams.androiddevkit.baseClasses.designPatterns.mvp
 
-import android.content.Context
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -79,8 +78,6 @@ abstract class BaseActivity<Presenter: BasePresenter<*>>: AppCompatActivity(), B
         presenter = null
         lifeCycleRegistry = null
     }
-
-    protected open fun getContext(): Context? { return this }
 
     protected open fun restartActivity() {
         finish()

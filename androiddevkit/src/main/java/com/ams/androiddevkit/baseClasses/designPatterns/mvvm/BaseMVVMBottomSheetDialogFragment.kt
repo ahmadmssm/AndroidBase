@@ -10,7 +10,6 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
@@ -18,13 +17,14 @@ import kotlin.reflect.KClass
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): BottomSheetDialogFragment() {
 
-    private var viewModel: VM? = null
+    protected var viewModel: VM? = null
     protected var lifeCycleRegistry: LifecycleRegistry? = null
+    protected abstract val layoutId: Int
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? = inflater.inflate(getViewId(), container, false)
+                              savedInstanceState: Bundle?): View? = this.getInflatedView(inflater, container)
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, V
         return dialog
     }
 
-    // This function was overriden was mainly created to solve this exception"
+    // This function was overridden was mainly created to solve this exception"
     // java.lang.IllegalStateException: Fragment already added due to the Dialog fragments sometimes added twice quickly.
     // Ref: https://www.programmersought.com/article/9787616645/
     override fun show(manager: FragmentManager, tag: String?) {
@@ -74,9 +74,9 @@ abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, V
     }
 
     protected open fun observeStates() {
-        getViewModel()?.let {
+        viewModel?.let {
             if (!it.getViewState().hasActiveObservers()) {
-                it.getViewState().observe(viewLifecycleOwner, Observer { viewState ->
+                it.getViewState().observe(viewLifecycleOwner, { viewState ->
                     onViewStateChanged(viewState)
                 })
             }
@@ -88,15 +88,11 @@ abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, V
         return getViewModel(clazz = clazz)
     }
 
-    protected abstract fun getViewId(): Int
-
     protected abstract fun bindViews()
 
     protected abstract fun initUI()
 
     protected abstract fun onViewStateChanged(state: ViewState)
-
-    protected fun getViewModel(): VM? = viewModel
 
     protected open fun initUI(bundle: Bundle?) {}
 
@@ -118,5 +114,9 @@ abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, V
         super.onDestroyView()
         lifeCycleRegistry?.currentState = Lifecycle.State.DESTROYED
         viewModel = null
+    }
+
+    protected open fun getInflatedView(inflater: LayoutInflater, container: ViewGroup?): View? {
+        return inflater.inflate(layoutId, container, false)
     }
 }
