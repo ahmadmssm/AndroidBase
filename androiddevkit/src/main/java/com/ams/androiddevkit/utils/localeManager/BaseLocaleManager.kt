@@ -14,9 +14,11 @@ abstract class BaseLocaleManager {
     protected val legacyLocale by lazy { LegacyLocale() }
     protected val newLocale by lazy { NewLocale() }
 
+    protected open fun localeSplitter() = "_"
+
     // Call in BaseAppActivity class attachBaseContext Super (Only if needed -> Not needed in most cases)
     open fun attach(context: Context): Context {
-        val lang = getSavedLocale(context, Locale.getDefault().language)
+        val lang = getSavedLocale(context)
         lang?.split("_")?.let {
             return setAppLanguage(context, it.first(), it.last())
         } ?: run {
@@ -26,13 +28,13 @@ abstract class BaseLocaleManager {
 
     // Call in Application class attachBaseContext Super
     open fun attach(context: Context, defaultLanguage: String): Context {
-        val lang = getSavedLocale(context, defaultLanguage)
-        return setAppLanguage(context, lang!!)
+        val lang = getSavedLocale(context) ?: geFallbackLanguage()
+        return setAppLanguage(context, lang)
     }
 
     // Call in Application class attachBaseContext Super
     open fun attach(context: Context, defaultLanguage: String, countryKey: String): Context {
-        getSavedLocale(context, defaultLanguage + "_" + countryKey)?.split("_")?.let {
+        getSavedLocale(context)?.split("_")?.let {
             return if(it.size == 2) {
                 setAppLanguage(context, it.first(), it.last())
             }
@@ -40,7 +42,7 @@ abstract class BaseLocaleManager {
                 setAppLanguage(context, it.toString())
             }
         } ?: run {
-            return setAppLanguage(context, defaultLanguage + "_" + countryKey)
+            return setAppLanguage(context, defaultLanguage + localeSplitter() + countryKey)
         }
     }
 
@@ -61,7 +63,7 @@ abstract class BaseLocaleManager {
     }
 
     open fun getCurrentAppLocale(context: Context): String? {
-        return getSavedLocale(context, Locale.getDefault().language)
+        return getSavedLocale(context)
     }
 
     open fun getDefaultLocale(): Locale = Locale.getDefault()
@@ -74,7 +76,9 @@ abstract class BaseLocaleManager {
         return getDeviceLocale().language
     }
 
-    abstract fun getSavedLocale(context: Context, defaultLanguage: String): String?
+    abstract fun geFallbackLanguage(): String
+
+    abstract fun getSavedLocale(context: Context): String?
 
     abstract fun saveLocale(context: Context, language: String)
 
