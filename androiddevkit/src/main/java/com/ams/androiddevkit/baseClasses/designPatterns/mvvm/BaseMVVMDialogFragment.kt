@@ -21,15 +21,21 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
     private var viewModel: VM? = null
     protected var lifeCycleRegistry: LifecycleRegistry? = null
     protected lateinit var clazz: KClass<VM>
-    protected abstract val layoutId: Int
+    protected var layoutId: Int = 0
+        private set
 
     constructor()
 
-    constructor(@LayoutRes contentLayoutId: Int): super(contentLayoutId)
-
-    constructor(clazz: KClass<VM>, @LayoutRes contentLayoutId: Int): super(contentLayoutId) {
-        this.clazz = clazz
+    constructor(@LayoutRes contentLayoutId: Int) {
+        this.layoutId = contentLayoutId
     }
+
+    constructor(clazz: KClass<VM>, @LayoutRes contentLayoutId: Int) {
+        this.clazz = clazz
+        this.layoutId = contentLayoutId
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) = this.getInflatedView(inflater, container)
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,6 +133,9 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
     }
 
     protected open fun getInflatedView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        return inflater.inflate(layoutId, container, false)
+        if(layoutId != 0) {
+            return inflater.inflate(layoutId, container, false)
+        }
+        return null
     }
 }
