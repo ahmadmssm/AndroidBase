@@ -1,8 +1,10 @@
 package com.ams.androiddevkit.utils.localeManager
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
+import android.view.View
 import androidx.core.os.ConfigurationCompat
 import java.util.*
 
@@ -16,33 +18,18 @@ abstract class BaseLocaleManager {
 
     protected open fun localeSplitter() = "_"
 
-    // Call in BaseAppActivity class attachBaseContext Super (Only if needed -> Not needed in most cases)
+    // Call in Application class attachBaseContext Super
+    // Also call in BaseAppActivity class attachBaseContext Super (Only if needed -> Not needed in most cases)
     open fun attach(context: Context): Context {
-        val lang = getSavedLocale(context)
-        lang?.split("_")?.let {
-            return setAppLanguage(context, it.first(), it.last())
-        } ?: run {
-            return setAppLanguage(context, lang!!)
-        }
-    }
-
-    // Call in Application class attachBaseContext Super
-    open fun attach(context: Context, defaultLanguage: String): Context {
-        val lang = getSavedLocale(context) ?: geFallbackLanguage()
-        return setAppLanguage(context, lang)
-    }
-
-    // Call in Application class attachBaseContext Super
-    open fun attach(context: Context, defaultLanguage: String, countryKey: String): Context {
-        getSavedLocale(context)?.split("_")?.let {
+        getSavedLocale(context)?.split(localeSplitter())?.let {
             return if(it.size == 2) {
                 setAppLanguage(context, it.first(), it.last())
             }
             else {
-                setAppLanguage(context, it.toString())
+                setAppLanguage(context, getFallbackLanguage())
             }
         } ?: run {
-            return setAppLanguage(context, defaultLanguage + localeSplitter() + countryKey)
+            return setAppLanguage(context, getFallbackLanguage())
         }
     }
 
@@ -68,6 +55,8 @@ abstract class BaseLocaleManager {
 
     open fun getDefaultLocale(): Locale = Locale.getDefault()
 
+    open fun getDefaultLocale(context: Context) = Locale(getSavedLocale(context) ?: getFallbackLanguage())
+
     open fun getDeviceLocale(): Locale {
         return ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0]
     }
@@ -76,7 +65,7 @@ abstract class BaseLocaleManager {
         return getDeviceLocale().language
     }
 
-    abstract fun geFallbackLanguage(): String
+    abstract fun getFallbackLanguage(): String
 
     abstract fun getSavedLocale(context: Context): String?
 
@@ -88,6 +77,18 @@ abstract class BaseLocaleManager {
         return isLocaleRTL(Locale.getDefault())
     }
 
+    open fun resetLocale(context: Context) {
+        this.saveLocale(context, getFallbackLanguage())
+    }
+
+    open fun setLayoutDirection(activity: Activity) {
+        val direction = if(isRTL())
+            View.LAYOUT_DIRECTION_RTL
+        else
+            View.LAYOUT_DIRECTION_LTR
+        activity.window.decorView.layoutDirection = direction
+    }
+
     @Suppress("MemberVisibilityCanBePrivate")
     open fun isLocaleRTL(locale: Locale): Boolean {
         val firstChar = locale.getDisplayName(locale)[0]
@@ -96,4 +97,14 @@ abstract class BaseLocaleManager {
         val secondCondition= firstCharDirection == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC
         return firstCondition || secondCondition
     }
+
+    //    Locale.getDefault().getLanguage()       ---> en
+    //    Locale.getDefault().getISO3Language()   ---> eng
+    //    Locale.getDefault().getCountry()        ---> US
+    //    Locale.getDefault().getISO3Country()    ---> USA
+    //    Locale.getDefault().getDisplayCountry() ---> United States
+    //    Locale.getDefault().getDisplayName()    ---> English (United States)
+    //    Locale.getDefault().toString()          ---> en_US
+    //    Locale.getDefault().getDisplayLanguage()---> English
+    //    Locale.getDefault().toLanguageTag()     ---> en-US
 }
