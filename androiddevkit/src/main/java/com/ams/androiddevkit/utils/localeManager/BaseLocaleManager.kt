@@ -17,7 +17,11 @@ abstract class BaseLocaleManager {
     // Call in BaseAppActivity class attachBaseContext Super (Only if needed -> Not needed in most cases)
     open fun attach(context: Context): Context {
         val lang = getSavedLocale(context, Locale.getDefault().language)
-        return setAppLanguage(context, lang!!)
+        lang?.split("-")?.let {
+            return setAppLanguage(context, it.first(), it.last())
+        } ?: run {
+            return setAppLanguage(context, lang!!)
+        }
     }
 
     // Call in Application class attachBaseContext Super
@@ -26,12 +30,34 @@ abstract class BaseLocaleManager {
         return setAppLanguage(context, lang!!)
     }
 
+    // Call in Application class attachBaseContext Super
+    open fun attach(context: Context, defaultLanguage: String, countryKey: String): Context {
+        getSavedLocale(context, "$defaultLanguage-$countryKey")?.split("-")?.let {
+            return if(it.size == 2) {
+                setAppLanguage(context, it.first(), it.last())
+            }
+            else {
+                setAppLanguage(context, it.toString())
+            }
+        } ?: run {
+            return setAppLanguage(context, "$defaultLanguage-$countryKey")
+        }
+    }
+
     open fun setAppLanguage(context: Context, language: String): Context {
         saveLocale(context, language)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             newLocale.updateResources(context, language)
         }
         else legacyLocale.updateResources(context, language)
+    }
+
+    open fun setAppLanguage(context: Context, language: String, countryKey: String): Context {
+        saveLocale(context, language)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            newLocale.updateResources(context, language, countryKey)
+        }
+        else legacyLocale.updateResources(context, language, countryKey)
     }
 
     open fun getCurrentAppLocale(context: Context): String? {
