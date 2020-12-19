@@ -17,7 +17,7 @@ abstract class BaseLocaleManager {
     // Call in BaseAppActivity class attachBaseContext Super (Only if needed -> Not needed in most cases)
     open fun attach(context: Context): Context {
         val lang = getSavedLocale(context, Locale.getDefault().language)
-        lang?.split("-")?.let {
+        lang?.split("_")?.let {
             return setAppLanguage(context, it.first(), it.last())
         } ?: run {
             return setAppLanguage(context, lang!!)
@@ -32,7 +32,7 @@ abstract class BaseLocaleManager {
 
     // Call in Application class attachBaseContext Super
     open fun attach(context: Context, defaultLanguage: String, countryKey: String): Context {
-        getSavedLocale(context, "$defaultLanguage-$countryKey")?.split("-")?.let {
+        getSavedLocale(context, defaultLanguage + "_" + countryKey)?.split("_")?.let {
             return if(it.size == 2) {
                 setAppLanguage(context, it.first(), it.last())
             }
@@ -40,7 +40,7 @@ abstract class BaseLocaleManager {
                 setAppLanguage(context, it.toString())
             }
         } ?: run {
-            return setAppLanguage(context, "$defaultLanguage-$countryKey")
+            return setAppLanguage(context, defaultLanguage + "_" + countryKey)
         }
     }
 
@@ -53,7 +53,7 @@ abstract class BaseLocaleManager {
     }
 
     open fun setAppLanguage(context: Context, language: String, countryKey: String): Context {
-        saveLocale(context, language)
+        saveLocale(context, language, countryKey)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             newLocale.updateResources(context, language, countryKey)
         }
@@ -76,7 +76,9 @@ abstract class BaseLocaleManager {
 
     abstract fun getSavedLocale(context: Context, defaultLanguage: String): String?
 
-    abstract fun saveLocale(context: Context, language: String?)
+    abstract fun saveLocale(context: Context, language: String)
+
+    abstract fun saveLocale(context: Context, language: String, countryKey: String)
 
     open fun isRTL(): Boolean {
         return isLocaleRTL(Locale.getDefault())
