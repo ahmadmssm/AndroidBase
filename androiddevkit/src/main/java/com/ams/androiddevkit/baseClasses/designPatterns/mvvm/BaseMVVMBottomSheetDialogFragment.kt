@@ -98,8 +98,11 @@ abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, V
     }
 
     protected open fun initViewModel(): VM? {
-        // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
-        return getViewModel(clazz = clazz)
+        if(::clazz.isInitialized) {
+            // getViewModel(clazz = clazz) { parametersOf(viewModelParams) }
+            return getViewModel(clazz = clazz)
+        }
+        return null
     }
 
     protected abstract fun bindViews()
@@ -131,6 +134,9 @@ abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, V
     }
 
     protected open fun getInflatedView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        return inflater.inflate(layoutId, container, false)
+        if(layoutId != 0) {
+            return inflater.inflate(layoutId, container, false)
+        }
+        return null
     }
 }

@@ -58,7 +58,7 @@ abstract class BaseMVVMDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: 
         return dialog
     }
 
-    // This function was overriden was mainly created to solve this exception"
+    // This function was overridden was mainly created to solve this exception"
     // java.lang.IllegalStateException: Fragment already added due to the Dialog fragments sometimes added twice quickly.
     // Ref: https://www.programmersought.com/article/9787616645/
     override fun show(manager: FragmentManager, tag: String?) {
