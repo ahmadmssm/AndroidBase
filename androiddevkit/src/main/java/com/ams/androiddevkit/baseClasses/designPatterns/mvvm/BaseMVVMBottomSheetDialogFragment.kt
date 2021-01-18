@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
@@ -15,11 +16,24 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, ViewState>(protected val clazz: KClass<VM>): BottomSheetDialogFragment() {
+abstract class BaseMVVMBottomSheetDialogFragment<VM: BaseViewModel<ViewState>, ViewState>: BottomSheetDialogFragment {
 
     protected var viewModel: VM? = null
     protected var lifeCycleRegistry: LifecycleRegistry? = null
-    protected abstract val layoutId: Int
+    protected lateinit var clazz: KClass<VM>
+    protected var layoutId: Int = 0
+        private set
+
+    constructor()
+
+    constructor(@LayoutRes contentLayoutId: Int) {
+        this.layoutId = contentLayoutId
+    }
+
+    constructor(clazz: KClass<VM>, @LayoutRes contentLayoutId: Int) {
+        this.clazz = clazz
+        this.layoutId = contentLayoutId
+    }
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
