@@ -7,6 +7,8 @@ interface SharedPrefService {
     fun saveString(key: String, value: String): Boolean
     fun saveInt(key: String, value: Int): Boolean
     fun saveLong(key: String, value: Long): Boolean
+    fun saveDouble(key: String, value: Double): Boolean
+    fun saveFloat(key: String, value: Float): Boolean
     fun saveBoolean(key: String, value: Boolean): Boolean
     fun getString(key: String): String?
     fun getBoolean(key: String): Boolean
@@ -15,6 +17,10 @@ interface SharedPrefService {
     fun getInt(key: String): Int?
     fun getLong(key: String): Long?
     fun getLong(key: String, fallbackValue: Long): Long?
+    fun getDouble(key: String, fallbackValue: Double): Double?
+    fun getDouble(key: String): Double?
+    fun getFloat(key: String, fallbackValue: Float): Float?
+    fun getFloat(key: String): Float?
     fun containsKey(key: String): Boolean
     fun removeValueWithKey(key: String): Boolean
     fun clearAll()

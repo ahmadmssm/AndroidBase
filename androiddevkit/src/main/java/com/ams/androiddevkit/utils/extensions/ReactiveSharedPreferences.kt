@@ -7,7 +7,5 @@ import com.ams.androiddevkit.utils.sharedPreference.reactiveSharedPreference.Liv
 
 fun SharedPreferences.getLiveSharedPreference(context: Context): LiveSharedPreferences {
     val sharedPreference = SharedPrefServiceImpl(context).sharedPreferences
-    return LiveSharedPreferences(
-        sharedPreference
-    )
+    return LiveSharedPreferences(sharedPreference)
 }

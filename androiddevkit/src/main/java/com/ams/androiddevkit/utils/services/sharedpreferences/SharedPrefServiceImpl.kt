@@ -26,6 +26,16 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
         return true
     }
 
+    override fun saveDouble(key: String, value: Double): Boolean {
+        androidPreferences.addFloat(key, value.toFloat()).save()
+        return true
+    }
+
+    override fun saveFloat(key: String, value: Float): Boolean {
+        androidPreferences.addFloat(key, value).save()
+        return true
+    }
+
     override fun saveBoolean(key: String, value: Boolean): Boolean {
         androidPreferences.addBoolean(key, value).save()
         return true
@@ -44,7 +54,6 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
     override fun getString(key: String): String? {
         return androidPreferences.getString(key)
     }
-
 
     override fun getBoolean(key: String): Boolean {
         return androidPreferences.getBoolean(key, false)
@@ -68,6 +77,22 @@ open class SharedPrefServiceImpl(context: Context, preferenceFileName: String = 
 
     override fun getLong(key: String, fallbackValue: Long): Long? {
         return androidPreferences.getLong(key, fallbackValue)
+    }
+
+    override fun getDouble(key: String, fallbackValue: Double): Double? {
+        return androidPreferences.getFloat(key, fallbackValue.toFloat()).toDouble()
+    }
+
+    override fun getDouble(key: String): Double? {
+        return androidPreferences.getFloat(key).toDouble()
+    }
+
+    override fun getFloat(key: String, fallbackValue: Float): Float? {
+        return androidPreferences.getFloat(key, fallbackValue.toFloat())
+    }
+
+    override fun getFloat(key: String): Float? {
+        return androidPreferences.getFloat(key)
     }
 
     override fun containsKey(key: String): Boolean {
