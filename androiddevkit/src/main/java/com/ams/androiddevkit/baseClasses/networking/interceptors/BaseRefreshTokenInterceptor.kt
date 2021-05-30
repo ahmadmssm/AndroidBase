@@ -25,7 +25,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response { 
         loggingService.d(TAG, "intercept request")
-        var originalRequest: Request = chain.request()
+        var originalRequest = chain.request()
         var responseOfFirstRequest: Response? = null
         val originalRequestBuilder = originalRequest.newBuilder()
         // Log current token
@@ -47,6 +47,7 @@ abstract class BaseRefreshTokenInterceptor<RefreshTokenResponseModel>(protected 
                 if (oldToken != it) {
                     val modifiedRequestBuilder = chain.request().newBuilder()
                     setAuthenticationHeader(modifiedRequestBuilder, it)
+                    responseOfFirstRequest.close()
                     return chain.proceed(modifiedRequestBuilder.build())
                 }
             }
